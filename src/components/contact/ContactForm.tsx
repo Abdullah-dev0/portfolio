@@ -32,7 +32,6 @@ const contactFormSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email address.',
   }),
-  phone: z.string().optional().nullable(),
   message: z
     .string()
     .min(10, {
@@ -53,7 +52,6 @@ export default function ContactForm() {
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
       message: '',
     },
   });
@@ -99,7 +97,7 @@ export default function ContactForm() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -108,23 +106,6 @@ export default function ContactForm() {
                     <FormLabel>Name *</FormLabel>
                     <FormControl>
                       <Input placeholder="Your full name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="+1 (123) xxx-xxxx"
-                        {...field}
-                        value={field.value ?? ''}
-                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

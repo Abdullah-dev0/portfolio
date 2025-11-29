@@ -47,15 +47,7 @@ export async function POST(req: Request) {
                 value: `> [${formData.email}](mailto:${formData.email})`,
                 inline: false,
               },
-              ...(formData.phone
-                ? [
-                    {
-                      name: 'Phone',
-                      value: `> ${formData.phone}`,
-                      inline: false,
-                    },
-                  ]
-                : []),
+
               {
                 name: '━━━━━━━━━━━━━━━━━━━━',
                 value: '** **',

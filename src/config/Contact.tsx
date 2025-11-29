@@ -6,13 +6,11 @@ export const contactConfig = {
     labels: {
       name: 'Name',
       email: 'Email',
-      phone: 'Phone Number',
       message: 'Message',
     },
     placeholders: {
       name: 'Your name',
       email: 'your.email@example.com',
-      phone: '03-1234-5678',
       message: 'Tell me about your project...',
     },
     submitButton: 'Send Message',

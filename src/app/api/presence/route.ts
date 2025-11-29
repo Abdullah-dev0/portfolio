@@ -30,6 +30,7 @@ export interface LanyardResponse {
     kv: {
       last_activity_start?: string;
       last_activity_end?: string;
+      last_seen_coding?: string;
     };
 
     activities: LanyardActivity[];
@@ -86,34 +87,48 @@ export async function GET() {
       payload.data.activities.find((a) => a.name === 'Code') ?? null;
     const storedStart = parseKV(payload.data.kv.last_activity_start);
     const storedEnd = parseKV(payload.data.kv.last_activity_end);
+    const lastSeenCoding = parseKV(payload.data.kv.last_seen_coding);
     const currentStart = codingActivity?.timestamps?.start ?? null;
     const isActivelyCoding = !!codingActivity;
+    const now = Date.now();
+
     let finalStart = storedStart;
     let finalEnd = storedEnd;
 
     if (isActivelyCoding && currentStart) {
-      // New session detected: either no stored start or current is newer
-      const isNewSession = !storedStart || currentStart > storedStart;
+      // Currently coding
+      finalStart = currentStart;
+      finalEnd = null;
 
-      if (isNewSession) {
+      // Update start time if this is a new session
+      if (!storedStart || currentStart !== storedStart) {
         await saveToKV('last_activity_start', currentStart);
-        finalStart = currentStart;
       }
 
-      // Clear end time when actively coding
+      // Update "last seen coding" timestamp - this tracks when we last saw activity
+      // We update this every time we poll while coding
+      await saveToKV('last_seen_coding', now);
+
+      // Clear stored end time when actively coding
       if (storedEnd !== null && storedEnd !== 0) {
         await saveToKV('last_activity_end', 0);
-        finalEnd = null;
       }
     } else if (!isActivelyCoding && storedStart) {
-      // Session ended: set end time if not already set
+      // Not currently coding
       const needsEndTime = !storedEnd || storedEnd === 0;
 
-      if (needsEndTime) {
-        const endTime = Date.now();
-        await saveToKV('last_activity_end', endTime);
-        finalEnd = endTime;
+      if (needsEndTime && lastSeenCoding) {
+        // Session just ended - use the last time we saw them coding as the end time
+        // This is accurate because we update last_seen_coding on every poll while coding
+        await saveToKV('last_activity_end', lastSeenCoding);
+        finalEnd = lastSeenCoding;
+      } else if (needsEndTime && !lastSeenCoding) {
+        // No last_seen_coding data (first time or old data) - use start time as fallback
+        // This means we show "0m" which is better than a wrong duration
+        await saveToKV('last_activity_end', storedStart);
+        finalEnd = storedStart;
       }
+      // If we already have an end time stored, just use it (finalEnd = storedEnd from above)
     }
 
     return NextResponse.json({

@@ -12,7 +12,7 @@ export const getLastSessionInfo = (
   if (!lastActivityStart || !lastActivityEnd) return null;
 
   // Calculate session duration
-  const sessionDuration = lastActivityEnd - lastActivityStart;
+  const sessionDuration = Math.max(0, lastActivityEnd - lastActivityStart);
   const hours = Math.floor(sessionDuration / 3600000);
   const minutes = Math.floor((sessionDuration % 3600000) / 60000);
 
