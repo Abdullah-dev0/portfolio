@@ -49,13 +49,13 @@ export async function POST(req: Request) {
               },
 
               {
-                name: '━━━━━━━━━━━━━━━━━━━━',
-                value: '** **',
+                name: 'Message',
+                value: formData.message,
                 inline: false,
               },
               {
-                name: 'Message',
-                value: formData.message,
+                name: '━━━━━━━━━━━━━━━━━━━━',
+                value: '** **',
                 inline: false,
               },
             ],

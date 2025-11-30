@@ -21,7 +21,7 @@ export default function Hero() {
   const Description = () => {
     return (
       <p className="text-muted-foreground text-base leading-9 whitespace-pre-wrap md:text-lg">
-        I build interactive web apps using{' '}
+        I build interactive, high-performance web applications using{' '}
         {skills.map((skill, index) => {
           const Icon =
             skillComponents[skill.component as keyof typeof skillComponents];
@@ -35,10 +35,12 @@ export default function Hero() {
               </Skill>
             </React.Fragment>
           );
-        })}
-        . With a focus on <b className="text-primary">Ai</b>, Enthusiastic about{' '}
-        <b className="text-primary">Gen AI</b>, driven by curiosity and a love
-        for intelligent creation.
+        })}{' '}
+        With a strong focus on{' '}
+        <b className="text-primary">AI-driven product development</b>, I&apos;m
+        passionate about exploring <b className="text-primary">Generative AI</b>{' '}
+        and creating intelligent, user-centric solutions that merge innovation
+        with great engineering.
       </p>
     );
   };
