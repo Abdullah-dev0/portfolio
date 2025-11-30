@@ -5,7 +5,7 @@ import { getLastSessionInfo } from '@/lib/utils';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const POLL_INTERVAL_MS = 5000;
+const POLL_INTERVAL_MS = 7000; // 7 sec
 
 export interface LanyardActivityProps {
   activity: LanyardActivity;

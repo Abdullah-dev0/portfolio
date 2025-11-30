@@ -24,6 +24,7 @@ interface Message {
   sender: 'user' | 'bot';
   timestamp: string;
   isStreaming?: boolean;
+  isError?: boolean;
 }
 
 const getInitialMessages = (): Message[] => [
@@ -44,7 +45,18 @@ const ChatBubble: React.FC = () => {
   );
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRateLimited, setIsRateLimited] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  // Reset rate limit status after 60 seconds
+  useEffect(() => {
+    if (isRateLimited) {
+      const timeout = setTimeout(() => {
+        setIsRateLimited(false);
+      }, 60000);
+      return () => clearTimeout(timeout);
+    }
+  }, [isRateLimited]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -156,6 +168,24 @@ const ChatBubble: React.FC = () => {
         }),
       });
 
+      // Handle rate limiting
+      if (response.status === 429) {
+        setIsRateLimited(true);
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMessageId
+              ? {
+                  ...msg,
+                  text: `⚠️ **Rate limit reached!**\n\nPlease try again after **60 seconds**.`,
+                  isStreaming: false,
+                  isError: true,
+                }
+              : msg,
+          ),
+        );
+        return;
+      }
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -244,26 +274,36 @@ const ChatBubble: React.FC = () => {
       icon={<MessageCircle className="h-6 w-6" />}
     >
       <ExpandableChatHeader>
-        <div className="flex items-center space-x-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage
-              src="/assets/logo.png"
-              alt="Assistant"
-              className="object-cover"
-            />
-            <AvatarFallback>AI</AvatarFallback>
-          </Avatar>
-          <div>
-            <h3 className="text-sm font-semibold">
-              {heroConfig.name}s Portfolio Assistant
-            </h3>
-            <div className="text-muted-foreground text-xs">
-              <div className="flex items-center gap-1">
-                <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
-                Online
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src="/assets/logo.png"
+                alt="Assistant"
+                className="object-cover"
+              />
+              <AvatarFallback>AI</AvatarFallback>
+            </Avatar>
+            <div>
+              <h3 className="text-sm font-semibold">
+                {heroConfig.name}s Portfolio Assistant
+              </h3>
+              <div className="text-muted-foreground text-xs">
+                <div className="flex items-center gap-1">
+                  <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+                  Online
+                </div>
               </div>
             </div>
           </div>
+          <span
+            className={cn(
+              'text-xs font-medium',
+              isRateLimited ? 'text-destructive' : 'text-muted-foreground',
+            )}
+          >
+            {isRateLimited ? 'Rate limited' : '5 message limit'}
+          </span>
         </div>
       </ExpandableChatHeader>
 
@@ -277,7 +317,9 @@ const ChatBubble: React.FC = () => {
                   'flex w-max max-w-xs flex-col gap-2 rounded-lg px-3 py-2 text-sm',
                   message.sender === 'user'
                     ? 'text-secondary bg-muted ml-auto'
-                    : 'bg-muted',
+                    : message.isError
+                      ? 'bg-destructive/10 border-destructive/20 border'
+                      : 'bg-muted',
                 )}
               >
                 <div className="flex items-start space-x-2">
