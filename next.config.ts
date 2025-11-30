@@ -6,34 +6,24 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'imagekit.io',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.pinimg.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.dribbble.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.postimg.cc',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images-na.ssl-images-amazon.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'media.discordapp.net',
-      },
-      {
-        protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/ingest/static/:path*',
+        destination: 'https://us-assets.i.posthog.com/static/:path*',
+      },
+      {
+        source: '/ingest/:path*',
+        destination: 'https://us.i.posthog.com/:path*',
+      },
+    ];
+  },
+  // This is required to support PostHog trailing slash API requests
+  skipTrailingSlashRedirect: true,
 };
 
 export default withContentCollections(nextConfig);
