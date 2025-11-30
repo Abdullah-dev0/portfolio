@@ -45,18 +45,7 @@ const ChatBubble: React.FC = () => {
   );
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isRateLimited, setIsRateLimited] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-
-  // Reset rate limit status after 60 seconds
-  useEffect(() => {
-    if (isRateLimited) {
-      const timeout = setTimeout(() => {
-        setIsRateLimited(false);
-      }, 60000);
-      return () => clearTimeout(timeout);
-    }
-  }, [isRateLimited]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -170,7 +159,6 @@ const ChatBubble: React.FC = () => {
 
       // Handle rate limiting
       if (response.status === 429) {
-        setIsRateLimited(true);
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === botMessageId
@@ -296,13 +284,8 @@ const ChatBubble: React.FC = () => {
               </div>
             </div>
           </div>
-          <span
-            className={cn(
-              'text-xs font-medium',
-              isRateLimited ? 'text-destructive' : 'text-muted-foreground',
-            )}
-          >
-            {isRateLimited ? 'Rate limited' : '5 message limit'}
+          <span className="text-muted-foreground text-xs font-medium">
+            5 message limit
           </span>
         </div>
       </ExpandableChatHeader>
@@ -318,7 +301,7 @@ const ChatBubble: React.FC = () => {
                   message.sender === 'user'
                     ? 'text-secondary bg-muted ml-auto'
                     : message.isError
-                      ? 'bg-destructive/10 border-destructive/20 border'
+                      ? 'border border-red-500/40 bg-red-500/20'
                       : 'bg-muted',
                 )}
               >
