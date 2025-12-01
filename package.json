@@ -13,6 +13,7 @@
     "@calcom/embed-react": "^1.5.3",
     "@google/genai": "^1.29.0",
     "@hookform/resolvers": "^5.2.2",
+    "@posthog/ai": "^7.2.0",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.8",

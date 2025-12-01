@@ -1,12 +1,19 @@
 import { systemPrompt } from '@/config/ChatPrompt';
-import { GoogleGenAI } from '@google/genai';
 import { NextRequest, NextResponse } from 'next/server';
 import * as z from 'zod';
 import { Redis } from '@upstash/redis';
 import { Ratelimit } from '@upstash/ratelimit';
+import { GoogleGenAI } from '@posthog/ai';
+import { PostHog } from 'posthog-node';
+
+const phClient = new PostHog(
+  'phc_GwIecxVfPW9YSKUlK1Yz0JXscpY0Qvjnf9X1C6muHY4',
+  { host: 'https://us.i.posthog.com' },
+);
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
+  posthog: phClient,
 });
 
 // 2. Initialize Upstash Redis
@@ -90,7 +97,7 @@ export async function POST(request: NextRequest) {
         role: 'model',
       },
       // Add conversation history
-      ...validatedData.history.map((msg) => ({
+      ...validatedData.history.slice(-2).map((msg) => ({
         ...msg,
         parts: msg.parts.map((part) => ({
           ...part,
@@ -106,7 +113,7 @@ export async function POST(request: NextRequest) {
 
     const model = 'gemini-flash-lite-latest';
 
-    const response = await ai.models.generateContentStream({
+    const response = ai.models.generateContentStream({
       model,
       config: {
         maxOutputTokens: 512,
