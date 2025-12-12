@@ -4,7 +4,6 @@ import Navbar from '@/components/common/Navbar';
 import OnekoCat from '@/components/common/OnekoCat';
 import { ThemeProvider } from '@/components/common/ThemeProviders';
 import { generateMetadata as getMetadata } from '@/config/Meta';
-import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
 import { Toaster } from 'sonner';
 
@@ -28,14 +27,12 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            <ReactLenis root>
-              <Navbar />
-              {children}
-              <OnekoCat />
 
-              <Footer />
-              <ChatBubble />
-            </ReactLenis>
+            <Navbar />
+            {children}
+            <OnekoCat />
+            <Footer />
+            <ChatBubble />
           </ThemeProvider>
         </body>
       </html>
