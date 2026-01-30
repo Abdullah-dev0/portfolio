@@ -1,9 +1,11 @@
 import AWS from '@/components/technologies/AWS';
 import ExpressJs from '@/components/technologies/ExpressJs';
 import Figma from '@/components/technologies/Figma';
+import MongoDB from '@/components/technologies/MongoDB';
 import NestJs from '@/components/technologies/NestJs';
 import NextJs from '@/components/technologies/NextJs';
 import ReactIcon from '@/components/technologies/ReactIcon';
+import Resent from '@/components/technologies/Resent';
 import TailwindCss from '@/components/technologies/TailwindCss';
 import TypeScript from '@/components/technologies/TypeScript';
 
@@ -13,12 +15,18 @@ export interface Technology {
   icon: React.ReactNode;
 }
 
+export interface Project {
+  name: string;
+  liveUrl?: string;
+}
+
 export interface Experience {
   company: string;
   position: string;
   location: string;
   image: string;
   description: string[];
+  projects?: Project[];
   startDate: string;
   endDate: string;
   website: string;
@@ -32,20 +40,32 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    isCurrent: true,
+    isCurrent: false,
     isBlur: false,
     company: 'Biz Of Dev',
     position: 'Full stack Developer',
     location: 'Islamabad, Pakistan ( Remote )',
     image: '/company/bizofdev.jpeg',
     description: [
-      'Built and optimized scalable web applications using Next.js, React, TypeScript, Node.js, and Python—enhancing performance with TanStack Query, reusable UI components, and best-practice frontend optimization.',
-      'Designed efficient backend and database architectures with MongoDB and PostgreSQL, implemented large dynamic form workflows, and integrated Shopify GraphQL APIs for faster data retrieval and improved user experience.',
-      'Implemented CI/CD pipelines and cloud integrations using AWS and GCP (Cloud Storage), streamlining deployments and ensuring reliable cloud-based operations.',
-      'Collaborated with designers, PMs, and backend teams to deliver responsive, accessible UIs, contributed to code reviews, and consistently delivered assigned features end-to-end.',
+      '*Full Stack Developer – LendingStacks*',
+      'Architected and developed 80% of LendingStacks, a production B2B loan marketplace connecting borrowers with lenders, digitizing the entire loan lifecycle',
+      'Built full-stack application using React.js/Next.js 16, TypeScript, Nest.js/MongoDB, implementing GraphQL APIs',
+      'Deployed on Google Cloud Platform with CI pipeline, achieving 99.9% uptime; collaborated in 3-person Agile team with Git workflows and code reviews',
+      'Integrated Resend transactional emails and automated workflows, reducing processing time by 85% and improving communication efficiency by 70%',
+      '*Full Stack Developer – phonix Recommendation System*',
+      'Built rule-based recommendation engine for Shopify stores enabling merchants to display personalized product widgets (frequently bought together, trending items) using Next.js, React, FastAPI, GraphQL',
+      'Integrated Shopify APIs via GraphQL to fetch store data (products, orders, customer behavior) and serve precomputed recommendations through FastAPI backend',
+      'Developed merchant-facing web app for widget configuration and management, enabling merchants to create and customize recommendation widgets with unique IDs',
+      'Contributed to custom Shopify app extension that renders dynamic recommendation widgets on live storefronts, collaborating in 3-person startup team across frontend, backend, and Shopify integration layers',
+    ],
+    projects: [
+      {
+        name: 'LendingStacks',
+        liveUrl: 'https://lendingstacks.com',
+      },
     ],
     startDate: 'January 2025',
-    endDate: 'Present',
+    endDate: 'January 2026',
     technologies: [
       {
         name: 'Next.js',
@@ -81,6 +101,16 @@ export const experiences: Experience[] = [
         name: 'NestJS',
         href: 'https://nestjs.com/',
         icon: <NestJs />,
+      },
+      {
+        name: 'MongoDB',
+        href: 'https://www.mongodb.com/',
+        icon: <MongoDB />,
+      },
+      {
+        name: 'Resend',
+        href: 'https://resend.com/',
+        icon: <Resent />,
       },
     ],
     website: 'https://bizofdev.com',
