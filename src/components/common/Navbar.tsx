@@ -1,10 +1,12 @@
-import { navbarConfig } from '@/config/Navbar';
-import { Link } from 'next-view-transitions';
-import Image from 'next/image';
-import React from 'react';
+import React from "react";
 
-import Container from './Container';
-import ThemeSwitch from './ThemeSwitch';
+import { Link } from "next-view-transitions";
+import Image from "next/image";
+
+import { navbarConfig } from "@/config/Navbar";
+
+import Container from "./Container";
+import ThemeSwitch from "./ThemeSwitch";
 
 export default function Navbar() {
   return (

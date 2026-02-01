@@ -1,16 +1,17 @@
-'use client';
+"use client";
 
-import { ArrowUp } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { ArrowUp } from "lucide-react";
+
+import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -26,10 +27,10 @@ export default function BackToTop() {
     toggleVisibility();
 
     // Add scroll event listener
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility);
 
     // Cleanup
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   if (!isVisible) {

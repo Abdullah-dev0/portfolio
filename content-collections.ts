@@ -1,11 +1,11 @@
-import { defineCollection, defineConfig } from '@content-collections/core';
-import { compileMDX } from '@content-collections/mdx';
-import { z } from 'zod';
+import { defineCollection, defineConfig } from "@content-collections/core";
+import { compileMDX } from "@content-collections/mdx";
+import { z } from "zod";
 
 const projects = defineCollection({
-  name: 'projects',
-  directory: 'content/projects',
-  include: '*.mdx',
+  name: "projects",
+  directory: "content/projects",
+  include: "*.mdx",
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -19,8 +19,8 @@ const projects = defineCollection({
     role: z.string().optional(),
     team: z.string().optional(),
     status: z
-      .enum(['completed', 'in-progress', 'archived'])
-      .default('completed'),
+      .enum(["completed", "in-progress", "archived"])
+      .default("completed"),
     featured: z.boolean().default(false),
     challenges: z.array(z.string()).optional(),
     learnings: z.array(z.string()).optional(),
@@ -39,9 +39,9 @@ const projects = defineCollection({
 });
 
 const blogs = defineCollection({
-  name: 'blogs',
-  directory: 'content/blogs',
-  include: '*.mdx',
+  name: "blogs",
+  directory: "content/blogs",
+  include: "*.mdx",
   schema: z.object({
     title: z.string(),
     description: z.string(),

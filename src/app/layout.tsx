@@ -1,15 +1,17 @@
-import ChatBubble from '@/components/common/ChatBubble';
-import Footer from '@/components/common/Footer';
-import Navbar from '@/components/common/Navbar';
-import OnekoCat from '@/components/common/OnekoCat';
-import { ThemeProvider } from '@/components/common/ThemeProviders';
-import { generateMetadata as getMetadata } from '@/config/Meta';
-import { ViewTransitions } from 'next-view-transitions';
-import { Toaster } from 'sonner';
+import { ViewTransitions } from "next-view-transitions";
 
-import './globals.css';
+import { Toaster } from "sonner";
 
-export const metadata = getMetadata('/');
+import ChatBubble from "@/components/common/ChatBubble";
+import Footer from "@/components/common/Footer";
+import Navbar from "@/components/common/Navbar";
+import OnekoCat from "@/components/common/OnekoCat";
+import { ThemeProvider } from "@/components/common/ThemeProviders";
+import { generateMetadata as getMetadata } from "@/config/Meta";
+
+import "./globals.css";
+
+export const metadata = getMetadata("/");
 
 export default function RootLayout({
   children,

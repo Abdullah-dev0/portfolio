@@ -1,13 +1,13 @@
-import { BlogPostPreview } from '@/types/blog';
+import { BlogPostPreview } from "@/types/blog";
 
-import { BlogCard } from './BlogCard';
+import { BlogCard } from "./BlogCard";
 
 interface BlogListProps {
   posts: BlogPostPreview[];
   className?: string;
 }
 
-export function BlogList({ posts, className = '' }: BlogListProps) {
+export function BlogList({ posts, className = "" }: BlogListProps) {
   if (posts.length === 0) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4 text-center">

@@ -1,19 +1,22 @@
-'use client';
+"use client";
 
-import { ctaConfig } from '@/config/CTA';
-import Cal, { getCalApi } from '@calcom/embed-react';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Container from '../common/Container';
+import Image from "next/image";
+
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { toast } from "sonner";
+
+import { ctaConfig } from "@/config/CTA";
+
+import Container from "../common/Container";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '../ui/dialog';
-import { toast } from 'sonner';
+} from "../ui/dialog";
 
 interface CallToActionProps {
   profileImage?: string;
@@ -37,16 +40,16 @@ export default function CTA({
       try {
         const calApi = await getCalApi();
         if (calApi) {
-          calApi('on', {
-            action: 'bookingSuccessful',
+          calApi("on", {
+            action: "bookingSuccessful",
             callback: () => {
               setShowCalPopup(false);
             },
           });
         }
       } catch {
-        toast.error('Failed to initialize Cal API', {
-          description: 'Please try again later',
+        toast.error("Failed to initialize Cal API", {
+          description: "Please try again later",
         });
       }
     };
@@ -73,7 +76,7 @@ export default function CTA({
                     height={20}
                     className="h-full w-full object-cover"
                     src={profileImage}
-                    style={{ color: 'transparent' }}
+                    style={{ color: "transparent" }}
                   />
                 </div>
                 <div className="absolute left-6 flex -translate-x-full transform items-center gap-0 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
@@ -116,9 +119,9 @@ export default function CTA({
             <Cal
               calLink={calLink}
               config={{
-                name: 'Portfolio Visitor',
-                email: '',
-                notes: 'Booked from the portfolio website',
+                name: "Portfolio Visitor",
+                email: "",
+                notes: "Booked from the portfolio website",
               }}
               className="h-[500px] w-full rounded-lg"
             />

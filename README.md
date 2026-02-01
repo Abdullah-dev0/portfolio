@@ -213,16 +213,16 @@ Add your projects as MDX files in `content/projects/`:
 
 ```mdx
 ---
-title: 'Project Name'
-description: 'Project description'
-image: '/project/image.png'
-link: 'https://project-url.com'
-technologies: ['Next.js', 'TypeScript', 'Tailwind CSS']
-github: 'https://github.com/username/repo'
-live: 'https://live-url.com'
-timeline: '2024'
-role: 'Your Role'
-status: 'completed'
+title: "Project Name"
+description: "Project description"
+image: "/project/image.png"
+link: "https://project-url.com"
+technologies: ["Next.js", "TypeScript", "Tailwind CSS"]
+github: "https://github.com/username/repo"
+live: "https://live-url.com"
+timeline: "2024"
+role: "Your Role"
+status: "completed"
 featured: true
 isPublished: true
 isWorking: true
@@ -239,11 +239,11 @@ Add blog posts as MDX files in `content/blogs/`:
 
 ```mdx
 ---
-title: 'Blog Post Title'
-description: 'Post description'
-image: '/blog/cover.png'
-tags: ['React', 'TypeScript', 'Tutorial']
-date: '2024-01-01'
+title: "Blog Post Title"
+description: "Post description"
+image: "/blog/cover.png"
+tags: ["React", "TypeScript", "Tutorial"]
+date: "2024-01-01"
 isPublished: true
 ---
 
@@ -279,22 +279,22 @@ Edit `src/config/Contact.tsx`:
 
 ```typescript
 export const contactConfig = {
-  title: 'Contact',
-  description: 'Your contact page description',
+  title: "Contact",
+  description: "Your contact page description",
   form: {
     labels: {
-      name: 'Name',
-      email: 'Email',
-      message: 'Message',
+      name: "Name",
+      email: "Email",
+      message: "Message",
     },
     placeholders: {
-      name: 'Your name',
-      email: 'your.email@example.com',
-      message: 'Tell me about your project...',
+      name: "Your name",
+      email: "your.email@example.com",
+      message: "Tell me about your project...",
     },
-    submitButton: 'Send Message',
+    submitButton: "Send Message",
     successMessage: "Thanks! I'll get back to you soon.",
-    errorMessage: 'Something went wrong. Please try again.',
+    errorMessage: "Something went wrong. Please try again.",
   },
 };
 ```
@@ -305,19 +305,19 @@ Edit `src/config/Meta.tsx`:
 
 ```typescript
 export const siteConfig = {
-  name: 'Your Name',
-  title: 'Your Portfolio',
-  description: 'Your description',
-  url: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
-  ogImage: '/meta/opengraph-image.png',
+  name: "Your Name",
+  title: "Your Portfolio",
+  description: "Your description",
+  url: process.env.NEXT_PUBLIC_URL || "http://localhost:3000",
+  ogImage: "/meta/opengraph-image.png",
   author: {
-    name: 'Your Name',
-    twitter: '@yourusername',
-    github: 'yourusername',
-    linkedin: 'yourusername',
-    email: 'your.email@example.com',
+    name: "Your Name",
+    twitter: "@yourusername",
+    github: "yourusername",
+    linkedin: "yourusername",
+    email: "your.email@example.com",
   },
-  keywords: ['portfolio', 'developer', 'your keywords'],
+  keywords: ["portfolio", "developer", "your keywords"],
 };
 ```
 
@@ -326,7 +326,7 @@ export const siteConfig = {
 Update `src/config/Resume.ts` to point to your resume PDF:
 
 ```typescript
-export const resumeUrl = '/path/to/your-resume.pdf';
+export const resumeUrl = "/path/to/your-resume.pdf";
 ```
 
 ## 🖼️ Adding Assets

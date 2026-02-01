@@ -1,22 +1,23 @@
-import Container from '@/components/common/Container';
-import { ExperienceList } from '@/components/experience/ExperienceList';
-import { Separator } from '@/components/ui/separator';
-import { experiences } from '@/config/Experience';
-import { generateMetadata as getMetadata } from '@/config/Meta';
-import { Metadata } from 'next';
-import { Robots } from 'next/dist/lib/metadata/types/metadata-types';
+import { Metadata } from "next";
+import { Robots } from "next/dist/lib/metadata/types/metadata-types";
+
+import Container from "@/components/common/Container";
+import { ExperienceList } from "@/components/experience/ExperienceList";
+import { Separator } from "@/components/ui/separator";
+import { experiences } from "@/config/Experience";
+import { generateMetadata as getMetadata } from "@/config/Meta";
 
 export const metadata: Metadata = {
-  ...getMetadata('/work-experience'),
+  ...getMetadata("/work-experience"),
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   } as Robots,
 };
@@ -44,8 +45,8 @@ export default function WorkExperiencePage() {
               All Experiences
               {experiences.length > 0 && (
                 <span className="text-muted-foreground ml-2 text-sm font-normal">
-                  ({experiences.length}{' '}
-                  {experiences.length === 1 ? 'experience' : 'experiences'})
+                  ({experiences.length}{" "}
+                  {experiences.length === 1 ? "experience" : "experiences"})
                 </span>
               )}
             </h2>

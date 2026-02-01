@@ -1,10 +1,13 @@
-'use client';
+"use client";
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { useEffect, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
+import { useRef, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
+
+import { useTheme } from "next-themes";
+
+import { Moon, Sun } from "lucide-react";
+
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Type declaration for View Transition API
 interface ViewTransition {
@@ -19,23 +22,29 @@ declare global {
   }
 }
 
+// Helper for useSyncExternalStore to detect client-side mounting
+function subscribe() {
+  return () => {};
+}
+
 export default function ThemeSwitch() {
   const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
 
-  // Only render after mounting to avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Detect client-side mounting without triggering cascading renders
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true, // Client returns true
+    () => false // Server returns false
+  );
 
   const toggleDarkMode = async () => {
-    const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
+    const newTheme = resolvedTheme === "dark" ? "light" : "dark";
 
     if (
       !ref.current ||
       !document.startViewTransition ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
       setTheme(newTheme);
       return;
@@ -63,9 +72,9 @@ export default function ThemeSwitch() {
       },
       {
         duration: 500,
-        easing: 'ease-in-out',
-        pseudoElement: '::view-transition-new(root)',
-      },
+        easing: "ease-in-out",
+        pseudoElement: "::view-transition-new(root)",
+      }
     );
   };
   // Prevent rendering until mounted and theme is resolved
@@ -84,7 +93,7 @@ export default function ThemeSwitch() {
       className="cursor-pointer rounded-lg p-2"
       aria-label="Toggle theme"
     >
-      {resolvedTheme === 'dark' ? (
+      {resolvedTheme === "dark" ? (
         <Moon className="h-5 w-5" />
       ) : (
         <Sun className="h-5 w-5" />

@@ -1,5 +1,6 @@
-import { allBlogs } from 'content-collections';
-import { BlogPost, BlogPostPreview } from '@/types/blog';
+import { allBlogs } from "content-collections";
+
+import { BlogPost, BlogPostPreview } from "@/types/blog";
 
 /**
  * Get all blog post slugs
@@ -31,7 +32,7 @@ export function getAllBlogPosts(): BlogPostPreview[] {
     }))
     .sort(
       (a: BlogPostPreview, b: BlogPostPreview) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime(),
+        new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 }
 
@@ -48,8 +49,8 @@ export function getPublishedBlogPosts(): BlogPostPreview[] {
 export function getBlogPostsByTag(tag: string): BlogPostPreview[] {
   return getPublishedBlogPosts().filter((post: BlogPostPreview) =>
     post.tags.some(
-      (postTag: string) => postTag.toLowerCase() === tag.toLowerCase(),
-    ),
+      (postTag: string) => postTag.toLowerCase() === tag.toLowerCase()
+    )
   );
 }
 
@@ -73,7 +74,7 @@ export function getAllTags(): string[] {
  */
 export function getRelatedPosts(
   currentSlug: string,
-  maxPosts = 3,
+  maxPosts = 3
 ): BlogPostPreview[] {
   const currentPost = getBlogPostBySlug(currentSlug);
   if (!currentPost || !currentPost.isPublished) {
@@ -87,7 +88,7 @@ export function getRelatedPosts(
     .filter((post: BlogPostPreview) => post.slug !== currentSlug)
     .map((post: BlogPostPreview) => {
       const sharedTags = post.tags.filter((tag: string) =>
-        currentTags.includes(tag.toLowerCase()),
+        currentTags.includes(tag.toLowerCase())
       );
       return { post, score: sharedTags.length };
     })

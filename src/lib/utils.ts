@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getLastSessionInfo = (
   lastActivityStart: number | null,
-  lastActivityEnd: number | null,
+  lastActivityEnd: number | null
 ) => {
   if (!lastActivityStart || !lastActivityEnd) return null;
 
@@ -27,13 +27,13 @@ export const getLastSessionInfo = (
 
   let dateStr;
   if (isToday) {
-    dateStr = 'today';
+    dateStr = "today";
   } else if (isYesterday) {
-    dateStr = 'yesterday';
+    dateStr = "yesterday";
   } else {
-    dateStr = sessionDate.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
+    dateStr = sessionDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
     });
   }
 

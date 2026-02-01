@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import { LanyardActivity } from '@/app/api/presence/route';
-import { getLastSessionInfo } from '@/lib/utils';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+
+import Image from "next/image";
+
+import { LanyardActivity } from "@/app/api/presence/route";
+import { getLastSessionInfo } from "@/lib/utils";
 
 const POLL_INTERVAL_MS = 7000; // 7 sec
 
@@ -16,7 +18,7 @@ export interface LanyardActivityProps {
 export default function Presence() {
   const [activity, setActivity] = useState<LanyardActivity | null>(null);
   const [lastActivityStart, setLastActivityStart] = useState<number | null>(
-    null,
+    null
   );
   const [lastActivityEnd, setLastActivityEnd] = useState<number | null>(null);
   const [nowTime, setNowTime] = useState(Date.now());
@@ -29,7 +31,7 @@ export default function Presence() {
 
     const load = async () => {
       try {
-        const res = await fetch('/api/presence');
+        const res = await fetch("/api/presence");
 
         if (!res.ok) throw new Error(String(res.status));
 
@@ -47,7 +49,7 @@ export default function Presence() {
           }
         }
       } catch (err) {
-        console.error('[Presence] Failed to fetch activity', err);
+        console.error("[Presence] Failed to fetch activity", err);
         if (active) {
           setError(true);
           if (!hasLoadedOnce) {
@@ -109,7 +111,7 @@ export default function Presence() {
             fill="currentColor"
             fillRule="evenodd"
             height="1em"
-            style={{ flex: 'none', lineHeight: 1 }}
+            style={{ flex: "none", lineHeight: 1 }}
             viewBox="0 0 24 24"
             width="1em"
           >
@@ -138,16 +140,16 @@ export default function Presence() {
   const s = Math.floor((elapsed % 60000) / 1000);
 
   const activityLabel =
-    activity.assets?.small_text || activity.name || 'Editor';
+    activity.assets?.small_text || activity.name || "Editor";
 
   // Convert Discord CDN URLs to actual image URLs
   const largeImage = activity.assets?.large_image?.replace(
-    'mp:external/',
-    'https://media.discordapp.net/external/',
+    "mp:external/",
+    "https://media.discordapp.net/external/"
   );
   const smallImage = activity.assets?.small_image?.replace(
-    'mp:external/',
-    'https://media.discordapp.net/external/',
+    "mp:external/",
+    "https://media.discordapp.net/external/"
   );
 
   return (
@@ -156,7 +158,7 @@ export default function Presence() {
         <div className="relative self-start">
           <Image
             src={largeImage}
-            alt={activity.assets?.large_text || 'Activity'}
+            alt={activity.assets?.large_text || "Activity"}
             className="rounded-lg object-cover"
             width={30}
             height={30}
@@ -164,7 +166,7 @@ export default function Presence() {
           {smallImage && (
             <Image
               src={smallImage}
-              alt={activity.assets?.small_text || 'Editor'}
+              alt={activity.assets?.small_text || "Editor"}
               width={20}
               height={20}
               className="border-background absolute -right-1 -bottom-1 rounded-full border-2"

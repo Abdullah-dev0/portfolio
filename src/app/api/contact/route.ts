@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -6,8 +6,8 @@ export async function POST(req: Request) {
 
     if (!DISCORD_WEBHOOK_URL) {
       return NextResponse.json(
-        { error: 'Webhook not configured' },
-        { status: 500 },
+        { error: "Webhook not configured" },
+        { status: 500 }
       );
     }
 
@@ -15,53 +15,53 @@ export async function POST(req: Request) {
 
     // Validate
     if (!formData?.name || !formData?.email || !formData?.message) {
-      return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
 
     // Send to Discord webhook
     await fetch(DISCORD_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         embeds: [
           {
             author: {
-              name: 'New Message Received',
+              name: "New Message Received",
               icon_url:
-                'https://em-content.zobj.net/source/twitter/376/incoming-envelope_1f4e8.png',
+                "https://em-content.zobj.net/source/twitter/376/incoming-envelope_1f4e8.png",
             },
             color: 0x3b82f6, // Modern blue
             fields: [
               {
-                name: '━━━━━━━━━━━━━━━━━━━━',
-                value: '** **',
+                name: "━━━━━━━━━━━━━━━━━━━━",
+                value: "** **",
                 inline: false,
               },
               {
-                name: 'Name',
+                name: "Name",
                 value: `> ${formData.name}`,
                 inline: false,
               },
               {
-                name: 'Email',
+                name: "Email",
                 value: `> [${formData.email}](mailto:${formData.email})`,
                 inline: false,
               },
 
               {
-                name: 'Message',
+                name: "Message",
                 value: formData.message,
                 inline: false,
               },
               {
-                name: '━━━━━━━━━━━━━━━━━━━━',
-                value: '** **',
+                name: "━━━━━━━━━━━━━━━━━━━━",
+                value: "** **",
                 inline: false,
               },
             ],
             timestamp: new Date().toISOString(),
             footer: {
-              text: 'Portfolio Contact',
+              text: "Portfolio Contact",
             },
           },
         ],
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error:', error);
-    return NextResponse.json({ error: 'Failed' }, { status: 500 });
+    console.error("Error:", error);
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
 }

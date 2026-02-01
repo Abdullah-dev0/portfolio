@@ -1,7 +1,8 @@
-import { type Experience } from '@/config/Experience';
-import React from 'react';
+import React from "react";
 
-import { ExperienceCard } from './ExperienceCard';
+import { type Experience } from "@/config/Experience";
+
+import { ExperienceCard } from "./ExperienceCard";
 
 interface ExperienceListProps {
   experiences: Experience[];

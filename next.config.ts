@@ -1,24 +1,25 @@
-import { withContentCollections } from '@content-collections/next';
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
+
+import { withContentCollections } from "@content-collections/next";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'media.discordapp.net',
+        protocol: "https",
+        hostname: "media.discordapp.net",
       },
     ],
   },
   async rewrites() {
     return [
       {
-        source: '/ph/static/:path*',
-        destination: 'https://us-assets.i.posthog.com/static/:path*',
+        source: "/ph/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
       },
       {
-        source: '/ph/:path*',
-        destination: 'https://us.i.posthog.com/:path*',
+        source: "/ph/:path*",
+        destination: "https://us.i.posthog.com/:path*",
       },
     ];
   },

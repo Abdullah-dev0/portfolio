@@ -1,11 +1,13 @@
-import { getPublishedBlogPosts } from '@/lib/blog';
-import { Link } from 'next-view-transitions';
-import React from 'react';
+import React from "react";
 
-import { BlogCard } from '../blog/BlogCard';
-import Container from '../common/Container';
-import SectionHeading from '../common/SectionHeading';
-import { Button } from '../ui/button';
+import { Link } from "next-view-transitions";
+
+import { getPublishedBlogPosts } from "@/lib/blog";
+
+import { BlogCard } from "../blog/BlogCard";
+import Container from "../common/Container";
+import SectionHeading from "../common/SectionHeading";
+import { Button } from "../ui/button";
 
 export default function Blog() {
   const posts = getPublishedBlogPosts();

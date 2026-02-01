@@ -1,26 +1,29 @@
-'use client';
+"use client";
+
+import React, { useState } from "react";
+
+import { Link } from "next-view-transitions";
+import Image from "next/image";
+
+import { ArrowRight, Globe, PlayCircle } from "lucide-react";
 
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { getTechnologyIcon } from '@/lib/technology-map';
-import { type Project } from '@/types/project';
-import { Link } from 'next-view-transitions';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import { ArrowRight, PlayCircle, Globe } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { getTechnologyIcon } from "@/lib/technology-map";
+import { type Project } from "@/types/project";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import Github from '../svgs/Github';
+import Github from "../svgs/Github";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface ProjectCardProps {
   project: Project;
@@ -157,18 +160,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div
             className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium${
               project.isWorking
-                ? 'border border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
-                : 'border border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-400'
+                ? "border border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                : "border border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-400"
             }`}
           >
             <div
               className={`size-1.5 rounded-full ${
                 project.isWorking
-                  ? 'bg-emerald-500 dark:bg-emerald-400'
-                  : 'bg-amber-500 dark:bg-amber-400'
+                  ? "bg-emerald-500 dark:bg-emerald-400"
+                  : "bg-amber-500 dark:bg-amber-400"
               } animate-pulse`}
             />
-            {project.isWorking ? 'All Systems Operational' : 'Building'}
+            {project.isWorking ? "All Systems Operational" : "Building"}
           </div>
           <Link
             href={`/projects/${project.slug}`}

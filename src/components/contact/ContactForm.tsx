@@ -1,13 +1,21 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, MessageCircle } from "lucide-react";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -15,30 +23,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, MessageCircle } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import * as z from 'zod';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, {
-    message: 'Name must be at least 2 characters.',
+    message: "Name must be at least 2 characters.",
   }),
   email: z.string().email({
-    message: 'Please enter a valid email address.',
+    message: "Please enter a valid email address.",
   }),
   message: z
     .string()
     .min(10, {
-      message: 'Message must be at least 10 characters.',
+      message: "Message must be at least 10 characters.",
     })
     .max(1000, {
-      message: 'Message must not exceed 1000 characters.',
+      message: "Message must not exceed 1000 characters.",
     }),
 });
 
@@ -50,9 +52,9 @@ export default function ContactForm() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      message: '',
+      name: "",
+      email: "",
+      message: "",
     },
   });
 
@@ -60,10 +62,10 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -71,15 +73,15 @@ export default function ContactForm() {
       const result = await response.json();
 
       if (result.success) {
-        toast.success('Message sent successfully!');
+        toast.success("Message sent successfully!");
         form.reset();
       } else {
         toast.error(
-          result.message || 'Failed to send message. Please try again.',
+          result.message || "Failed to send message. Please try again."
         );
       }
     } catch {
-      toast.error('Something went wrong. Please try again later.');
+      toast.error("Something went wrong. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

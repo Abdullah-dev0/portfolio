@@ -96,10 +96,10 @@
     nekoEl.style.top = `${nekoPosY - 16}px`;
     nekoEl.style.zIndex = 2147483647;
 
-    let nekoFile = "./oneko.gif"
-    const curScript = document.currentScript
+    let nekoFile = "./oneko.gif";
+    const curScript = document.currentScript;
     if (curScript && curScript.dataset.cat) {
-      nekoFile = curScript.dataset.cat
+      nekoFile = curScript.dataset.cat;
     }
     nekoEl.style.backgroundImage = `url(${nekoFile})`;
 
@@ -124,8 +124,8 @@
       lastFrameTimestamp = timestamp;
     }
     if (timestamp - lastFrameTimestamp > 100) {
-      lastFrameTimestamp = timestamp
-      frame()
+      lastFrameTimestamp = timestamp;
+      frame();
     }
     window.requestAnimationFrame(onAnimationFrame);
   }
@@ -146,12 +146,11 @@
     // every ~ 20 seconds
     if (
       idleTime > 10 &&
-      Math.floor(Math.random() * 200) == 0 &&
-      idleAnimation == null
+      Math.floor(Math.random() * 200) === 0 &&
+      idleAnimation === null
     ) {
-      let avalibleIdleAnimations = ["sleeping", "scratchSelf"];
+      const avalibleIdleAnimations = ["sleeping", "scratchSelf"];
       if (nekoPosX < 32) {
-        avalibleIdleAnimations.push("scratchWallW");
       }
       if (nekoPosY < 32) {
         avalibleIdleAnimations.push("scratchWallN");

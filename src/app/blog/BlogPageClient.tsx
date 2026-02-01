@@ -1,12 +1,14 @@
-'use client';
+"use client";
 
-import { BlogList } from '@/components/blog/BlogList';
-import Container from '@/components/common/Container';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { BlogPostPreview } from '@/types/blog';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useMemo } from "react";
+
+import { useRouter, useSearchParams } from "next/navigation";
+
+import { BlogList } from "@/components/blog/BlogList";
+import Container from "@/components/common/Container";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { BlogPostPreview } from "@/types/blog";
 
 interface BlogPageClientProps {
   initialPosts: BlogPostPreview[];
@@ -18,10 +20,10 @@ interface BlogPageClientProps {
  */
 const filterPostsByTag = (
   posts: BlogPostPreview[],
-  tag: string,
+  tag: string
 ): BlogPostPreview[] => {
   return posts.filter((post) =>
-    post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase()),
+    post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase())
   );
 };
 
@@ -38,31 +40,20 @@ export function BlogPageClient({
 }: BlogPageClientProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const selectedTag = searchParams.get("tag");
 
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [filteredPosts, setFilteredPosts] = useState(initialPosts);
-
-  // Get tag from URL params on mount
-  useEffect(() => {
-    const tagParam = searchParams.get('tag');
-    if (tagParam) {
-      setSelectedTag(tagParam);
-      setFilteredPosts(filterPostsByTag(initialPosts, tagParam));
-    } else {
-      setSelectedTag(null);
-      setFilteredPosts(initialPosts);
-    }
-  }, [searchParams, initialPosts]);
+  // Compute filtered posts as derived state
+  const filteredPosts = useMemo(() => {
+    return selectedTag
+      ? filterPostsByTag(initialPosts, selectedTag)
+      : initialPosts;
+  }, [selectedTag, initialPosts]);
 
   // Handle tag click
   const handleTagClick = (tag: string) => {
     if (selectedTag === tag) {
-      setSelectedTag(null);
-      setFilteredPosts(initialPosts);
-      router.replace('/blog');
+      router.replace("/blog");
     } else {
-      setSelectedTag(tag);
-      setFilteredPosts(filterPostsByTag(initialPosts, tag));
       router.replace(`/blog?tag=${encodeURIComponent(tag)}`);
     }
   };
@@ -107,7 +98,7 @@ export function BlogPageClient({
                     className="transition-colors"
                   >
                     <Badge
-                      variant={isSelected ? 'default' : 'outline'}
+                      variant={isSelected ? "default" : "outline"}
                       className="hover:bg-accent hover:text-accent-foreground tag-inner-shadow cursor-pointer p-2 capitalize"
                     >
                       {tag} ({postCount})
@@ -123,11 +114,11 @@ export function BlogPageClient({
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold">
-              {selectedTag ? `Posts tagged "${selectedTag}"` : 'Latest Posts'}
+              {selectedTag ? `Posts tagged "${selectedTag}"` : "Latest Posts"}
               {filteredPosts.length > 0 && (
                 <span className="text-muted-foreground ml-2 text-sm font-normal">
-                  ({filteredPosts.length}{' '}
-                  {filteredPosts.length === 1 ? 'post' : 'posts'})
+                  ({filteredPosts.length}{" "}
+                  {filteredPosts.length === 1 ? "post" : "posts"})
                 </span>
               )}
             </h2>

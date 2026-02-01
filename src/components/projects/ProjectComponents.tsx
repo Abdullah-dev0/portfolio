@@ -1,22 +1,24 @@
-import Bun from '@/components/technologies/Bun';
-import JavaScript from '@/components/technologies/JavaScript';
-import MongoDB from '@/components/technologies/MongoDB';
-// Import technology components
-import NextJs from '@/components/technologies/NextJs';
-import NodeJs from '@/components/technologies/NodeJs';
-import PostgreSQL from '@/components/technologies/PostgreSQL';
-import Prisma from '@/components/technologies/Prisma';
-import ReactIcon from '@/components/technologies/ReactIcon';
-import TypeScript from '@/components/technologies/TypeScript';
-import { Badge } from '@/components/ui/badge';
-import Image from 'next/image';
-import React from 'react';
+import React from "react";
 
-import { CodeCopyButton } from '../blog/CodeCopyButton';
+import Image from "next/image";
+
+import Bun from "@/components/technologies/Bun";
+import JavaScript from "@/components/technologies/JavaScript";
+import MongoDB from "@/components/technologies/MongoDB";
+// Import technology components
+import NextJs from "@/components/technologies/NextJs";
+import NodeJs from "@/components/technologies/NodeJs";
+import PostgreSQL from "@/components/technologies/PostgreSQL";
+import Prisma from "@/components/technologies/Prisma";
+import ReactIcon from "@/components/technologies/ReactIcon";
+import TypeScript from "@/components/technologies/TypeScript";
+import { Badge } from "@/components/ui/badge";
+
+import { CodeCopyButton } from "../blog/CodeCopyButton";
 
 // Technology mapping for dynamic components
 const TechnologyComponents: Record<string, React.ComponentType> = {
-  'Next.js': NextJs,
+  "Next.js": NextJs,
   nextjs: NextJs,
   React: ReactIcon,
   react: ReactIcon,
@@ -24,7 +26,7 @@ const TechnologyComponents: Record<string, React.ComponentType> = {
   typescript: TypeScript,
   JavaScript: JavaScript,
   javascript: JavaScript,
-  'Node.js': NodeJs,
+  "Node.js": NodeJs,
   nodejs: NodeJs,
   node: NodeJs,
   MongoDB: MongoDB,
@@ -105,11 +107,11 @@ const ProjectMeta = ({
           </h5>
           <Badge
             variant={
-              status === 'completed'
-                ? 'default'
-                : status === 'in-progress'
-                  ? 'secondary'
-                  : 'outline'
+              status === "completed"
+                ? "default"
+                : status === "in-progress"
+                  ? "secondary"
+                  : "outline"
             }
           >
             {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -269,25 +271,25 @@ export const ProjectComponents = {
     [key: string]: unknown;
   }) => {
     const getTextContent = (node: React.ReactNode): string => {
-      if (typeof node === 'string') {
+      if (typeof node === "string") {
         return node;
       }
-      if (typeof node === 'number') {
+      if (typeof node === "number") {
         return String(node);
       }
       if (
         React.isValidElement(node) &&
         node.props &&
-        typeof node.props === 'object'
+        typeof node.props === "object"
       ) {
         return getTextContent(
-          (node.props as { children?: React.ReactNode }).children,
+          (node.props as { children?: React.ReactNode }).children
         );
       }
       if (Array.isArray(node)) {
-        return node.map(getTextContent).join('');
+        return node.map(getTextContent).join("");
       }
-      return '';
+      return "";
     };
 
     const codeText = getTextContent(children);
@@ -313,7 +315,7 @@ export const ProjectComponents = {
     className?: string;
     [key: string]: unknown;
   }) => {
-    if (className?.includes('language-')) {
+    if (className?.includes("language-")) {
       return (
         <code className={className} {...props}>
           {children}

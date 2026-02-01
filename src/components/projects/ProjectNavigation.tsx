@@ -1,7 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Link } from 'next-view-transitions';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { Link } from "next-view-transitions";
+
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 interface ProjectNavigationProps {
   previous: { title: string; slug: string } | null;
@@ -19,7 +21,7 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
 
       <div className="grid gap-4 md:grid-cols-2">
         {/* Previous Project */}
-        <div className={`${next ? '' : 'md:col-span-2'}`}>
+        <div className={`${next ? "" : "md:col-span-2"}`}>
           {previous ? (
             <Button
               variant="outline"
@@ -44,7 +46,7 @@ export function ProjectNavigation({ previous, next }: ProjectNavigationProps) {
         </div>
 
         {/* Next Project */}
-        <div className={`${previous ? '' : 'md:col-span-2'}`}>
+        <div className={`${previous ? "" : "md:col-span-2"}`}>
           {next ? (
             <Button
               variant="outline"

@@ -1,7 +1,8 @@
-import { type Project } from '@/types/project';
-import React from 'react';
+import React from "react";
 
-import { ProjectCard } from './ProjectCard';
+import { type Project } from "@/types/project";
+
+import { ProjectCard } from "./ProjectCard";
 
 interface ProjectListProps {
   projects: Project[];
