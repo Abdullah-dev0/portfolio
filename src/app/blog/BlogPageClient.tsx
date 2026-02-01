@@ -108,7 +108,7 @@ export function BlogPageClient({
                   >
                     <Badge
                       variant={isSelected ? 'default' : 'outline'}
-                      className="hover:bg-accent hover:text-accent-foreground tag-inner-shadow cursor-pointer capitalize"
+                      className="hover:bg-accent hover:text-accent-foreground tag-inner-shadow cursor-pointer p-2 capitalize"
                     >
                       {tag} ({postCount})
                     </Badge>
