@@ -234,9 +234,7 @@ const ChatBubble: React.FC = () => {
           }
         }
       }
-    } catch (error) {
-      console.error('Error sending message:', error);
-
+    } catch {
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === botMessageId
