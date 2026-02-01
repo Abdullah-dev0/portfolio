@@ -1,15 +1,17 @@
-import Container from '@/components/common/Container';
-import { ProjectContent } from '@/components/projects/ProjectContent';
-import { ProjectNavigation } from '@/components/projects/ProjectNavigation';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
-import { siteConfig } from '@/config/Meta';
-import { allProjects } from 'content-collections';
-import { Metadata } from 'next';
-import { Link } from 'next-view-transitions';
-import { notFound } from 'next/navigation';
-import BackToTop from '@/components/common/BackToTop';
+import { Metadata } from "next";
+import { Link } from "next-view-transitions";
+import { notFound } from "next/navigation";
+
+import { allProjects } from "content-collections";
+import { ArrowLeft } from "lucide-react";
+
+import BackToTop from "@/components/common/BackToTop";
+import Container from "@/components/common/Container";
+import { ProjectContent } from "@/components/projects/ProjectContent";
+import { ProjectNavigation } from "@/components/projects/ProjectNavigation";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { siteConfig } from "@/config/Meta";
 
 interface ProjectCaseStudyPageProps {
   params: Promise<{
@@ -33,7 +35,7 @@ export async function generateMetadata({
 
   if (!project || !project.isPublished) {
     return {
-      title: 'Project Not Found',
+      title: "Project Not Found",
     };
   }
 
@@ -45,10 +47,10 @@ export async function generateMetadata({
       title: `${project.title} - Project Case Study`,
       description: project.description,
       images: project.image ? [project.image] : [],
-      type: 'article',
+      type: "article",
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: `${project.title} - Project Case Study`,
       description: project.description,
       images: project.image ? [project.image] : [],
@@ -98,7 +100,7 @@ export default async function ProjectCaseStudyPage({
     .map((p) => ({
       project: p,
       score: p.technologies.filter((t) =>
-        currentTechs.includes(t.toLowerCase()),
+        currentTechs.includes(t.toLowerCase())
       ).length,
     }))
     .filter((item) => item.score > 0)
@@ -150,11 +152,11 @@ export default async function ProjectCaseStudyPage({
                           <div className="text-xs">
                             <div
                               className={`inline-block rounded px-2 py-1 text-xs font-medium ${
-                                relatedProject.status === 'completed'
-                                  ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                                  : relatedProject.status === 'in-progress'
-                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
-                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400'
+                                relatedProject.status === "completed"
+                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                  : relatedProject.status === "in-progress"
+                                    ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+                                    : "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400"
                               }`}
                             >
                               {relatedProject.status.charAt(0).toUpperCase() +

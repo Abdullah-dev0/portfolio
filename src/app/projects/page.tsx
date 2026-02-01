@@ -1,29 +1,31 @@
-import Container from '@/components/common/Container';
-import { ProjectList } from '@/components/projects/ProjectList';
-import { Separator } from '@/components/ui/separator';
-import { generateMetadata as getMetadata } from '@/config/Meta';
-import { Project } from '@/types/project';
-import { allProjects } from 'content-collections';
-import { Metadata } from 'next';
+import { Metadata } from "next";
+
+import { allProjects } from "content-collections";
+
+import Container from "@/components/common/Container";
+import { ProjectList } from "@/components/projects/ProjectList";
+import { Separator } from "@/components/ui/separator";
+import { generateMetadata as getMetadata } from "@/config/Meta";
+import { Project } from "@/types/project";
 
 export const metadata: Metadata = {
-  ...getMetadata('/projects'),
+  ...getMetadata("/projects"),
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
 
 export default function ProjectsPage() {
   const projects: Project[] = allProjects.filter(
-    (project) => project.isPublished,
+    (project) => project.isPublished
   );
 
   return (
@@ -48,8 +50,8 @@ export default function ProjectsPage() {
               All Projects
               {projects.length > 0 && (
                 <span className="text-muted-foreground ml-2 text-sm font-normal">
-                  ({projects.length}{' '}
-                  {projects.length === 1 ? 'project' : 'projects'})
+                  ({projects.length}{" "}
+                  {projects.length === 1 ? "project" : "projects"})
                 </span>
               )}
             </h2>

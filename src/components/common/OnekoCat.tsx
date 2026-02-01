@@ -1,6 +1,8 @@
-import { catConfig } from '@/config/Cat';
-import Script from 'next/script';
-import React from 'react';
+import React from "react";
+
+import Script from "next/script";
+
+import { catConfig } from "@/config/Cat";
 
 export default function OnekoCat() {
   if (!catConfig.enabled) {

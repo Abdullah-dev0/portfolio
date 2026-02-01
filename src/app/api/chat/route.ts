@@ -1,14 +1,16 @@
-import { systemPrompt } from '@/config/ChatPrompt';
-import { NextRequest, NextResponse } from 'next/server';
-import * as z from 'zod';
-import { Redis } from '@upstash/redis';
-import { Ratelimit } from '@upstash/ratelimit';
-import { GoogleGenAI } from '@posthog/ai';
-import { PostHog } from 'posthog-node';
+import { NextRequest, NextResponse } from "next/server";
+
+import * as z from "zod";
+import { GoogleGenAI } from "@posthog/ai";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
+import { PostHog } from "posthog-node";
+
+import { systemPrompt } from "@/config/ChatPrompt";
 
 const phClient = new PostHog(
-  'phc_GwIecxVfPW9YSKUlK1Yz0JXscpY0Qvjnf9X1C6muHY4',
-  { host: 'https://us.i.posthog.com' },
+  "phc_GwIecxVfPW9YSKUlK1Yz0JXscpY0Qvjnf9X1C6muHY4",
+  { host: "https://us.i.posthog.com" }
 );
 
 const ai = new GoogleGenAI({
@@ -23,7 +25,7 @@ const redis = Redis.fromEnv();
 // Allow 5 requests every 60 seconds per IP (fixed window resets at minute boundaries)
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.fixedWindow(5, '60 s'),
+  limiter: Ratelimit.fixedWindow(5, "60 s"),
   analytics: true,
 });
 
@@ -32,24 +34,24 @@ const chatSchema = z.object({
   history: z
     .array(
       z.object({
-        role: z.enum(['user', 'model']),
+        role: z.enum(["user", "model"]),
         parts: z.array(z.object({ text: z.string() })),
-      }),
+      })
     )
     .optional()
     .default([]),
 });
 
 function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const realIP = request.headers.get('x-real-ip');
-  const cfConnectingIP = request.headers.get('cf-connecting-ip');
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIP = request.headers.get("x-real-ip");
+  const cfConnectingIP = request.headers.get("cf-connecting-ip");
 
   if (cfConnectingIP) return cfConnectingIP;
-  if (forwarded) return forwarded.split(',')[0].trim();
+  if (forwarded) return forwarded.split(",")[0].trim();
   if (realIP) return realIP;
 
-  return 'unknown';
+  return "unknown";
 }
 
 export async function POST(request: NextRequest) {
@@ -62,8 +64,8 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json(
         {
-          error: 'rate_limit_exceeded',
-          message: 'You have reached the message limit.',
+          error: "rate_limit_exceeded",
+          message: "You have reached the message limit.",
           limit,
           remaining: 0,
           resetAt: reset,
@@ -72,11 +74,11 @@ export async function POST(request: NextRequest) {
         {
           status: 429,
           headers: {
-            'X-RateLimit-Limit': limit.toString(),
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': reset.toString(),
+            "X-RateLimit-Limit": limit.toString(),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": reset.toString(),
           },
-        },
+        }
       );
     }
 
@@ -88,30 +90,30 @@ export async function POST(request: NextRequest) {
     const contents = [
       {
         parts: [{ text: systemPrompt }],
-        role: 'user',
+        role: "user",
       },
       {
         parts: [
-          { text: 'I understand. I will act as your portfolio assistant.' },
+          { text: "I understand. I will act as your portfolio assistant." },
         ],
-        role: 'model',
+        role: "model",
       },
       // Add conversation history
       ...validatedData.history.slice(-2).map((msg) => ({
         ...msg,
         parts: msg.parts.map((part) => ({
           ...part,
-          text: msg.role === 'user' ? part.text : part.text,
+          text: msg.role === "user" ? part.text : part.text,
         })),
       })),
       // Add current message
       {
         parts: [{ text: validatedData.message }],
-        role: 'user',
+        role: "user",
       },
     ];
 
-    const model = 'gemini-flash-lite-latest';
+    const model = "gemini-flash-lite-latest";
 
     const response = ai.models.generateContentStream({
       model,
@@ -129,28 +131,28 @@ export async function POST(request: NextRequest) {
       async start(controller) {
         try {
           for await (const chunk of response) {
-            const text = chunk.text || '';
+            const text = chunk.text || "";
             if (text) {
               // Send each chunk in SSE format
               controller.enqueue(
                 new TextEncoder().encode(
-                  `data: ${JSON.stringify({ text, done: false })}\n\n`,
-                ),
+                  `data: ${JSON.stringify({ text, done: false })}\n\n`
+                )
               );
             }
           }
           // Send final message to signal completion
           controller.enqueue(
             new TextEncoder().encode(
-              `data: ${JSON.stringify({ text: '', done: true })}\n\n`,
-            ),
+              `data: ${JSON.stringify({ text: "", done: true })}\n\n`
+            )
           );
           controller.close();
         } catch {
           controller.enqueue(
             new TextEncoder().encode(
-              `data: ${JSON.stringify({ error: 'Streaming failed', done: true })}\n\n`,
-            ),
+              `data: ${JSON.stringify({ error: "Streaming failed", done: true })}\n\n`
+            )
           );
           controller.close();
         }
@@ -159,19 +161,19 @@ export async function POST(request: NextRequest) {
 
     return new NextResponse(stream, {
       headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
       },
     });
   } catch {
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
+      { error: "Internal server error" },
+      { status: 500 }
     );
   }
 }
 
 export async function GET() {
-  return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
+  return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
 }

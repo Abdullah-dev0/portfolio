@@ -1,23 +1,26 @@
-import Container from '@/components/common/Container';
-import { Separator } from '@/components/ui/separator';
-import { devices, software, webExtensions } from '@/config/Gears';
-import { generateMetadata as getMetadata } from '@/config/Meta';
-import { ArrowUpRight, Monitor, Puzzle } from 'lucide-react';
-import { Metadata } from 'next';
-import { Link } from 'next-view-transitions';
-import React from 'react';
+import React from "react";
+
+import { Metadata } from "next";
+import { Link } from "next-view-transitions";
+
+import { ArrowUpRight, Monitor, Puzzle } from "lucide-react";
+
+import Container from "@/components/common/Container";
+import { Separator } from "@/components/ui/separator";
+import { devices, software, webExtensions } from "@/config/Gears";
+import { generateMetadata as getMetadata } from "@/config/Meta";
 
 export const metadata: Metadata = {
-  ...getMetadata('/gears'),
+  ...getMetadata("/gears"),
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };

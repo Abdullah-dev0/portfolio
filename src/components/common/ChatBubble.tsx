@@ -1,27 +1,29 @@
-'use client';
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { MessageCircle } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+
+import { MessageCircle } from "lucide-react";
+import { Send } from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   ExpandableChat,
   ExpandableChatBody,
   ExpandableChatFooter,
   ExpandableChatHeader,
-} from '@/components/ui/expandable-chat';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { chatSuggestions } from '@/config/ChatPrompt';
-import { heroConfig } from '@/config/Hero';
-import { cn } from '@/lib/utils';
-import React, { useEffect, useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Send } from 'lucide-react';
+} from "@/components/ui/expandable-chat";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { chatSuggestions } from "@/config/ChatPrompt";
+import { heroConfig } from "@/config/Hero";
+import { cn } from "@/lib/utils";
 
 interface Message {
   id: number;
   text: string;
-  sender: 'user' | 'bot';
+  sender: "user" | "bot";
   timestamp: string;
   isStreaming?: boolean;
   isError?: boolean;
@@ -31,19 +33,19 @@ const getInitialMessages = (): Message[] => [
   {
     id: 1,
     text: "Hello! I'm Abdullah's Portfolio Assistant. How can I help you?",
-    sender: 'bot',
+    sender: "bot",
     timestamp: new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: "2-digit",
+      minute: "2-digit",
     }),
   },
 ];
 
 const ChatBubble: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>(() =>
-    getInitialMessages(),
+    getInitialMessages()
   );
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -51,7 +53,7 @@ const ChatBubble: React.FC = () => {
   useEffect(() => {
     if (scrollAreaRef.current) {
       const scrollElement = scrollAreaRef.current.querySelector(
-        '[data-radix-scroll-area-viewport]',
+        "[data-radix-scroll-area-viewport]"
       );
       if (scrollElement) {
         scrollElement.scrollTop = scrollElement.scrollHeight;
@@ -66,26 +68,26 @@ const ChatBubble: React.FC = () => {
     const userMessage: Message = {
       id: Date.now(),
       text: messageText,
-      sender: 'user',
+      sender: "user",
       timestamp: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
       }),
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setNewMessage('');
+    setNewMessage("");
     setIsLoading(true);
 
     // Create a temporary bot message for streaming
     const botMessageId = Date.now() + 1;
     const botMessage: Message = {
       id: botMessageId,
-      text: '',
-      sender: 'bot',
+      text: "",
+      sender: "bot",
       timestamp: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
       }),
       isStreaming: true,
     };
@@ -97,7 +99,7 @@ const ChatBubble: React.FC = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -109,10 +111,10 @@ const ChatBubble: React.FC = () => {
     const userMessage: Message = {
       id: Date.now(),
       text: suggestion,
-      sender: 'user',
+      sender: "user",
       timestamp: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
       }),
     };
 
@@ -123,11 +125,11 @@ const ChatBubble: React.FC = () => {
     const botMessageId = Date.now() + 1;
     const botMessage: Message = {
       id: botMessageId,
-      text: '',
-      sender: 'bot',
+      text: "",
+      sender: "bot",
       timestamp: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
       }),
       isStreaming: true,
     };
@@ -142,14 +144,14 @@ const ChatBubble: React.FC = () => {
     try {
       // Prepare conversation history for Gemini API format
       const history = messages.slice(-10).map((msg) => ({
-        role: msg.sender === 'user' ? ('user' as const) : ('model' as const),
+        role: msg.sender === "user" ? ("user" as const) : ("model" as const),
         parts: [{ text: msg.text }],
       }));
 
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: messageText,
@@ -168,8 +170,8 @@ const ChatBubble: React.FC = () => {
                   isStreaming: false,
                   isError: true,
                 }
-              : msg,
-          ),
+              : msg
+          )
         );
         return;
       }
@@ -182,10 +184,10 @@ const ChatBubble: React.FC = () => {
       const decoder = new TextDecoder();
 
       if (!reader) {
-        throw new Error('No reader available');
+        throw new Error("No reader available");
       }
 
-      let accumulatedText = '';
+      let accumulatedText = "";
 
       while (true) {
         const { done, value } = await reader.read();
@@ -193,10 +195,10 @@ const ChatBubble: React.FC = () => {
         if (done) break;
 
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+        const lines = chunk.split("\n");
 
         for (const line of lines) {
-          if (line.startsWith('data: ')) {
+          if (line.startsWith("data: ")) {
             try {
               const data = JSON.parse(line.slice(6));
 
@@ -212,8 +214,8 @@ const ChatBubble: React.FC = () => {
                   prev.map((msg) =>
                     msg.id === botMessageId
                       ? { ...msg, text: accumulatedText, isStreaming: true }
-                      : msg,
-                  ),
+                      : msg
+                  )
                 );
               }
 
@@ -223,8 +225,8 @@ const ChatBubble: React.FC = () => {
                   prev.map((msg) =>
                     msg.id === botMessageId
                       ? { ...msg, text: accumulatedText, isStreaming: false }
-                      : msg,
-                  ),
+                      : msg
+                  )
                 );
                 break;
               }
@@ -243,12 +245,12 @@ const ChatBubble: React.FC = () => {
                 text: "I'm sorry, I'm having trouble responding right now. Please try again later.",
                 isStreaming: false,
               }
-            : msg,
-        ),
+            : msg
+        )
       );
     } finally {
       setIsLoading(false);
-      setNewMessage('');
+      setNewMessage("");
     }
   };
 
@@ -295,16 +297,16 @@ const ChatBubble: React.FC = () => {
               <div
                 key={message.id}
                 className={cn(
-                  'flex w-max max-w-xs flex-col gap-2 rounded-lg px-3 py-2 text-sm',
-                  message.sender === 'user'
-                    ? 'text-secondary bg-muted ml-auto'
+                  "flex w-max max-w-xs flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                  message.sender === "user"
+                    ? "text-secondary bg-muted ml-auto"
                     : message.isError
-                      ? 'border border-red-500/40 bg-red-500/20'
-                      : 'bg-muted',
+                      ? "border border-red-500/40 bg-red-500/20"
+                      : "bg-muted"
                 )}
               >
                 <div className="flex items-start space-x-2">
-                  {message.sender === 'bot' && (
+                  {message.sender === "bot" && (
                     <Avatar className="h-6 w-6">
                       <AvatarImage
                         src="/assets/logo.png"
@@ -359,10 +361,10 @@ const ChatBubble: React.FC = () => {
                     </div>
                     <p
                       className={cn(
-                        'mt-1 text-xs',
-                        message.sender === 'user'
-                          ? 'text-secondary'
-                          : 'text-muted-foreground',
+                        "mt-1 text-xs",
+                        message.sender === "user"
+                          ? "text-secondary"
+                          : "text-muted-foreground"
                       )}
                     >
                       {message.timestamp}

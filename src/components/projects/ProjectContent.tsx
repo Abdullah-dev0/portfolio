@@ -1,14 +1,16 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { MDXContent } from '@content-collections/mdx/react';
-import { allProjects } from 'content-collections';
-import { Link } from 'next-view-transitions';
-import Image from 'next/image';
+import { Link } from "next-view-transitions";
+import Image from "next/image";
 
-import Github from '../svgs/Github';
-import Website from '../svgs/Website';
-import { ProjectComponents } from './ProjectComponents';
+import { MDXContent } from "@content-collections/mdx/react";
+import { allProjects } from "content-collections";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+
+import Github from "../svgs/Github";
+import Website from "../svgs/Website";
+import { ProjectComponents } from "./ProjectComponents";
 
 type Project = (typeof allProjects)[number];
 
@@ -34,11 +36,11 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
   } = project;
 
   const statusVariant =
-    status === 'completed'
-      ? 'default'
-      : status === 'in-progress'
-        ? 'secondary'
-        : 'outline';
+    status === "completed"
+      ? "default"
+      : status === "in-progress"
+        ? "secondary"
+        : "outline";
 
   return (
     <article className="mx-auto max-w-4xl">

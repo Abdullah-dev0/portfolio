@@ -1,15 +1,18 @@
-import CodingStatus from '@/components/common/liveUpdate';
-import { heroConfig, skillComponents, socialLinks } from '@/config/Hero';
-import { cn } from '@/lib/utils';
-import { Link } from 'next-view-transitions';
-import Image from 'next/image';
-import React from 'react';
+import React from "react";
 
-import Container from '../common/Container';
-import Skill from '../common/Skill';
-import { FileText, Send } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Link } from "next-view-transitions";
+import Image from "next/image";
+
+import { FileText, Send } from "lucide-react";
+
+import CodingStatus from "@/components/common/liveUpdate";
+import { heroConfig, skillComponents, socialLinks } from "@/config/Hero";
+import { cn } from "@/lib/utils";
+
+import Container from "../common/Container";
+import Skill from "../common/Skill";
+import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const buttonIcons = {
   CV: FileText,
@@ -21,7 +24,7 @@ export default function Hero() {
   const Description = () => {
     return (
       <p className="text-muted-foreground text-base leading-9 whitespace-pre-wrap md:text-lg">
-        I build interactive, high-performance web applications using{' '}
+        I build interactive, high-performance web applications using{" "}
         {skills.map((skill, index) => {
           const Icon =
             skillComponents[skill.component as keyof typeof skillComponents];
@@ -29,16 +32,16 @@ export default function Hero() {
 
           return (
             <React.Fragment key={skill.name}>
-              {index > 0 && (isLast ? ' and ' : ', ')}
+              {index > 0 && (isLast ? " and " : ", ")}
               <Skill name={skill.name} href={skill.href}>
                 {Icon ? <Icon /> : null}
               </Skill>
             </React.Fragment>
           );
-        })}{' '}
-        With a strong focus on{' '}
+        })}{" "}
+        With a strong focus on{" "}
         <b className="text-primary">AI-driven product development</b>, I&apos;m
-        passionate about exploring <b className="text-primary">Generative AI</b>{' '}
+        passionate about exploring <b className="text-primary">Generative AI</b>{" "}
         and creating intelligent, user-centric solutions that merge innovation
         with great engineering.
       </p>
@@ -84,10 +87,10 @@ export default function Hero() {
           return (
             <Button
               key={index}
-              variant={button.variant as 'outline' | 'default'}
+              variant={button.variant as "outline" | "default"}
               className={cn(
-                button.variant === 'outline' && 'inset-shadow-indigo-500',
-                button.variant === 'default' && 'inset-shadow-indigo-500',
+                button.variant === "outline" && "inset-shadow-indigo-500",
+                button.variant === "default" && "inset-shadow-indigo-500"
               )}
             >
               {IconComponent && <IconComponent />}

@@ -1,10 +1,12 @@
-import { about, mySkills } from '@/config/About';
-import Image from 'next/image';
-import React from 'react';
+import React from "react";
 
-import Container from '../common/Container';
-import SectionHeading from '../common/SectionHeading';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import Image from "next/image";
+
+import { about, mySkills } from "@/config/About";
+
+import Container from "../common/Container";
+import SectionHeading from "../common/SectionHeading";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function About() {
   return (

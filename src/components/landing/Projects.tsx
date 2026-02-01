@@ -1,10 +1,11 @@
-import { allProjects } from 'content-collections';
-import { Link } from 'next-view-transitions';
+import { Link } from "next-view-transitions";
 
-import Container from '../common/Container';
-import SectionHeading from '../common/SectionHeading';
-import { ProjectList } from '../projects/ProjectList';
-import { Button } from '../ui/button';
+import { allProjects } from "content-collections";
+
+import Container from "../common/Container";
+import SectionHeading from "../common/SectionHeading";
+import { ProjectList } from "../projects/ProjectList";
+import { Button } from "../ui/button";
 
 export default function Projects() {
   return (

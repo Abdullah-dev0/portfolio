@@ -1,19 +1,21 @@
-'use client';
+"use client";
 
-import { githubConfig } from '@/config/Github';
-import { useTheme } from 'next-themes';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Container from '../common/Container';
-import GithubIcon from '../svgs/Github';
-import { Button } from '../ui/button';
-import Presence from '../common/liveUpdate';
+import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+
+import { githubConfig } from "@/config/Github";
+
+import Container from "../common/Container";
+import Presence from "../common/liveUpdate";
+import GithubIcon from "../svgs/Github";
+import { Button } from "../ui/button";
 
 const ActivityCalendar = dynamic(
-  () => import('react-activity-calendar').then((mod) => mod.default),
-  { ssr: false },
+  () => import("react-activity-calendar").then((mod) => mod.default),
+  { ssr: false }
 );
 
 type ContributionItem = {
@@ -26,11 +28,11 @@ type GitHubContributionResponse = {
   date: string;
   contributionCount: number;
   contributionLevel:
-    | 'NONE'
-    | 'FIRST_QUARTILE'
-    | 'SECOND_QUARTILE'
-    | 'THIRD_QUARTILE'
-    | 'FOURTH_QUARTILE';
+    | "NONE"
+    | "FIRST_QUARTILE"
+    | "SECOND_QUARTILE"
+    | "THIRD_QUARTILE"
+    | "FOURTH_QUARTILE";
 };
 
 // Helper function to filter contributions to past year
@@ -56,7 +58,7 @@ export default function Github() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `${githubConfig.apiUrl}/${githubConfig.username}.json`,
+          `${githubConfig.apiUrl}/${githubConfig.username}.json`
         );
         const data: { contributions?: unknown[] } = await response.json();
 
@@ -77,25 +79,25 @@ export default function Github() {
           const validContributions = flattenedContributions
             .filter(
               (item: unknown): item is GitHubContributionResponse =>
-                typeof item === 'object' &&
+                typeof item === "object" &&
                 item !== null &&
-                'date' in item &&
-                'contributionCount' in item &&
-                'contributionLevel' in item,
+                "date" in item &&
+                "contributionCount" in item &&
+                "contributionLevel" in item
             )
             .map((item: GitHubContributionResponse) => ({
               date: String(item.date),
               count: Number(item.contributionCount || 0),
               level: (contributionLevelMap[
                 item.contributionLevel as keyof typeof contributionLevelMap
-              ] || 0) as ContributionItem['level'],
+              ] || 0) as ContributionItem["level"],
             }));
 
           if (validContributions.length > 0) {
             // Calculate total contributions
             const total = validContributions.reduce(
               (sum, item) => sum + item.count,
-              0,
+              0
             );
             setTotalContributions(total);
 
@@ -132,10 +134,10 @@ export default function Github() {
             </p>
             {!isLoading && !hasError && totalContributions > 0 && (
               <p className="text-primary mt-1 text-sm font-medium">
-                Total:{' '}
+                Total:{" "}
                 <span className="font-black">
                   {totalContributions.toLocaleString()}
-                </span>{' '}
+                </span>{" "}
                 contributions
               </p>
             )}
@@ -183,7 +185,7 @@ export default function Github() {
                   blockSize={12}
                   blockMargin={4}
                   fontSize={githubConfig.fontSize}
-                  colorScheme={theme === 'dark' ? 'dark' : 'light'}
+                  colorScheme={theme === "dark" ? "dark" : "light"}
                   maxLevel={githubConfig.maxLevel}
                   hideTotalCount={true}
                   hideColorLegend={false}
@@ -195,7 +197,7 @@ export default function Github() {
                     totalCount: githubConfig.totalCountLabel,
                   }}
                   style={{
-                    color: 'rgb(139, 148, 158)',
+                    color: "rgb(139, 148, 158)",
                   }}
                 />
               </div>

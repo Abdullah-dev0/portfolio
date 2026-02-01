@@ -1,15 +1,15 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
 @font-face {
-  font-family: 'Hanken Grotesk';
-  src: url('/fonts/HankenGrotesk-Variable.ttf') format('truetype');
+  font-family: "Hanken Grotesk";
+  src: url("/fonts/HankenGrotesk-Variable.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Hanken Grotesk Italic';
-  src: url('/fonts/HankenGrotesk-Italic-Variable.ttf') format('truetype');
+  font-family: "Hanken Grotesk Italic";
+  src: url("/fonts/HankenGrotesk-Italic-Variable.ttf") format("truetype");
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -138,7 +138,7 @@
 }
 
 .font-hanken-grotesk {
-  font-family: 'Hanken Grotesk', sans-serif;
+  font-family: "Hanken Grotesk", sans-serif;
 }
 
 /* Code block copy button styles */

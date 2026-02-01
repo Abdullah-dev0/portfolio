@@ -21,7 +21,7 @@ export interface ProjectCaseStudyFrontmatter {
   timeline: string;
   role: string;
   team?: string;
-  status: 'completed' | 'in-progress' | 'archived';
+  status: "completed" | "in-progress" | "archived";
   featured: boolean;
   challenges?: string[];
   learnings?: string[];

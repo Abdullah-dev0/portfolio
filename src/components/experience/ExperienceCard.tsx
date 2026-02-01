@@ -1,22 +1,25 @@
-import { type Experience } from '@/config/Experience';
-import { cn } from '@/lib/utils';
-import { Link } from 'next-view-transitions';
-import Image from 'next/image';
-import React from 'react';
+import React from "react";
 
-import Skill from '../common/Skill';
-import Github from '../svgs/Github';
-import LinkedIn from '../svgs/LinkedIn';
-import X from '../svgs/X';
-import { Globe } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Link } from "next-view-transitions";
+import Image from "next/image";
+
+import { Globe } from "lucide-react";
+
+import { type Experience } from "@/config/Experience";
+import { cn } from "@/lib/utils";
+
+import Skill from "../common/Skill";
+import Github from "../svgs/Github";
+import LinkedIn from "../svgs/LinkedIn";
+import X from "../svgs/X";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface ExperienceCardProps {
   experience: Experience;
 }
 
 const parseDescription = (text: string): string => {
-  return text.replace(/\*(.*?)\*/g, '<b>$1</b>');
+  return text.replace(/\*(.*?)\*/g, "<b>$1</b>");
 };
 
 const LiveBadge = ({ url }: { url: string }) => (
@@ -93,8 +96,8 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
             <div className="flex items-center gap-2">
               <h3
                 className={cn(
-                  'text-lg font-bold',
-                  experience.isBlur ? 'blur-[5px]' : 'blur-none',
+                  "text-lg font-bold",
+                  experience.isBlur ? "blur-[5px]" : "blur-none"
                 )}
               >
                 {experience.company}
@@ -168,8 +171,8 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
         {/* Right Side */}
         <div className="text-secondary flex flex-col md:text-right">
           <p>
-            {experience.startDate} -{' '}
-            {experience.isCurrent ? 'Present' : experience.endDate}
+            {experience.startDate} -{" "}
+            {experience.isCurrent ? "Present" : experience.endDate}
           </p>
           <p>{experience.location}</p>
         </div>
@@ -196,10 +199,10 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
         {experience.description.map(
           (description: string, descIndex: number) => {
             const isHeader =
-              description.startsWith('*') && description.endsWith('*');
+              description.startsWith("*") && description.endsWith("*");
 
             if (isHeader) {
-              const headerText = description.replace(/^\*|\*$/g, '');
+              const headerText = description.replace(/^\*|\*$/g, "");
               return (
                 <ProjectHeader
                   key={descIndex}
@@ -218,7 +221,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
                 className="ml-2"
               />
             );
-          },
+          }
         )}
       </div>
     </div>

@@ -1,29 +1,29 @@
-import { allProjects } from 'content-collections';
+import { allProjects } from "content-collections";
 
-import { about } from './About';
-import { experiences } from './Experience';
-import { heroConfig, socialLinks } from './Hero';
+import { about } from "./About";
+import { experiences } from "./Experience";
+import { heroConfig, socialLinks } from "./Hero";
 
 function generateSystemPrompt(): string {
-  const skillNames = heroConfig.skills.map((skill) => skill.name).join(', ');
+  const skillNames = heroConfig.skills.map((skill) => skill.name).join(", ");
 
   const socialLinksText = socialLinks
     .map((link) => `${link.name}: ${link.href}`)
-    .join('\n- ');
+    .join("\n- ");
 
   const experienceText = experiences
     .map(
       (exp) =>
-        `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate})`,
+        `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate})`
     )
-    .join('\n- ');
+    .join("\n- ");
 
   const projectsText = allProjects
     .map(
       (project) =>
-        `${project.title}: ${project.description}${project.live ? ` - ${project.live}` : ''}`,
+        `${project.title}: ${project.description}${project.live ? ` - ${project.live}` : ""}`
     )
-    .join('\n- ');
+    .join("\n- ");
 
   return `You are ${about.name}, a ${about.description}
 
@@ -86,7 +86,7 @@ Help visitors discover my work, understand my expertise, and feel confident reac
 export const systemPrompt = generateSystemPrompt();
 
 export const chatSuggestions = [
-  'What technologies do you work with?',
-  'Tell me about your recent projects',
-  'How can I contact you for work?',
+  "What technologies do you work with?",
+  "Tell me about your recent projects",
+  "How can I contact you for work?",
 ];

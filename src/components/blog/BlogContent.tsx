@@ -1,11 +1,13 @@
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { BlogPost } from '@/types/blog';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import Image from 'next/image';
-import { Calendar } from 'lucide-react';
+import { MDXRemote } from "next-mdx-remote/rsc";
+import Image from "next/image";
 
-import { BlogComponents } from './BlogComponents';
+import { Calendar } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { BlogPost } from "@/types/blog";
+
+import { BlogComponents } from "./BlogComponents";
 
 interface BlogContentProps {
   post: BlogPost;
@@ -14,10 +16,10 @@ interface BlogContentProps {
 export function BlogContent({ post }: BlogContentProps) {
   const { title, description, image, tags, date, content } = post;
 
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   return (

@@ -1,22 +1,24 @@
-import Container from '@/components/common/Container';
-import ContactForm from '@/components/contact/ContactForm';
-import { Separator } from '@/components/ui/separator';
-import { contactConfig } from '@/config/Contact';
-import { generateMetadata as getMetadata } from '@/config/Meta';
-import { Metadata } from 'next';
-import React from 'react';
+import React from "react";
+
+import { Metadata } from "next";
+
+import Container from "@/components/common/Container";
+import ContactForm from "@/components/contact/ContactForm";
+import { Separator } from "@/components/ui/separator";
+import { contactConfig } from "@/config/Contact";
+import { generateMetadata as getMetadata } from "@/config/Meta";
 
 export const metadata: Metadata = {
-  ...getMetadata('/contact'),
+  ...getMetadata("/contact"),
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };

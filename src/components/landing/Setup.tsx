@@ -1,16 +1,17 @@
-import { ArrowRight, Settings } from 'lucide-react';
-import { Link } from 'next-view-transitions';
+import { Link } from "next-view-transitions";
 
-import Container from '../common/Container';
-import SectionHeading from '../common/SectionHeading';
-import { Card } from '../ui/card';
+import { ArrowRight, Settings } from "lucide-react";
+
+import Container from "../common/Container";
+import SectionHeading from "../common/SectionHeading";
+import { Card } from "../ui/card";
 
 const setup = [
   {
-    name: 'Gears Used',
-    description: 'Productivity Tools, Gears i use to get my work done.',
+    name: "Gears Used",
+    description: "Productivity Tools, Gears i use to get my work done.",
     icon: <Settings className="size-4" />,
-    href: '/gears',
+    href: "/gears",
   },
 ];
 
