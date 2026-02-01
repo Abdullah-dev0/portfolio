@@ -146,8 +146,7 @@ export async function POST(request: NextRequest) {
             ),
           );
           controller.close();
-        } catch (error) {
-          console.error('Streaming error:', error);
+        } catch {
           controller.enqueue(
             new TextEncoder().encode(
               `data: ${JSON.stringify({ error: 'Streaming failed', done: true })}\n\n`,
@@ -165,8 +164,7 @@ export async function POST(request: NextRequest) {
         Connection: 'keep-alive',
       },
     });
-  } catch (error) {
-    console.error('Chat API error:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

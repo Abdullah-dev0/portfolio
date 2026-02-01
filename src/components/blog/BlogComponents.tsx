@@ -187,4 +187,27 @@ export const BlogComponents = {
       {children}
     </blockquote>
   ),
+  // Custom link styling - opens external links in new tab
+  a: ({
+    href,
+    children,
+    ...props
+  }: {
+    href?: string;
+    children: React.ReactNode;
+    [key: string]: unknown;
+  }) => {
+    const isExternal = href?.startsWith('http');
+    return (
+      <a
+        href={href}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+        className="text-primary font-medium hover:underline"
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  },
 };

@@ -1,0 +1,136 @@
+---
+title: 'The React + AI Stack for 2026'
+description: 'A comprehensive guide to the modern React ecosystem optimized for AI-assisted development in 2026'
+image: '/blog/stack2026.webp'
+tags: ['webdev', 'programming', 'javascript', 'ai']
+date: '2026-02-01'
+isPublished: true
+---
+
+Generative AI changed how we code. It also quietly picked a winner.
+
+According to the 2025 Stack Overflow Developer Survey, 51% of professional developers now use AI tools daily. When you ask AI to build a UI, it reaches for React almost every time. React isn't objectively better than Vue, Svelte, or Solid. But LLMs trained on millions of GitHub repositories, and React dominates that dataset.
+
+React alone isn't a stack, though. Even with AI writing most of your code, you need to understand what you're building with. Here's the stack I'd reach for today.
+
+## Core: React + TypeScript
+
+[TypeScript](https://www.typescriptlang.org) catches mistakes early, makes refactoring less painful, supercharges your IDE's autocomplete, and gives new devs on your team built-in documentation.
+
+[React](https://react.dev) and [TypeScript](https://www.typescriptlang.org) have grown up together. This stack assumes you're using both. Types also give AI tools something to work with, which means fewer fixes after generation.
+
+## Framework: Next.js or TanStack Start
+
+Two solid choices here, depending on what you need.
+
+**[Next.js](https://nextjs.org)** is the mature option. It has the largest ecosystem, full React Server Components support, and [Vercel](https://vercel.com) keeps shipping features like partial pre-rendering. If you want RSC, streaming, and a battle-tested framework, Next.js is a great pick.
+
+**[TanStack Start](https://tanstack.com/start)** is less magic and more control. You decide how data loads, where it runs, and what gets rendered. The type safety is excellent, and it plays beautifully with the rest of the TanStack ecosystem. RSC support is coming but not production-ready yet. If you don't need server components or prefer a lighter, more explicit framework, TanStack Start is worth serious consideration.
+
+## Styling: Tailwind CSS
+
+[Tailwind CSS](https://tailwindcss.com) is still the answer. Utility-first CSS has won. It works beautifully with AI tools (which can generate Tailwind classes effortlessly), scales well, and reduces the CSS overhead that used to slow down projects.
+
+If you're not using Tailwind yet, 2026 is a good year to start.
+
+## UI Components: shadcn/ui
+
+[shadcn/ui](https://ui.shadcn.com) copies components directly into your project. You own the code. You can modify anything. AI tools can read and edit these files directly since there's no abstraction layer in the way.
+
+The recent `npx shadcn create` command takes customization further. Pick your component library ([Radix](https://www.radix-ui.com) or [Base UI](https://base-ui.com)), choose from five visual styles, select fonts and colors. The CLI then rewrites every component to match your choices.
+
+## Data Fetching: TanStack Query
+
+[TanStack Query](https://tanstack.com/query) is the standard for server state management. It handles caching, background refetching, stale data, and error states so you don't have to.
+
+If you're fetching data in React, you should probably be using TanStack Query. The mental model is simple once it clicks, and it gets rid of an entire category of bugs related to data synchronization.
+
+## Routing: TanStack Router
+
+[TanStack Router](https://tanstack.com/router) has the strongest type safety I've seen in a React router. Routes, params, and search parameters are all fully typed. TypeScript catches routing errors before your code runs.
+
+If you're using [Next.js](https://nextjs.org), the App Router handles routing and integrates with server components. But for [Vite](https://vite.dev)-based stacks or [TanStack Start](https://tanstack.com/start), TanStack Router is the clear choice.
+
+## State Management: Zustand
+
+[Zustand](https://zustand-demo.pmnd.rs) is my recommendation. It's simple, has minimal boilerplate, and scales well. You get a hook-based API that feels native to React without the ceremony of [Redux](https://redux.js.org).
+
+## Forms: React Hook Form
+
+[React Hook Form](https://react-hook-form.com) remains the best option. It's performant (minimal re-renders), integrates well with validation libraries, and has a clean API.
+
+## Testing: Vitest + React Testing Library + Playwright
+
+**[Vitest](https://vitest.dev)** is a fast test runner that works with ES modules out of the box and integrates beautifully with Vite-based projects.
+
+**[React Testing Library](https://testing-library.com/react)** provides utilities to render and query your components, helping you test like a user would while catching accessibility issues.
+
+**[Playwright](https://playwright.dev)** covers end-to-end testing across multiple browsers with visual testing and mobile emulation, without the flaky tests.
+
+## AI SDK: Vercel AI SDK or TanStack AI
+
+If you're adding AI features to your app, **[Vercel AI SDK](https://sdk.vercel.ai)** has been the go-to. Streaming, tool calling, hooks for chat interfaces. It works with [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), and other providers out of the box. The AI Elements library adds 20+ React components built on [shadcn/ui](https://ui.shadcn.com) for message threads, reasoning panels, and voice interfaces. If you're building a chat UI, this saves a lot of time.
+
+**[TanStack AI](https://tanstack.com/ai)** is newer but worth watching. Same unified interface across providers, full TypeScript type safety. Given the TanStack team's track record, this could become the standard.
+
+## Type-Safe APIs: tRPC
+
+[tRPC](https://trpc.io) lets your frontend call server functions directly with full TypeScript type safety. No REST endpoints to document. No types to manually sync. You define your logic once and use it on both sides.
+
+If you're building a full-stack TypeScript app, tRPC eliminates a category of bugs and speeds up development.
+
+## Validation: Zod
+
+[Zod](https://zod.dev) is the safe choice for TypeScript validation. It has the largest ecosystem, most tutorials, and integrates with everything. React Hook Form, tRPC, API routes. Zod works with all of them.
+
+There are lighter alternatives if bundle size is critical, but for most projects, Zod's ecosystem advantage outweighs the extra kilobytes.
+
+## Backend Services: Supabase or Convex
+
+**[Supabase](https://supabase.com)** is built on PostgreSQL. You get auth, storage, real-time subscriptions, and auto-generated APIs. For AI features, [pgvector](https://github.com/pgvector/pgvector) handles vector similarity search, and you can store embeddings alongside your relational data.
+
+**[Convex](https://convex.dev)** takes a reactivity-first approach. Queries automatically sync to your React components when data changes. The TypeScript integration feels native. Built-in vector search, a RAG component, and AI agent workflows are already there for LLM-powered apps.
+
+## ORM: Prisma or Drizzle
+
+**[Prisma](https://www.prisma.io)** is schema-first. You define your models in a `.prisma` file, run a generate command, and get a fully typed client. Migrations, a visual data browser, and connection pooling are built in.
+
+**[Drizzle](https://orm.drizzle.team)** lets you define schemas directly in TypeScript. The query builder mirrors SQL syntax, so existing SQL knowledge transfers directly. It also includes a migration CLI and a visual data browser called [Drizzle Studio](https://orm.drizzle.team/drizzle-studio/overview).
+
+## Auth: Better Auth
+
+[Better Auth](https://www.better-auth.com) is a framework-agnostic authentication and authorization library for TypeScript. It handles email/password, social login, two-factor, and passkeys out of the box. Works with [Next.js](https://nextjs.org) or [TanStack Start](https://tanstack.com/start), [Prisma](https://www.prisma.io) or [Drizzle](https://orm.drizzle.team).
+
+The plugin ecosystem adds everything else. Organizations with role-based access, magic links, anonymous auth, SSO. It also ships with an MCP server, so AI tools can help you implement auth without hallucinating the API.
+
+## Animation: Motion
+
+[Motion](https://motion.dev) (formerly Framer Motion) is the best React animation library. The declarative API makes complex animations accessible, and it handles layout animations that would be painful to build manually.
+
+If your app needs animations beyond CSS transitions, Motion should be your first choice.
+
+## Tables: TanStack Table
+
+[TanStack Table](https://tanstack.com/table) deserves a mention if you're building data-heavy interfaces. It's headless, fully typed, and handles sorting, filtering, and pagination without forcing a specific UI. You bring your own markup and styles.
+
+## Mobile: React Native + Expo
+
+[React Native](https://reactnative.dev) with [Expo](https://expo.dev) is the choice for cross-platform mobile development. The New Architecture is now the default, with 60fps rendering and 40% faster startup times. Expo removes the Xcode and Android Studio setup, handles builds through [EAS](https://expo.dev/eas), and enables over-the-air updates.
+
+## Component Development: Storybook
+
+[Storybook](https://storybook.js.org) is essential for building components in isolation. You get a visual testing environment, automatic documentation, and a place where developers and designers can collaborate on UI without spinning up the full app.
+
+## AI-Assisted Development: Builder.io, Claude Code, or Cursor
+
+**[Builder.io](https://www.builder.io)** is a visual AI IDE where PMs, designers, and developers all work in the same React codebase. You bring your existing components, and the visual editor lets non-developers make changes without touching code directly. Marketing updates copy. Design adjusts layouts. Everyone works in the same source of truth.
+
+**[Claude Code](https://claude.ai/code)** is Anthropic's agentic coding tool. It runs in the terminal, or as an extension in VS Code, or directly on the web. Point it at your codebase and it can plan changes, write code, run tests, and loop on tasks for hours. If you prefer working solo or in developer-only teams, this is a great option.
+
+**[Cursor](https://cursor.com)** is another great option if you prefer the traditional IDE workflow.
+
+## The Stack That Writes Itself
+
+The best stack in 2026 is the one AI already knows. Clear conventions. Minimal magic. The kind of code it can read, write, and debug without hallucinating.
+
+Everything on this list fits that description.
