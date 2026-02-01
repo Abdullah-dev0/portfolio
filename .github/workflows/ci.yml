@@ -4,8 +4,6 @@ on:
   push:
     branches-ignore:
       - main
-  pull_request:
-    branches: [main]
 
 jobs:
   lint:
@@ -26,6 +24,25 @@ jobs:
 
       - name: Run ESLint
         run: bun run lint
+
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Check formatting
+        run: bunx prettier --check "**/*.{ts,tsx,mdx}"
 
   typecheck:
     name: Type Check
