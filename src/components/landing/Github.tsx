@@ -108,8 +108,7 @@ export default function Github() {
         } else {
           setHasError(true);
         }
-      } catch (err) {
-        console.error('Failed to fetch GitHub contributions:', err);
+      } catch {
         setHasError(true);
       } finally {
         setIsLoading(false);

@@ -1,15 +1,40 @@
 'use client';
 
 import { ArrowUp } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export default function BackToTop() {
+  const [isVisible, setIsVisible] = useState(false);
+
   const handleClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    // Check initial scroll position
+    toggleVisibility();
+
+    // Add scroll event listener
+    window.addEventListener('scroll', toggleVisibility);
+
+    // Cleanup
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <Tooltip delayDuration={0}>

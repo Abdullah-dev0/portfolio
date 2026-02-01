@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
+import { toast } from 'sonner';
 
 interface CallToActionProps {
   profileImage?: string;
@@ -43,8 +44,10 @@ export default function CTA({
             },
           });
         }
-      } catch (error) {
-        console.error('Failed to initialize Cal API:', error);
+      } catch {
+        toast.error('Failed to initialize Cal API', {
+          description: 'Please try again later',
+        });
       }
     };
     cal();
