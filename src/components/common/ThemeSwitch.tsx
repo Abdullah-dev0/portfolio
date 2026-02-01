@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { flushSync } from "react-dom";
 
 import { useTheme } from "next-themes";
@@ -22,15 +22,21 @@ declare global {
   }
 }
 
+// Helper for useSyncExternalStore to detect client-side mounting
+function subscribe() {
+  return () => {};
+}
+
 export default function ThemeSwitch() {
   const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
 
-  // Only render after mounting to avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Detect client-side mounting without triggering cascading renders
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true, // Client returns true
+    () => false // Server returns false
+  );
 
   const toggleDarkMode = async () => {
     const newTheme = resolvedTheme === "dark" ? "light" : "dark";

@@ -14,18 +14,15 @@ import {
 } from "../ui/drawer";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export default function FontSizeControls() {
-  const [fontSize, setFontSize] = useState<number>(16);
+// Helper to get initial font size from localStorage
+function getInitialFontSize(): number {
+  if (typeof window === "undefined") return 16;
+  const saved = localStorage.getItem("blog-font-size");
+  return saved ? parseInt(saved, 10) : 16;
+}
 
-  // Load font size from localStorage on mount
-  useEffect(() => {
-    const savedFontSize = localStorage.getItem("blog-font-size");
-    if (savedFontSize) {
-      const size = parseInt(savedFontSize, 10);
-      setFontSize(size);
-      applyFontSize(size);
-    }
-  }, []);
+export default function FontSizeControls() {
+  const [fontSize, setFontSize] = useState<number>(getInitialFontSize);
 
   const applyFontSize = (size: number) => {
     if (typeof window !== "undefined") {
@@ -35,6 +32,11 @@ export default function FontSizeControls() {
       );
     }
   };
+
+  // Apply font size to DOM on mount and when it changes
+  useEffect(() => {
+    applyFontSize(fontSize);
+  }, [fontSize]);
 
   const updateFontSize = (newSize: number) => {
     const clampedSize = Math.max(12, Math.min(24, newSize));

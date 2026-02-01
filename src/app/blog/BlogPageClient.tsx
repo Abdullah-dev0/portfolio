@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -40,31 +40,20 @@ export function BlogPageClient({
 }: BlogPageClientProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const selectedTag = searchParams.get("tag");
 
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [filteredPosts, setFilteredPosts] = useState(initialPosts);
-
-  // Get tag from URL params on mount
-  useEffect(() => {
-    const tagParam = searchParams.get("tag");
-    if (tagParam) {
-      setSelectedTag(tagParam);
-      setFilteredPosts(filterPostsByTag(initialPosts, tagParam));
-    } else {
-      setSelectedTag(null);
-      setFilteredPosts(initialPosts);
-    }
-  }, [searchParams, initialPosts]);
+  // Compute filtered posts as derived state
+  const filteredPosts = useMemo(() => {
+    return selectedTag
+      ? filterPostsByTag(initialPosts, selectedTag)
+      : initialPosts;
+  }, [selectedTag, initialPosts]);
 
   // Handle tag click
   const handleTagClick = (tag: string) => {
     if (selectedTag === tag) {
-      setSelectedTag(null);
-      setFilteredPosts(initialPosts);
       router.replace("/blog");
     } else {
-      setSelectedTag(tag);
-      setFilteredPosts(filterPostsByTag(initialPosts, tag));
       router.replace(`/blog?tag=${encodeURIComponent(tag)}`);
     }
   };

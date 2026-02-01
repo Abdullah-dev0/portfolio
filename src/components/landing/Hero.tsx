@@ -21,32 +21,6 @@ const buttonIcons = {
 
 export default function Hero() {
   const { name, title, avatar, skills, buttons } = heroConfig;
-  const Description = () => {
-    return (
-      <p className="text-muted-foreground text-base leading-9 whitespace-pre-wrap md:text-lg">
-        I build interactive, high-performance web applications using{" "}
-        {skills.map((skill, index) => {
-          const Icon =
-            skillComponents[skill.component as keyof typeof skillComponents];
-          const isLast = index === skills.length - 1;
-
-          return (
-            <React.Fragment key={skill.name}>
-              {index > 0 && (isLast ? " and " : ", ")}
-              <Skill name={skill.name} href={skill.href}>
-                {Icon ? <Icon /> : null}
-              </Skill>
-            </React.Fragment>
-          );
-        })}{" "}
-        With a strong focus on{" "}
-        <b className="text-primary">AI-driven product development</b>, I&apos;m
-        passionate about exploring <b className="text-primary">Generative AI</b>{" "}
-        and creating intelligent, user-centric solutions that merge innovation
-        with great engineering.
-      </p>
-    );
-  };
 
   return (
     <Container className="mx-auto max-w-5xl">
@@ -75,7 +49,31 @@ export default function Hero() {
         </h1>
 
         <div className="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-2">
-          <Description />
+          <p className="text-muted-foreground text-base leading-9 whitespace-pre-wrap md:text-lg">
+            I build interactive, high-performance web applications using{" "}
+            {skills.map((skill, index) => {
+              const Icon =
+                skillComponents[
+                  skill.component as keyof typeof skillComponents
+                ];
+              const isLast = index === skills.length - 1;
+
+              return (
+                <React.Fragment key={skill.name}>
+                  {index > 0 && (isLast ? " and " : ", ")}
+                  <Skill name={skill.name} href={skill.href}>
+                    {Icon ? <Icon /> : null}
+                  </Skill>
+                </React.Fragment>
+              );
+            })}{" "}
+            With a strong focus on{" "}
+            <b className="text-primary">AI-driven product development</b>,
+            I&apos;m passionate about exploring{" "}
+            <b className="text-primary">Generative AI</b> and creating
+            intelligent, user-centric solutions that merge innovation with great
+            engineering.
+          </p>
         </div>
       </div>
 
