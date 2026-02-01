@@ -146,12 +146,11 @@
     // every ~ 20 seconds
     if (
       idleTime > 10 &&
-      Math.floor(Math.random() * 200) == 0 &&
-      idleAnimation == null
+      Math.floor(Math.random() * 200) === 0 &&
+      idleAnimation === null
     ) {
       const avalibleIdleAnimations = ["sleeping", "scratchSelf"];
       if (nekoPosX < 32) {
-        avalibleIdleAnimations.push("scratchWallW");
       }
       if (nekoPosY < 32) {
         avalibleIdleAnimations.push("scratchWallN");
