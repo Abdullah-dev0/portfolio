@@ -11,6 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '../ui/drawer';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export default function FontSizeControls() {
   const [fontSize, setFontSize] = useState<number>(16);
@@ -25,7 +26,6 @@ export default function FontSizeControls() {
     }
   }, []);
 
-  // Apply font size to the document
   const applyFontSize = (size: number) => {
     if (typeof window !== 'undefined') {
       document.documentElement.style.setProperty(
@@ -35,7 +35,6 @@ export default function FontSizeControls() {
     }
   };
 
-  // Save to localStorage and apply
   const updateFontSize = (newSize: number) => {
     const clampedSize = Math.max(12, Math.min(24, newSize));
     setFontSize(clampedSize);
@@ -162,15 +161,22 @@ export default function FontSizeControls() {
                 <Plus size={14} />
               </Button>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleReset}
-                className="hover:bg-accent h-10 px-1 font-mono text-xs whitespace-nowrap"
-                aria-label="Reset font size"
-              >
-                {fontSize}px
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleReset}
+                    className="hover:bg-accent h-10 cursor-pointer px-1 font-mono text-xs whitespace-nowrap"
+                    aria-label="Reset font size"
+                  >
+                    {fontSize}px
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left">
+                  <p>Click to reset</p>
+                </TooltipContent>
+              </Tooltip>
 
               <Button
                 variant="outline"
