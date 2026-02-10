@@ -67,11 +67,6 @@ export default function Hero() {
             engineering.
           </p>
         </div>
-
-        {/* Live Activity Status */}
-        <div className="mt-6">
-          <Presence />
-        </div>
       </div>
 
       {/* Buttons */}
@@ -114,6 +109,11 @@ export default function Hero() {
             </TooltipContent>
           </Tooltip>
         ))}
+      </div>
+
+      {/* Live Activity Status */}
+      <div className="mt-8">
+        <Presence />
       </div>
     </Container>
   );

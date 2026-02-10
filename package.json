@@ -9,7 +9,8 @@
     "lint": "next lint",
     "format": "prettier --write  \"**/*.{ts,tsx,js,jsx,json,md,mdx,css}\"",
     "format:check": "prettier --check  \"**/*.{ts,tsx,js,jsx,json,md,mdx,css}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "type:check": "tsc --noEmit"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",

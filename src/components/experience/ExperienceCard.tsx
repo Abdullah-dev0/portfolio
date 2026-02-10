@@ -13,9 +13,12 @@ import Github from "../svgs/Github";
 import LinkedIn from "../svgs/LinkedIn";
 import X from "../svgs/X";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { ReadMoreButton } from "./ReadMoreButton";
 
 interface ExperienceCardProps {
   experience: Experience;
+  isPreview?: boolean;
+  previewLines?: number;
 }
 
 const parseDescription = (text: string): string => {
@@ -58,8 +61,8 @@ const ProjectHeader = ({
   headerText: string;
   projects?: { name: string; liveUrl?: string }[];
 }) => {
-  // Extract project name from header (e.g., "Full Stack Developer – LendingStacks")
-  const projectNameMatch = headerText.match(/–\s*(.+?)(?:\s*\(|$)/);
+  // Extract project name from header (e.g., "LendingStacks (Live) — April 2025...")
+  const projectNameMatch = headerText.match(/^(.+?)(?:\s*\(|\s*—|$)/);
   const projectName = projectNameMatch ? projectNameMatch[1].trim() : null;
   const project = projectName
     ? projects?.find((p) => p.name === projectName)
@@ -78,7 +81,43 @@ const ProjectHeader = ({
   );
 };
 
-export function ExperienceCard({ experience }: ExperienceCardProps) {
+export function ExperienceCard({
+  experience,
+  isPreview = false,
+  previewLines = 3,
+}: ExperienceCardProps) {
+  // In preview mode, truncate description to first N non-header items
+  const getPreviewDescription = () => {
+    if (!isPreview) return experience.description;
+
+    const items: string[] = [];
+    let nonHeaderCount = 0;
+
+    for (const desc of experience.description) {
+      const isHeader = desc.startsWith("*") && desc.endsWith("*");
+      if (isHeader) {
+        // Only include the first project header
+        if (items.length === 0) {
+          items.push(desc);
+        } else {
+          break;
+        }
+      } else {
+        if (nonHeaderCount < previewLines) {
+          items.push(desc);
+          nonHeaderCount++;
+        }
+        if (nonHeaderCount >= previewLines) break;
+      }
+    }
+
+    return items;
+  };
+
+  const descriptions = getPreviewDescription();
+  const hasMoreContent =
+    isPreview && descriptions.length < experience.description.length;
+
   return (
     <div className="flex flex-col gap-4">
       {/* Company Header */}
@@ -196,33 +235,35 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
 
       {/* Description */}
       <div className="text-secondary flex flex-col">
-        {experience.description.map(
-          (description: string, descIndex: number) => {
-            const isHeader =
-              description.startsWith("*") && description.endsWith("*");
+        {descriptions.map((description: string, descIndex: number) => {
+          const isHeader =
+            description.startsWith("*") && description.endsWith("*");
 
-            if (isHeader) {
-              const headerText = description.replace(/^\*|\*$/g, "");
-              return (
-                <ProjectHeader
-                  key={descIndex}
-                  headerText={headerText}
-                  projects={experience.projects}
-                />
-              );
-            }
-
+          if (isHeader) {
+            const headerText = description.replace(/^\*|\*$/g, "");
             return (
-              <p
+              <ProjectHeader
                 key={descIndex}
-                dangerouslySetInnerHTML={{
-                  __html: `• ${parseDescription(description)}`,
-                }}
-                className="ml-2"
+                headerText={headerText}
+                projects={experience.projects}
               />
             );
           }
-        )}
+
+          return (
+            <p
+              key={descIndex}
+              dangerouslySetInnerHTML={{
+                __html: `• ${parseDescription(description)}`,
+              }}
+              className="ml-2"
+            />
+          );
+        })}
+
+        {/* Donut pattern: static content above is server-rendered,
+            only this interactive button is a client component */}
+        {hasMoreContent && <ReadMoreButton />}
       </div>
     </div>
   );
