@@ -34,14 +34,14 @@ export default function Github() {
 
   if (!mounted) {
     return (
-      <div className="scrollbar-hide w-full overflow-x-auto pt-6 pb-4">
+      <div className="scrollbar-hide w-full overflow-x-auto pt-10 pb-4">
         <GithubGraphSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="scrollbar-hide w-full overflow-x-auto pt-6 pb-4">
+    <div className="scrollbar-hide w-full overflow-x-auto pt-10 pb-4">
       <div className="flex min-w-max justify-center px-4 text-xs">
         <GitHubCalendar
           username="Abdullah-dev0"
