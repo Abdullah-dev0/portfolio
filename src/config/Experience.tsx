@@ -47,16 +47,11 @@ export const experiences: Experience[] = [
     location: "Islamabad, Pakistan ( Remote )",
     image: "/company/bizofdev.jpeg",
     description: [
-      "*Full Stack Developer – LendingStacks*",
-      "Architected and developed 80% of LendingStacks, a production B2B loan marketplace connecting borrowers with lenders, digitizing the entire loan lifecycle",
-      "Built full-stack application using React.js/Next.js 16, TypeScript, Nest.js/MongoDB, implementing GraphQL APIs",
-      "Deployed on Google Cloud Platform with CI pipeline, achieving 99.9% uptime; collaborated in 3-person Agile team with Git workflows and code reviews",
-      "Integrated Resend transactional emails and automated workflows, reducing processing time by 85% and improving communication efficiency by 70%",
-      "*Full Stack Developer – phonix Recommendation System*",
-      "Built rule-based recommendation engine for Shopify stores enabling merchants to display personalized product widgets (frequently bought together, trending items) using Next.js, React, FastAPI, GraphQL",
-      "Integrated Shopify APIs via GraphQL to fetch store data (products, orders, customer behavior) and serve precomputed recommendations through FastAPI backend",
-      "Developed merchant-facing web app for widget configuration and management, enabling merchants to create and customize recommendation widgets with unique IDs",
-      "Contributed to custom Shopify app extension that renders dynamic recommendation widgets on live storefronts, collaborating in 3-person startup team across frontend, backend, and Shopify integration layers",
+      "Built and shipped *LendingStacks*, a production B2B loan marketplace using Next.js 16, TypeScript, Nest.js, MongoDB, and GraphQL; designed Prisma schema powering loan workflows with real-time status tracking",
+      "Developed JWT authentication with role-based access control for borrowers, lenders, and admins; integrated Resend for automated transactional emails across the loan lifecycle",
+      "Engineered *Phoenix*, a rule-based product recommendation engine for Shopify stores using Next.js, React, FastAPI, and GraphQL; integrated Shopify APIs to analyze purchase patterns and browsing behavior",
+      "Built merchant-facing dashboard for widget configuration and contributed to a Shopify app extension rendering dynamic recommendation widgets on live storefronts",
+      "Collaborated in 3-person Agile teams with Git workflows; deployed on Google Cloud Platform achieving 99.9% uptime",
     ],
     projects: [
       {
