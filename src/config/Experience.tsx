@@ -47,15 +47,11 @@ export const experiences: Experience[] = [
     location: "Islamabad, Pakistan ( Remote )",
     image: "/company/bizofdev.jpeg",
     description: [
-      "*LendingStacks (Live) — April 2025 – January 2026*",
-      "Built production B2B loan marketplace using React/Next.js 16, TypeScript, Nest.js, and MongoDB; designed Prisma schema and implemented GraphQL APIs for loan workflows",
-      "Developed JWT authentication with RBAC, managing permissions for borrowers, lenders, and admins; integrated Resend for automated transactional emails",
-      "Engineered loan application and approval workflows with real-time status tracking, enabling seamless borrower-lender communication throughout the loan lifecycle",
-      "Collaborated in 3-person Agile team with Git workflows; deployed on Google Cloud Platform achieving 99.9% uptime",
-      "*Phoenix Recommendation System — January 2025 – March 2025*",
-      "Built rule-based recommendation engine for Shopify stores using Next.js, React, FastAPI, and GraphQL; integrated Shopify APIs to fetch products, orders, and customer behavior",
-      "Developed merchant-facing web app for widget configuration and contributed to Shopify app extension rendering dynamic recommendations on live storefronts",
-      "Implemented backend API with FastAPI to serve precomputed product recommendations based on customer purchase patterns and browsing history",
+      "Built and shipped *LendingStacks*, a production B2B loan marketplace using Next.js 16, TypeScript, Nest.js, MongoDB, and GraphQL; designed Prisma schema powering loan workflows with real-time status tracking",
+      "Developed JWT authentication with role-based access control for borrowers, lenders, and admins; integrated Resend for automated transactional emails across the loan lifecycle",
+      "Engineered *Phoenix*, a rule-based product recommendation engine for Shopify stores using Next.js, React, FastAPI, and GraphQL; integrated Shopify APIs to analyze purchase patterns and browsing behavior",
+      "Built merchant-facing dashboard for widget configuration and contributed to a Shopify app extension rendering dynamic recommendation widgets on live storefronts",
+      "Collaborated in 3-person Agile teams with Git workflows; deployed on Google Cloud Platform achieving 99.9% uptime",
     ],
     projects: [
       {

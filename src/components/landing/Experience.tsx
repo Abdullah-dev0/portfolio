@@ -11,21 +11,12 @@ import { Button } from "../ui/button";
 
 export default function Experience() {
   return (
-    <Container className="mt-20">
+    <Container className="mt-12">
       <SectionHeading subHeading="Featured" heading="Experience" />
       <div className="mt-4 flex flex-col gap-8">
-        {experiences.slice(0, 2).map((experience: Experience) => {
-          // Only apply preview truncation to experiences with many description lines
-          const needsPreview = experience.description.length > 5;
-          return (
-            <ExperienceCard
-              key={experience.company}
-              experience={experience}
-              isPreview={needsPreview}
-              previewLines={2}
-            />
-          );
-        })}
+        {experiences.slice(0, 2).map((experience: Experience) => (
+          <ExperienceCard key={experience.company} experience={experience} />
+        ))}
       </div>
       {experiences.length > 2 && (
         <div className="mt-8 flex justify-center">

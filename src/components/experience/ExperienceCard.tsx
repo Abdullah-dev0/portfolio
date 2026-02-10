@@ -13,111 +13,16 @@ import Github from "../svgs/Github";
 import LinkedIn from "../svgs/LinkedIn";
 import X from "../svgs/X";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { ReadMoreButton } from "./ReadMoreButton";
 
 interface ExperienceCardProps {
   experience: Experience;
-  isPreview?: boolean;
-  previewLines?: number;
 }
 
 const parseDescription = (text: string): string => {
   return text.replace(/\*(.*?)\*/g, "<b>$1</b>");
 };
 
-const LiveBadge = ({ url }: { url: string }) => (
-  <a
-    href={url}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-700 transition-all hover:border-emerald-500/50 hover:bg-emerald-500/20 dark:text-emerald-400"
-  >
-    <div className="size-1.5 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
-    Live
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="size-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-    >
-      <path
-        fillRule="evenodd"
-        d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
-        clipRule="evenodd"
-      />
-      <path
-        fillRule="evenodd"
-        d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
-        clipRule="evenodd"
-      />
-    </svg>
-  </a>
-);
-
-const ProjectHeader = ({
-  headerText,
-  projects,
-}: {
-  headerText: string;
-  projects?: { name: string; liveUrl?: string }[];
-}) => {
-  // Extract project name from header (e.g., "LendingStacks (Live) — April 2025...")
-  const projectNameMatch = headerText.match(/^(.+?)(?:\s*\(|\s*—|$)/);
-  const projectName = projectNameMatch ? projectNameMatch[1].trim() : null;
-  const project = projectName
-    ? projects?.find((p) => p.name === projectName)
-    : null;
-
-  return (
-    <div className="mt-4 mb-2 flex flex-wrap items-center gap-2">
-      <h5
-        className="text-foreground font-semibold"
-        dangerouslySetInnerHTML={{
-          __html: parseDescription(headerText),
-        }}
-      />
-      {project?.liveUrl && <LiveBadge url={project.liveUrl} />}
-    </div>
-  );
-};
-
-export function ExperienceCard({
-  experience,
-  isPreview = false,
-  previewLines = 3,
-}: ExperienceCardProps) {
-  // In preview mode, truncate description to first N non-header items
-  const getPreviewDescription = () => {
-    if (!isPreview) return experience.description;
-
-    const items: string[] = [];
-    let nonHeaderCount = 0;
-
-    for (const desc of experience.description) {
-      const isHeader = desc.startsWith("*") && desc.endsWith("*");
-      if (isHeader) {
-        // Only include the first project header
-        if (items.length === 0) {
-          items.push(desc);
-        } else {
-          break;
-        }
-      } else {
-        if (nonHeaderCount < previewLines) {
-          items.push(desc);
-          nonHeaderCount++;
-        }
-        if (nonHeaderCount >= previewLines) break;
-      }
-    }
-
-    return items;
-  };
-
-  const descriptions = getPreviewDescription();
-  const hasMoreContent =
-    isPreview && descriptions.length < experience.description.length;
-
+export function ExperienceCard({ experience }: ExperienceCardProps) {
   return (
     <div className="flex flex-col gap-4">
       {/* Company Header */}
@@ -235,22 +140,8 @@ export function ExperienceCard({
 
       {/* Description */}
       <div className="text-secondary flex flex-col">
-        {descriptions.map((description: string, descIndex: number) => {
-          const isHeader =
-            description.startsWith("*") && description.endsWith("*");
-
-          if (isHeader) {
-            const headerText = description.replace(/^\*|\*$/g, "");
-            return (
-              <ProjectHeader
-                key={descIndex}
-                headerText={headerText}
-                projects={experience.projects}
-              />
-            );
-          }
-
-          return (
+        {experience.description.map(
+          (description: string, descIndex: number) => (
             <p
               key={descIndex}
               dangerouslySetInnerHTML={{
@@ -258,12 +149,8 @@ export function ExperienceCard({
               }}
               className="ml-2"
             />
-          );
-        })}
-
-        {/* Donut pattern: static content above is server-rendered,
-            only this interactive button is a client component */}
-        {hasMoreContent && <ReadMoreButton />}
+          )
+        )}
       </div>
     </div>
   );
