@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { FileText, Send } from "lucide-react";
 
-import CodingStatus from "@/components/common/liveUpdate";
+import Presence from "@/components/common/liveUpdate";
 import { heroConfig, skillComponents, socialLinks } from "@/config/Hero";
 import { cn } from "@/lib/utils";
 
@@ -33,14 +33,6 @@ export default function Hero() {
           height={100}
           className="relative rounded-full bg-cover"
         />
-        <div className="group absolute right-1 -bottom-1 z-50">
-          <div className="bg-background border-border flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 shadow-lg transition-transform duration-200 group-hover:scale-110">
-            <div className="bg-muted-foreground h-2 w-2 rounded-full" />
-          </div>
-          <div className="invisible absolute top-1/2 left-full z-50 ml-3 min-w-max -translate-y-1/2 opacity-0 transition-all duration-600 ease-in-out group-hover:visible group-hover:opacity-100">
-            <CodingStatus />
-          </div>
-        </div>
       </div>
       {/* Text Area */}
       <div className="mt-8 flex flex-col gap-2">
@@ -74,6 +66,11 @@ export default function Hero() {
             intelligent, user-centric solutions that merge innovation with great
             engineering.
           </p>
+        </div>
+
+        {/* Live Activity Status */}
+        <div className="mt-6">
+          <Presence />
         </div>
       </div>
 
