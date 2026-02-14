@@ -19,25 +19,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ViewTransitions>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`font-hanken-grotesk antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Toaster />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`font-hanken-grotesk antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster />
 
-            <Navbar />
-            {children}
-            <OnekoCat />
-            <Footer />
-            <ChatBubble />
-          </ThemeProvider>
-        </body>
-      </html>
-    </ViewTransitions>
+          <Navbar />
+          <ViewTransitions>{children}</ViewTransitions>
+          <OnekoCat />
+          <Footer />
+          <ChatBubble />
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
