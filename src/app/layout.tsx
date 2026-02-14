@@ -1,5 +1,3 @@
-import { ViewTransitions } from "next-view-transitions";
-
 import { Toaster } from "sonner";
 
 import ChatBubble from "@/components/common/ChatBubble";
@@ -19,25 +17,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ViewTransitions>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`font-hanken-grotesk antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Toaster />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`font-hanken-grotesk antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster />
 
-            <Navbar />
-            {children}
-            <OnekoCat />
-            <Footer />
-            <ChatBubble />
-          </ThemeProvider>
-        </body>
-      </html>
-    </ViewTransitions>
+          <Navbar />
+          {children}
+          <OnekoCat />
+          <Footer />
+          <ChatBubble />
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
 interface SkillProps {
   name: string;
