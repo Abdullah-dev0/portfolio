@@ -1,5 +1,3 @@
-import { ViewTransitions } from "next-view-transitions";
-
 import { Toaster } from "sonner";
 
 import ChatBubble from "@/components/common/ChatBubble";
@@ -30,7 +28,7 @@ export default function RootLayout({
           <Toaster />
 
           <Navbar />
-          <ViewTransitions>{children}</ViewTransitions>
+          {children}
           <OnekoCat />
           <Footer />
           <ChatBubble />

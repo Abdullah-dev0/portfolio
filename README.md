@@ -77,13 +77,6 @@ A modern, customizable portfolio template built with **Next.js 15**, **React 19*
 2. **Install dependencies**
 
    ```bash
-   # Using npm
-   npm install
-
-   # Using yarn
-   yarn install
-
-   # Using bun
    bun install
    ```
 
@@ -103,11 +96,7 @@ A modern, customizable portfolio template built with **Next.js 15**, **React 19*
 4. **Run the development server**
 
    ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   bun dev
+   bun run dev
    ```
 
 5. **Open your browser**
@@ -382,15 +371,15 @@ This is a standard Next.js app and can be deployed to:
 
 ```bash
 # Development
-npm run dev          # Start dev server with Turbopack
+bun run dev          # Start dev server with Turbopack
 
 # Production
-npm run build        # Build for production
-npm run start        # Start production server
+bun run build        # Build for production
+bun run start        # Start production server
 
 # Code Quality
-npm run lint         # Run ESLint
-npm run format       # Format code with Prettier
+bun run lint         # Run ESLint
+bun run format       # Format code with Prettier
 ```
 
 ## 🔧 Environment Variables

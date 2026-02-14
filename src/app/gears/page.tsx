@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Metadata } from "next";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
 import { ArrowUpRight, Monitor, Puzzle } from "lucide-react";
 

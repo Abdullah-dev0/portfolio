@@ -45,9 +45,9 @@ We welcome feature suggestions! Please open an issue with:
 4. **Test your changes**
 
    ```bash
-   npm run dev
-   npm run lint
-   npm run build
+   bun run dev
+   bun run lint
+   bun run build
    ```
 
 5. **Commit your changes**
@@ -97,8 +97,8 @@ Please maintain the existing project structure:
 
 Before submitting:
 
-1. Run `npm run lint` to check for linting errors
-2. Run `npm run build` to ensure the build succeeds
+1. Run `bun run lint` to check for linting errors
+2. Run `bun run build` to ensure the build succeeds
 3. Test your changes in both light and dark modes
 4. Check responsive design on different screen sizes
 

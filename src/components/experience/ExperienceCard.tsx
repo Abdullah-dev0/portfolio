@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Link } from "next-view-transitions";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Globe } from "lucide-react";
 
