@@ -3,19 +3,17 @@ export interface NavItem {
   href: string;
 }
 
-export const navbarConfig = {
-  navItems: [
-    {
-      label: "Work",
-      href: "/work-experience",
-    },
-    {
-      label: "Blogs",
-      href: "/blog",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
-    },
-  ] as NavItem[],
-};
+export const navbarConfig: NavItem[] = [
+  {
+    label: "Work",
+    href: "/work-experience",
+  },
+  {
+    label: "Blogs",
+    href: "/blog",
+  },
+  {
+    label: "Projects",
+    href: "/projects",
+  },
+];

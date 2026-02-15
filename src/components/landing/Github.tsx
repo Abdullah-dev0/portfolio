@@ -8,6 +8,7 @@ import { useTheme } from "next-themes";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import Container from "../common/Container";
+import Presence from "../common/liveUpdate";
 import SectionHeading from "../common/SectionHeading";
 
 export default function Github() {
@@ -19,25 +20,24 @@ export default function Github() {
     () => false
   );
 
-  if (!mounted) {
-    return (
-      <div className="scrollbar-hide w-full overflow-x-auto pt-10 pb-4">
-        <GithubGraphSkeleton />
-      </div>
-    );
-  }
-
   return (
-    <Container className="mt-20">
-      <SectionHeading subHeading="Github" heading="Activitie" />
+    <Container id="github-activity" className="mt-20">
+      <div className="flex flex-col items-center justify-between gap-4 py-5 md:flex-row">
+        <SectionHeading subHeading="Github" heading="Activity" />
+        <Presence />
+      </div>
       <div className="flex justify-center px-4 text-xs">
-        <GitHubCalendar
-          username="Abdullah-dev0"
-          colorScheme={theme === "dark" ? "dark" : "light"}
-          blockSize={10}
-          blockMargin={3}
-          fontSize={14}
-        />
+        {mounted ? (
+          <GitHubCalendar
+            username="Abdullah-dev0"
+            colorScheme={theme === "dark" ? "dark" : "light"}
+            blockSize={10}
+            blockMargin={3}
+            fontSize={14}
+          />
+        ) : (
+          <GithubGraphSkeleton />
+        )}
       </div>
     </Container>
   );

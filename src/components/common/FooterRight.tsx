@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { footerConfig } from "@/config/Footer";
+
+import { Skeleton } from "../ui/skeleton";
 
 export default function FooterRight() {
   const [time, setTime] = useState(() =>
@@ -11,6 +13,12 @@ export default function FooterRight() {
       minute: "2-digit",
       hour12: true,
     })
+  );
+
+  const mouted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
   );
 
   useEffect(() => {
@@ -30,12 +38,16 @@ export default function FooterRight() {
 
   return (
     <div className="text-muted-foreground text-right text-sm">
-      <p>
+      <div>
         <span className="text-foreground font-semibold">
           {footerConfig.location}
         </span>{" "}
-        <span className="text-foreground font-semibold">{time}</span>
-      </p>
+        {mouted ? (
+          <span className="text-foreground font-semibold">{time}</span>
+        ) : (
+          <Skeleton className="inline-block h-4 w-14 align-middle" />
+        )}
+      </div>
     </div>
   );
 }

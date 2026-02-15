@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { FileText, Mail } from "lucide-react";
 
 import Github from "@/components/svgs/Github";
 import LinkedIn from "@/components/svgs/LinkedIn";
@@ -11,15 +11,6 @@ export const heroConfig = {
   avatar: "/assets/logo.png",
   location: "24, Pakistan",
   bio: "Building scalable web products today, exploring the AI-driven internet of tomorrow.",
-
-  buttons: [
-    {
-      variant: "outline",
-      text: "Resume / CV",
-      href: "/resume",
-      icon: "CV",
-    },
-  ],
 };
 
 export const socialLinks = [
