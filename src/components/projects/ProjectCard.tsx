@@ -90,7 +90,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* Project Header - Title and Icons */}
         <div className="flex items-start justify-between gap-4">
           <Link href={`/projects/${project.slug}`} className="flex-1">
-            <h3 className="group-hover:text-primary text-lg leading-tight font-semibold transition-colors">
+            <h3 className="group-hover:text-primary text-lg leading-tight font-semibold underline transition-colors">
               {project.title}
             </h3>
           </Link>

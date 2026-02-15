@@ -32,8 +32,11 @@ export const skillComponents = {
 
 export const heroConfig = {
   name: "Abdullah",
-  title: "A Full Stack Engineer.",
+  title: "A Full Stack Engineer",
+  rotatingTitles: ["Engineer", "Developer", "Product Developer"],
   avatar: "/assets/logo.png",
+  location: "24, Pakistan",
+  bio: "A Full-Stack Engineer Building web products today clean, exploring decentralized tech tomorrow.",
 
   // Skills Configuration
   skills: [
@@ -101,21 +104,22 @@ export const socialLinks = [
   {
     name: "X",
     href: "https://x.com/Abdul_ah14",
-    icon: <X />,
+    icon: X,
   },
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/Abdullah-dev0/",
-    icon: <LinkedIn />,
+    icon: LinkedIn,
   },
   {
     name: "Github",
     href: "https://github.com/Abdullah-dev0",
-    icon: <Github />,
+    icon: Github,
   },
   {
     name: "Email",
-    href: "mailto:abdulah14200@gmail.com",
-    icon: <Mail />,
+    label: "Abdullah",
+    href: "mailto:abdullah@abdullahtech.me",
+    icon: Mail,
   },
 ];

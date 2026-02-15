@@ -4,10 +4,6 @@ export interface NavItem {
 }
 
 export const navbarConfig = {
-  logo: {
-    src: "/assets/logo.png",
-    alt: "logo",
-  },
   navItems: [
     {
       label: "Work",
