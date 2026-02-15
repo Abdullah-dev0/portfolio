@@ -1,20 +1,3 @@
-import AWS from "@/components/technologies/AWS";
-import ExpressJs from "@/components/technologies/ExpressJs";
-import Figma from "@/components/technologies/Figma";
-import MongoDB from "@/components/technologies/MongoDB";
-import NestJs from "@/components/technologies/NestJs";
-import NextJs from "@/components/technologies/NextJs";
-import ReactIcon from "@/components/technologies/ReactIcon";
-import Resent from "@/components/technologies/Resent";
-import TailwindCss from "@/components/technologies/TailwindCss";
-import TypeScript from "@/components/technologies/TypeScript";
-
-export interface Technology {
-  name: string;
-  href: string;
-  icon: React.ReactNode;
-}
-
 export interface Project {
   name: string;
   liveUrl?: string;
@@ -33,7 +16,7 @@ export interface Experience {
   x?: string;
   linkedin?: string;
   github?: string;
-  technologies: Technology[];
+  technologies: string[];
   isCurrent: boolean;
   isBlur?: boolean;
 }
@@ -57,51 +40,15 @@ export const experiences: Experience[] = [
     startDate: "January 2025",
     endDate: "January 2026",
     technologies: [
-      {
-        name: "Next.js",
-        href: "https://nextjs.org/",
-        icon: <NextJs />,
-      },
-      {
-        name: "Tailwind CSS",
-        href: "https://tailwindcss.com/",
-        icon: <TailwindCss />,
-      },
-      {
-        name: "TypeScript",
-        href: "https://typescriptlang.org/",
-        icon: <TypeScript />,
-      },
-      {
-        name: "React",
-        href: "https://react.dev/",
-        icon: <ReactIcon />,
-      },
-      {
-        name: "Figma",
-        href: "https://figma.com/",
-        icon: <Figma />,
-      },
-      {
-        name: "AWS",
-        href: "https://aws.amazon.com/",
-        icon: <AWS />,
-      },
-      {
-        name: "NestJS",
-        href: "https://nestjs.com/",
-        icon: <NestJs />,
-      },
-      {
-        name: "MongoDB",
-        href: "https://www.mongodb.com/",
-        icon: <MongoDB />,
-      },
-      {
-        name: "Resend",
-        href: "https://resend.com/",
-        icon: <Resent />,
-      },
+      "Next.js",
+      "Tailwind CSS",
+      "TypeScript",
+      "React",
+      "Figma",
+      "AWS",
+      "NestJS",
+      "MongoDB",
+      "Resend",
     ],
     website: "https://bizofdev.com",
     linkedin: "https://www.linkedin.com/company/bizofdev",
@@ -121,36 +68,12 @@ export const experiences: Experience[] = [
     startDate: "September 2024",
     endDate: "October 2024",
     technologies: [
-      {
-        name: "NestJS",
-        href: "https://nestjs.com/",
-        icon: <NestJs />,
-      },
-      {
-        name: "TypeScript",
-        href: "https://www.typescriptlang.org/",
-        icon: <TypeScript />,
-      },
-      {
-        name: "Express",
-        href: "https://expressjs.com/",
-        icon: <ExpressJs />,
-      },
-      {
-        name: "React",
-        href: "https://react.dev/",
-        icon: <ReactIcon />,
-      },
-      {
-        name: "Tailwind CSS",
-        href: "https://tailwindcss.com/",
-        icon: <TailwindCss />,
-      },
-      {
-        name: "Next.js",
-        href: "https://nextjs.org",
-        icon: <NextJs />,
-      },
+      "NestJS",
+      "TypeScript",
+      "Express",
+      "React",
+      "Tailwind CSS",
+      "Next.js",
     ],
     website: "https://developershubcorp.com",
     linkedin: "https://www.linkedin.com/company/developershub-corporation",

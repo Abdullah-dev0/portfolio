@@ -51,16 +51,6 @@ export const pageMetadata: Record<string, PageMeta> = {
     twitterCard: "summary_large_image",
   },
 
-  // Contact page
-  "/contact": {
-    title: "Contact - Get in Touch",
-    description:
-      "Get in touch with me for collaborations, projects, or opportunities. I'd love to hear from you!",
-    keywords: ["contact", "hire", "collaboration", "freelance", "developer"],
-    ogImage: "/assets/logo.png",
-    twitterCard: "summary",
-  },
-
   // Work Experience page
   "/work-experience": {
     title: "Work Experience - Professional Journey",

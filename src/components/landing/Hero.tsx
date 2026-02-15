@@ -1,119 +1,84 @@
-import React from "react";
-
 import Image from "next/image";
 import Link from "next/link";
 
-import { FileText, Send } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 
-import Presence from "@/components/common/liveUpdate";
-import { heroConfig, skillComponents, socialLinks } from "@/config/Hero";
-import { cn } from "@/lib/utils";
+import { heroConfig, socialLinks } from "@/config/Hero";
 
 import Container from "../common/Container";
-import Skill from "../common/Skill";
-import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-
-const buttonIcons = {
-  CV: FileText,
-  Chat: Send,
-};
+import AnimatedHeroTitle from "./AnimatedHeroTitle";
 
 export default function Hero() {
-  const { name, title, avatar, skills, buttons } = heroConfig;
+  const { name, rotatingTitles, avatar, location, bio } = heroConfig;
 
   return (
-    <Container className="mx-auto max-w-5xl">
-      {/* Image */}
-      <div className="relative inline-block">
-        <Image
-          src={avatar}
-          alt="hero"
-          width={100}
-          height={100}
-          className="relative rounded-full bg-cover"
-        />
-      </div>
-      {/* Text Area */}
-      <div className="mt-8 flex flex-col gap-2">
-        <h1 className="text-4xl font-bold">
-          Hey, I&apos;m {name} — <span className="text-secondary">{title}</span>
-        </h1>
-
-        <div className="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-2">
-          <p className="text-muted-foreground text-base leading-9 whitespace-pre-wrap md:text-lg">
-            I build interactive, high-performance web applications using{" "}
-            {skills.map((skill, index) => {
-              const Icon =
-                skillComponents[
-                  skill.component as keyof typeof skillComponents
-                ];
-              const isLast = index === skills.length - 1;
-
-              return (
-                <React.Fragment key={skill.name}>
-                  {index > 0 && (isLast ? " and " : ", ")}
-                  <Skill name={skill.name} href={skill.href}>
-                    {Icon ? <Icon /> : null}
-                  </Skill>
-                </React.Fragment>
-              );
-            })}{" "}
-            With a strong focus on{" "}
-            <b className="text-primary">AI-driven product development</b>,
-            I&apos;m passionate about exploring{" "}
-            <b className="text-primary">Generative AI</b> and creating
-            intelligent, user-centric solutions that merge innovation with great
-            engineering.
-          </p>
+    <Container>
+      {/* Card-style hero with horizontal layout */}
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-center md:gap-8">
+        {/* Avatar - Left side on desktop */}
+        <div className="shrink-0">
+          <Image
+            src={avatar}
+            alt={name}
+            width={120}
+            height={120}
+            className="rounded-2xl"
+          />
         </div>
-      </div>
 
-      {/* Buttons */}
-      <div className="mt-8 flex gap-4">
-        {buttons.map((button, index) => {
-          const IconComponent =
-            buttonIcons[button.icon as keyof typeof buttonIcons];
-          return (
-            <Button
-              key={index}
-              variant={button.variant as "outline" | "default"}
-              className={cn(
-                button.variant === "outline" && "inset-shadow-indigo-500",
-                button.variant === "default" && "inset-shadow-indigo-500"
+        {/* Content - Right side */}
+        <div className="flex flex-1 flex-col gap-4">
+          {/* Header row: Name + Badge + Location */}
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-2xl font-bold md:text-3xl">{name}</h1>
+              <BadgeCheck className="size-5 shrink-0 fill-blue-500 text-black" />
+              {location && (
+                <>
+                  <span className="bg-muted-foreground h-3 w-px rounded-full" />
+                  <span className="text-muted-foreground text-sm md:text-base">
+                    {location}
+                  </span>
+                </>
               )}
-            >
-              {IconComponent && <IconComponent />}
-              <Link href={button.href}>{button.text}</Link>
-            </Button>
-          );
-        })}
-      </div>
+            </div>
+            {/* Animated rotating title */}
+            <div className="text-lg md:text-xl">
+              <AnimatedHeroTitle titles={rotatingTitles} />
+            </div>
+          </div>
 
-      {/* Social Links */}
-      <div className="mt-8 flex gap-2">
-        {socialLinks.map((link) => (
-          <Tooltip key={link.name} delayDuration={0}>
-            <TooltipTrigger asChild>
-              <Link
-                href={link.href}
-                key={link.name}
-                target="_blank"
-                className="text-secondary flex items-center gap-2"
-              >
-                <span className="size-6">{link.icon}</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{link.name}</p>
-            </TooltipContent>
-          </Tooltip>
-        ))}
-      </div>
+          {/* Bio */}
+          {bio && (
+            <p className="text-muted-foreground text-sm leading-relaxed md:text-base">
+              {bio}
+            </p>
+          )}
 
-      {/* Live Activity Status */}
-      <div className="mt-8">
-        <Presence />
+          {/* Social Icons */}
+          <div className="flex items-center gap-3">
+            {socialLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <Tooltip key={link.name} delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={link.href}
+                      target="_blank"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Icon className="size-5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{link.name}</p>
+                  </TooltipContent>
+                </Tooltip>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </Container>
   );

@@ -7,21 +7,9 @@ import { useTheme } from "next-themes";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-function GithubGraphSkeleton() {
-  return (
-    <div className="flex min-w-max justify-center px-4 text-xs">
-      <div className="flex gap-1">
-        {Array.from({ length: 53 }).map((_, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-1">
-            {Array.from({ length: 7 }).map((_, dayIndex) => (
-              <Skeleton key={dayIndex} className="size-2.5 rounded-sm" />
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+import Container from "../common/Container";
+import Presence from "../common/liveUpdate";
+import SectionHeading from "../common/SectionHeading";
 
 export default function Github() {
   const { theme } = useTheme();
@@ -32,24 +20,40 @@ export default function Github() {
     () => false
   );
 
-  if (!mounted) {
-    return (
-      <div className="scrollbar-hide w-full overflow-x-auto pt-10 pb-4">
-        <GithubGraphSkeleton />
-      </div>
-    );
-  }
-
   return (
-    <div className="scrollbar-hide w-full overflow-x-auto pt-10 pb-4">
-      <div className="flex min-w-max justify-center px-4 text-xs">
-        <GitHubCalendar
-          username="Abdullah-dev0"
-          colorScheme={theme === "dark" ? "dark" : "light"}
-          blockSize={10}
-          blockMargin={4}
-          fontSize={12}
-        />
+    <Container id="github-activity" className="mt-20">
+      <div className="flex flex-col items-center justify-between gap-4 py-5 md:flex-row">
+        <SectionHeading subHeading="Github" heading="Activity" />
+        <Presence />
+      </div>
+      <div className="flex justify-center px-4 text-xs">
+        {mounted ? (
+          <GitHubCalendar
+            username="Abdullah-dev0"
+            colorScheme={theme === "dark" ? "dark" : "light"}
+            blockSize={10}
+            blockMargin={3}
+            fontSize={14}
+          />
+        ) : (
+          <GithubGraphSkeleton />
+        )}
+      </div>
+    </Container>
+  );
+}
+
+function GithubGraphSkeleton() {
+  return (
+    <div className="flex justify-center px-4 text-xs">
+      <div className="flex gap-1">
+        {Array.from({ length: 53 }).map((_, weekIndex) => (
+          <div key={weekIndex} className="flex flex-col gap-1">
+            {Array.from({ length: 7 }).map((_, dayIndex) => (
+              <Skeleton key={dayIndex} className="size-2.5 rounded-sm" />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );

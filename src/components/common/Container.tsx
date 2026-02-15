@@ -4,12 +4,12 @@ export default function Container({
   children,
   className,
   ...props
-}: {
+}: React.ComponentProps<"div"> & {
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <div className={`container mx-auto max-w-3xl px-4 ${className}`} {...props}>
+    <div className={`container mx-auto px-4 ${className ?? ""}`} {...props}>
       {children}
     </div>
   );

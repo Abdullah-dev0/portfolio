@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Globe } from "lucide-react";
 
 import { type Experience } from "@/config/Experience";
+import { getTechnologyByName, getTechnologyIcon } from "@/config/technologies";
 import { cn } from "@/lib/utils";
 
 import Skill from "../common/Skill";
@@ -126,15 +127,18 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       <div>
         <h4 className="text-md mt-4 mb-2 font-semibold">Technologies</h4>
         <div className="flex flex-wrap gap-2">
-          {experience.technologies.map((technology, techIndex: number) => (
-            <Skill
-              key={techIndex}
-              name={technology.name}
-              href={technology.href}
-            >
-              {technology.icon}
-            </Skill>
-          ))}
+          {experience.technologies.map((name, techIndex) => {
+            const tech = getTechnologyByName(name);
+            return (
+              <Skill
+                key={techIndex}
+                name={tech?.name ?? name}
+                href={tech?.href ?? ""}
+              >
+                {getTechnologyIcon(name) ?? null}
+              </Skill>
+            );
+          })}
         </div>
       </div>
 
