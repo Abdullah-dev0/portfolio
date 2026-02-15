@@ -2,10 +2,10 @@ import { allProjects } from "content-collections";
 
 import { about } from "./About";
 import { experiences } from "./Experience";
-import { heroConfig, socialLinks } from "./Hero";
+import { socialLinks } from "./Hero";
 
 function generateSystemPrompt(): string {
-  const skillNames = heroConfig.skills.map((skill) => skill.name).join(", ");
+  const skillNames = about.skills.join(", ");
 
   const socialLinksText = socialLinks
     .map((link) => `${link.name}: ${link.href}`)
