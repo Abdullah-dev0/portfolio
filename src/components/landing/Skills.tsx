@@ -15,7 +15,7 @@ export default function Skills() {
             key={skill}
             name={skill}
             href={getTechnologyByName(skill)?.href ?? ""}
-            className="p-2"
+            className="p-1 px-2"
           >
             {getTechnologyIcon(skill) ?? null}
           </Skill>

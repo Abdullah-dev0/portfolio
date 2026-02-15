@@ -5,6 +5,7 @@ import AWS from "@/components/technologies/AWS";
 import BetterAuth from "@/components/technologies/BetterAuth";
 import Bun from "@/components/technologies/Bun";
 import Clerk from "@/components/technologies/Clerk";
+import Docker from "@/components/technologies/Docker";
 import ExpressJs from "@/components/technologies/ExpressJs";
 import Figma from "@/components/technologies/Figma";
 import Gemini from "@/components/technologies/Gemini";
@@ -68,6 +69,7 @@ export const technologies: TechnologyEntry[] = [
   { id: "Netlify", name: "Netlify", href: "https://www.netlify.com/" },
   { id: "AWS", name: "AWS", href: "https://aws.amazon.com/" },
   { id: "Figma", name: "Figma", href: "https://figma.com/" },
+  { id: "Docker", name: "Docker", href: "https://www.docker.com/" },
 ];
 
 /** Lookup by id (e.g. "TypeScript") or display name (e.g. "Next.js"). */
@@ -104,6 +106,7 @@ const iconByKey: Record<string, React.ReactNode> = {
   Netlify: <Netlify />,
   AWS: <AWS />,
   Figma: <Figma />,
+  Docker: <Docker />,
 };
 
 /** Normalize common variants to a key that exists in iconByKey. */
@@ -123,6 +126,7 @@ function normalizeTechnologyKey(name: string): string | null {
   if (lower === "express") return "Express";
   if (lower === "tailwind css" || lower === "tailwindcss")
     return "Tailwind CSS";
+  if (lower === "docker") return "Docker";
   return name;
 }
 
@@ -143,6 +147,9 @@ export const SKILLS = [
   "Supabase",
   "AWS",
   "Figma",
+  "JavaScript",
+  "Prisma",
+  "Docker",
 ] as const;
 
 export function getTechnologiesByIds(ids: string[]): TechnologyEntry[] {
