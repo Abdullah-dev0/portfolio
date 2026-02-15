@@ -40,7 +40,6 @@ A modern, customizable portfolio template built with **Next.js 15**, **React 19*
 
 ### 💬 Interactive Features
 
-- **Contact Form**: Discord webhook integration for messages
 - **AI Chat**: Gemini AI-powered chat assistant
 - **GitHub Activity**: Display your GitHub contribution calendar
 - **Cal.com Integration**: Embedded booking calendar
@@ -262,33 +261,7 @@ export const software = [
 ];
 ```
 
-### 7. Contact Form
-
-Edit `src/config/Contact.tsx`:
-
-```typescript
-export const contactConfig = {
-  title: "Contact",
-  description: "Your contact page description",
-  form: {
-    labels: {
-      name: "Name",
-      email: "Email",
-      message: "Message",
-    },
-    placeholders: {
-      name: "Your name",
-      email: "your.email@example.com",
-      message: "Tell me about your project...",
-    },
-    submitButton: "Send Message",
-    successMessage: "Thanks! I'll get back to you soon.",
-    errorMessage: "Something went wrong. Please try again.",
-  },
-};
-```
-
-### 8. SEO & Metadata
+### 7. SEO & Metadata
 
 Edit `src/config/Meta.tsx`:
 
@@ -310,7 +283,7 @@ export const siteConfig = {
 };
 ```
 
-### 9. Resume
+### 8. Resume
 
 Update `src/config/Resume.ts` to point to your resume PDF:
 
@@ -387,7 +360,6 @@ bun run format       # Format code with Prettier
 | Variable                   | Required | Description                             |
 | -------------------------- | -------- | --------------------------------------- |
 | `NEXT_PUBLIC_URL`          | ✅       | Your site URL                           |
-| `DISCORD_WEBHOOK_URL`      | ✅       | Discord webhook for contact form        |
 | `GEMINI_API_KEY`           | ✅       | Google Gemini API key for AI chat       |
 | `KV_REST_API_URL`          | ✅       | Upstash Redis URL for rate limiting     |
 | `KV_REST_API_TOKEN`        | ✅       | Upstash Redis token                     |
@@ -397,7 +369,6 @@ bun run format       # Format code with Prettier
 
 ### Getting API Keys
 
-- **Discord Webhook**: [Create a webhook in your Discord server](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - **Gemini API**: [Get API key from Google AI Studio](https://makersuite.google.com/app/apikey)
 - **Upstash Redis**: [Create free database at Upstash](https://upstash.com/)
 - **PostHog**: [Sign up for free at PostHog](https://posthog.com/)
@@ -418,7 +389,6 @@ portfolio/
 │   ├── app/               # Next.js app directory
 │   │   ├── api/          # API routes
 │   │   ├── blog/         # Blog pages
-│   │   ├── contact/      # Contact page
 │   │   ├── projects/     # Project pages
 │   │   └── ...
 │   ├── components/        # React components
@@ -431,7 +401,6 @@ portfolio/
 │   │   ├── Hero.tsx      # Hero section config
 │   │   ├── About.tsx     # About section config
 │   │   ├── Experience.tsx # Work experience config
-│   │   ├── Contact.tsx   # Contact form config
 │   │   ├── Gears.tsx     # Setup/gears config
 │   │   └── Meta.tsx      # SEO metadata config
 │   ├── hooks/            # Custom React hooks

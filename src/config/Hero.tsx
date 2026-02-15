@@ -36,9 +36,8 @@ export const heroConfig = {
   rotatingTitles: ["Engineer", "Developer", "Product Developer"],
   avatar: "/assets/logo.png",
   location: "24, Pakistan",
-  bio: "A Full-Stack Engineer Building web products today clean, exploring decentralized tech tomorrow.",
+  bio: "Building scalable web products today, exploring the AI-driven internet of tomorrow.",
 
-  // Skills Configuration
   skills: [
     {
       name: "Typescript",
@@ -89,12 +88,6 @@ export const heroConfig = {
       text: "Resume / CV",
       href: "/resume",
       icon: "CV",
-    },
-    {
-      variant: "default",
-      text: "Get in touch",
-      href: "/contact",
-      icon: "Chat",
     },
   ],
 };
