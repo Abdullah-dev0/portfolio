@@ -1,4 +1,4 @@
-import { FileText, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import Github from "@/components/svgs/Github";
 import LinkedIn from "@/components/svgs/LinkedIn";
