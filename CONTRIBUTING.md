@@ -12,7 +12,7 @@ If you find a bug, please open an issue with:
 - Steps to reproduce the issue
 - Expected vs actual behavior
 - Screenshots (if applicable)
-- Your environment (OS, Node version, browser)
+- Your environment (OS, Bun/Node version, browser)
 
 ### Suggesting Features
 
@@ -24,33 +24,42 @@ We welcome feature suggestions! Please open an issue with:
 
 ### Pull Requests
 
-1. **Fork the repository**
+1. **Fork the repository** on GitHub, then clone your fork:
 
    ```bash
-   git clone https://github.com/Abdullah-dev0/portfolio.git
+   git clone https://github.com/YOUR_USERNAME/portfolio.git
    cd portfolio
    ```
 
-2. **Create a feature branch**
+2. **Add upstream remote** (optional, for syncing):
+
+   ```bash
+   git remote add upstream https://github.com/Abdullah-dev0/portfolio.git
+   ```
+
+3. **Create a feature branch**
 
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
-3. **Make your changes**
+4. **Make your changes**
    - Follow the existing code style
    - Add comments for complex logic
    - Update documentation if needed
 
-4. **Test your changes**
+5. **Test your changes**
 
    ```bash
-   bun run dev
    bun run lint
+   bun run format:check
+   bun run type:check
    bun run build
    ```
 
-5. **Commit your changes**
+   Note: Pre-commit hooks (Husky + lint-staged) will run lint and format on staged files automatically.
+
+6. **Commit your changes**
 
    ```bash
    git commit -m "feat: add amazing feature"
@@ -65,13 +74,13 @@ We welcome feature suggestions! Please open an issue with:
    - `test:` for adding tests
    - `chore:` for maintenance tasks
 
-6. **Push to your fork**
+7. **Push to your fork**
 
    ```bash
    git push origin feature/your-feature-name
    ```
 
-7. **Open a Pull Request**
+8. **Open a Pull Request**
    - Provide a clear description of your changes
    - Reference any related issues
    - Include screenshots for UI changes
@@ -80,7 +89,7 @@ We welcome feature suggestions! Please open an issue with:
 
 - Use TypeScript for type safety
 - Follow the ESLint configuration
-- Format code with Prettier before committing
+- Format code with Prettier before committing (`bun run format`)
 - Write meaningful variable and function names
 - Add JSDoc comments for complex functions
 
@@ -93,14 +102,16 @@ Please maintain the existing project structure:
 - MDX content in `content/`
 - Static assets in `public/`
 
-## Testing
+## Pre-submit Checklist
 
 Before submitting:
 
 1. Run `bun run lint` to check for linting errors
-2. Run `bun run build` to ensure the build succeeds
-3. Test your changes in both light and dark modes
-4. Check responsive design on different screen sizes
+2. Run `bun run format:check` to verify formatting
+3. Run `bun run type:check` for TypeScript
+4. Run `bun run build` to ensure the build succeeds
+5. Test your changes in both light and dark modes
+6. Check responsive design on different screen sizes
 
 ## Questions?
 

@@ -1,0 +1,80 @@
+---
+title: "better-ts-stack"
+description: "Interactive CLI that scaffolds production-ready backend APIs and full-stack TypeScript apps with batteries-included setup for database, auth, Docker, and git."
+image: "/project/better-ts-stack.png"
+link: "https://better-ts-stack.abdullahtech.me/"
+technologies:
+  [
+    "TypeScript",
+    "Node.js",
+    "Express",
+    "Next.js",
+    "React",
+    "PostgreSQL",
+    "MongoDB",
+    "Prisma",
+    "Docker",
+    "Bun",
+  ]
+github: "https://github.com/Abdullah-dev0/better-ts-stack"
+live: "https://better-ts-stack.abdullahtech.me/"
+timeline: "2026"
+role: "Developer Tooling Engineer"
+status: "completed"
+featured: true
+challenges:
+  [
+    "Designing an interactive prompt flow that stays simple for new users while still covering real production choices like databases, ORMs, auth, Docker, and git initialization.",
+    "Supporting both backend-only and full-stack generation paths without duplicating configuration logic or compromising the developer experience.",
+    "Scaffolding opinionated TypeScript defaults that remain extensible for different package managers and infrastructure preferences.",
+  ]
+learnings:
+  [
+    "Strong scaffolding tools create the most value when they reduce setup friction without locking developers into a rigid architecture.",
+    "Interactive CLIs need crisp defaults, clear branching, and careful conditional prompts to feel fast instead of overwhelming.",
+  ]
+isPublished: true
+isWorking: true
+---
+
+# better-ts-stack
+
+`better-ts-stack` is an interactive CLI built to help developers spin up production-ready TypeScript apps in minutes instead of spending hours wiring the same setup over and over.
+
+## What It Scaffolds
+
+The CLI currently supports two project paths:
+
+- **Backend API**: Express + TypeScript
+- **Full-stack App**: Next.js 16 + React 19 + TypeScript
+
+Depending on the choices made during the prompt flow, the generated project can also include:
+
+- **Databases**: PostgreSQL or MongoDB
+- **ORM/ODM**: Prisma, Drizzle, or Mongoose
+- **Authentication**: JWT auth for Express and Better Auth for full-stack apps
+- **Developer Setup**: Docker, git initialization, and dependency installation
+
+## Why I Built It
+
+I wanted a better way to bootstrap TypeScript projects with real-world defaults already in place:
+
+- Strict TypeScript configuration
+- ESLint and Prettier preconfigured
+- Environment variable setup
+- Ready-to-run project scripts
+- Health check endpoint for backend apps
+- Database wiring and schema setup when selected
+
+## Product Thinking
+
+The CLI is intentionally interactive instead of relying on a large set of flags. That makes it easier to guide developers through meaningful tradeoffs such as:
+
+- Backend vs full-stack architecture
+- Relational vs document database
+- Prisma, Drizzle, or Mongoose based on the selected stack
+- Whether the project should include auth, Docker, and git setup from day one
+
+## Impact
+
+This project reflects the kind of tooling work I enjoy most: smoothing out developer onboarding, encoding best practices into reusable generators, and making production-ready setup approachable for both solo developers and teams.

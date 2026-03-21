@@ -46,8 +46,8 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
     <article className="mx-auto max-w-4xl">
       {/* Hero Section */}
       <header className="mb-8 space-y-6">
-        <div className="relative aspect-video overflow-hidden rounded-lg">
-          {image && (
+        {image ? (
+          <div className="relative aspect-video overflow-hidden rounded-lg">
             <Image
               src={image}
               alt={title}
@@ -55,8 +55,23 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
               className="h-full w-full"
               priority
             />
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="from-primary/10 via-primary/5 to-background flex aspect-video items-center justify-center overflow-hidden rounded-lg bg-linear-to-br">
+            <div className="space-y-4 p-8 text-center">
+              <div className="flex flex-wrap justify-center gap-3">
+                {technologies.slice(0, 4).map((tech) => (
+                  <Badge key={tech} variant="outline" className="text-xs">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+              <p className="text-muted-foreground text-sm font-medium">
+                {title}
+              </p>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-4">
           {/* Project Status and Technologies */}
@@ -88,13 +103,13 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
               <h5 className="text-muted-foreground text-sm font-semibold">
                 Timeline
               </h5>
-              <p className="text-sm">{timeline}</p>
+              <p className="text-sm">{timeline ?? "Not specified"}</p>
             </div>
             <div>
               <h5 className="text-muted-foreground text-sm font-semibold">
                 Role
               </h5>
-              <p className="text-sm">{role}</p>
+              <p className="text-sm">{role ?? "Not specified"}</p>
             </div>
             {team && (
               <div>

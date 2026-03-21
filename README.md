@@ -81,14 +81,18 @@ A modern, customizable portfolio template built with **Next.js 15**, **React 19*
 
 3. **Set up environment variables**
 
-   Create a `.env` file in the root directory:
+   Copy `.env.example` to `.env` and fill in your values:
 
    ```env
-   # PostHog Analytics (optional)
+   # Required
+   NEXT_PUBLIC_URL=http://localhost:3000
+   GEMINI_API_KEY=your_gemini_api_key
+   KV_REST_API_URL=your_upstash_redis_url
+   KV_REST_API_TOKEN=your_upstash_token
+
+   # Optional
    NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key
    NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
-
-   # Lanyard API (for Discord presence - optional)
    LANYARD_USER_ID=your_discord_user_id
    ```
 
@@ -112,40 +116,27 @@ Edit `src/config/Hero.tsx`:
 
 ```typescript
 export const heroConfig = {
-  name: 'Your Name',
-  title: 'Your Title',
-  avatar: '/assets/your-avatar.png',
-
-  skills: [
-    {
-      name: 'Your Skill',
-      href: 'https://skill-website.com',
-      component: 'SkillComponent',
-    },
-    // Add more skills
-  ],
-
-  description: {
-    template: 'Your custom description with {skills:0}, {skills:1}...',
-  },
-
-  buttons: [
-    {
-      variant: 'outline',
-      text: 'Button Text',
-      href: '/path',
-      icon: 'IconName',
-    },
-  ],
+  name: "Your Name",
+  title: "Your Title",
+  avatar: "/assets/your-avatar.png",
+  location: "City, Country",
+  bio: "Your short bio or tagline.",
+  rotatingTitles: ["Engineer", "Developer", "Builder"], // Animated title variants
 };
 
 export const socialLinks = [
   {
-    name: 'Platform',
-    href: 'https://your-profile-url',
-    icon: <YourIcon />,
+    name: "X",
+    href: "https://x.com/your-handle",
+    icon: X, // Component reference (e.g., from lucide-react or svgs)
   },
-  // Add more social links
+  {
+    name: "Email",
+    label: "Your Name",
+    href: "mailto:you@example.com",
+    icon: Mail,
+  },
+  // Add more: LinkedIn, Github, etc.
 ];
 ```
 
@@ -154,15 +145,13 @@ export const socialLinks = [
 Edit `src/config/About.tsx`:
 
 ```typescript
-export const about = {
-  name: 'Your Name',
-  description: `Your bio and introduction...`,
-};
+import { SKILLS } from "./technologies";
 
-export const mySkills = [
-  <TechnologyIcon key="tech" />,
-  // Add your technology icons
-];
+export const about = {
+  name: "Your Name",
+  description: `Your bio and introduction...`,
+  skills: [...SKILLS], // Or define your own skill icons
+};
 ```
 
 ### 3. Work Experience
@@ -172,32 +161,25 @@ Edit `src/config/Experience.tsx`:
 ```typescript
 export const experiences: Experience[] = [
   {
-    company: 'Company Name',
-    position: 'Your Position',
-    location: 'Location',
-    image: '/company/logo.png',
-    description: [
-      'Achievement 1',
-      'Achievement 2',
-    ],
-    startDate: 'Month Year',
-    endDate: 'Month Year',
+    company: "Company Name",
+    position: "Your Position",
+    location: "Location",
+    image: "/company/logo.png",
+    description: ["Achievement 1", "Achievement 2"],
+    startDate: "Month Year",
+    endDate: "Month Year",
+    website: "https://company-website.com",
+    technologies: ["Next.js", "TypeScript", "React"], // Array of tech names
     isCurrent: false,
-    technologies: [
-      {
-        name: 'Tech Name',
-        href: 'https://tech-url.com',
-        icon: <TechIcon />,
-      },
-    ],
-    website: 'https://company-website.com',
+    linkedin: "https://linkedin.com/company/...",
+    github: "https://github.com/...",
   },
 ];
 ```
 
 ### 4. Projects
 
-Add your projects as MDX files in `content/projects/`:
+Add your projects as MDX files in `content/projects/`. `image` and `video` are optional.
 
 ```mdx
 ---
@@ -223,7 +205,7 @@ Your project content in MDX...
 
 ### 5. Blog Posts
 
-Add blog posts as MDX files in `content/blogs/`:
+Add blog posts as MDX files in `content/blogs/`. `image` is **required** for blogs.
 
 ```mdx
 ---
@@ -240,9 +222,9 @@ isPublished: true
 Write your blog post content here...
 ```
 
-### 6. Gears/Setup
+### 6. Gears (Setup)
 
-Edit `src/config/Gears.tsx`:
+The Setup section on the landing page links to `/gears`. Edit `src/config/Gears.tsx`:
 
 ```typescript
 export const devices = [
@@ -260,6 +242,15 @@ export const software = [
   { name: 'Software Name', href: 'url' },
 ];
 ```
+
+### 6a. Additional Config Files
+
+- **`src/config/Navbar.tsx`** – Nav links: `{ label, href }[]`
+- **`src/config/CTA.tsx`** – Call-to-action: `profileImage`, `calLink`, `linkText`, `preText`
+- **`src/config/Footer.tsx`** – Footer: `developer`, `copyright`, `location`
+- **`src/config/Github.tsx`** – GitHub activity: `username`, theme, labels
+- **`src/config/ChatPrompt.ts`** – AI chat system prompt
+- **`src/config/technologies.tsx`** – Technology icons used in About and Experience
 
 ### 7. SEO & Metadata
 
@@ -285,10 +276,12 @@ export const siteConfig = {
 
 ### 8. Resume
 
-Update `src/config/Resume.ts` to point to your resume PDF:
+Update `src/config/Resume.ts`:
 
 ```typescript
-export const resumeUrl = "/path/to/your-resume.pdf";
+export const resumeConfig = {
+  url: "https://drive.google.com/file/d/YOUR_FILE_ID/preview", // Or path to PDF
+};
 ```
 
 ## 🖼️ Adding Assets
@@ -353,19 +346,23 @@ bun run start        # Start production server
 # Code Quality
 bun run lint         # Run ESLint
 bun run format       # Format code with Prettier
+bun run format:check # Check formatting without changes
+bun run type:check   # Run TypeScript check
 ```
 
 ## 🔧 Environment Variables
 
-| Variable                   | Required | Description                             |
-| -------------------------- | -------- | --------------------------------------- |
-| `NEXT_PUBLIC_URL`          | ✅       | Your site URL                           |
-| `GEMINI_API_KEY`           | ✅       | Google Gemini API key for AI chat       |
-| `KV_REST_API_URL`          | ✅       | Upstash Redis URL for rate limiting     |
-| `KV_REST_API_TOKEN`        | ✅       | Upstash Redis token                     |
-| `NEXT_PUBLIC_POSTHOG_KEY`  | ❌       | PostHog analytics key (optional)        |
-| `NEXT_PUBLIC_POSTHOG_HOST` | ❌       | PostHog host URL (optional)             |
-| `LANYARD_USER_ID`          | ❌       | Discord user ID for presence (optional) |
+| Variable                      | Required | Description                             |
+| ----------------------------- | -------- | --------------------------------------- |
+| `NEXT_PUBLIC_URL`             | ✅       | Your site URL                           |
+| `GEMINI_API_KEY`              | ✅       | Google Gemini API key for AI chat       |
+| `KV_REST_API_URL`             | ✅       | Upstash Redis URL for rate limiting     |
+| `KV_REST_API_TOKEN`           | ✅       | Upstash Redis token                     |
+| `NEXT_PUBLIC_POSTHOG_KEY`     | ❌       | PostHog analytics key (optional)        |
+| `NEXT_PUBLIC_POSTHOG_HOST`    | ❌       | PostHog host URL (optional)             |
+| `LANYARD_USER_ID`             | ❌       | Discord user ID for presence (optional) |
+| `KV_REST_API_READ_ONLY_TOKEN` | ❌       | Upstash read-only token (optional)      |
+| `LANYARD_API_KEY`             | ❌       | Lanyard API key (optional)              |
 
 ### Getting API Keys
 
@@ -381,43 +378,44 @@ portfolio/
 │   ├── blogs/              # Blog posts (MDX)
 │   └── projects/           # Project case studies (MDX)
 ├── public/                 # Static assets
-│   ├── assets/            # General assets
-│   ├── company/           # Company logos
-│   ├── project/           # Project images
-│   └── meta/              # OG images
+│   ├── assets/             # General assets
+│   ├── company/            # Company logos
+│   ├── project/            # Project images
+│   └── meta/               # OG images
 ├── src/
-│   ├── app/               # Next.js app directory
-│   │   ├── api/          # API routes
-│   │   ├── blog/         # Blog pages
-│   │   ├── projects/     # Project pages
-│   │   └── ...
-│   ├── components/        # React components
-│   │   ├── blog/         # Blog components
-│   │   ├── common/       # Shared components
-│   │   ├── landing/      # Landing page sections
-│   │   ├── projects/     # Project components
-│   │   └── technologies/ # Tech icons
-│   ├── config/           # Configuration files ⭐
-│   │   ├── Hero.tsx      # Hero section config
-│   │   ├── About.tsx     # About section config
-│   │   ├── Experience.tsx # Work experience config
-│   │   ├── Gears.tsx     # Setup/gears config
-│   │   └── Meta.tsx      # SEO metadata config
-│   ├── hooks/            # Custom React hooks
-│   ├── lib/              # Utility functions
-│   └── types/            # TypeScript types
-└── content-collections.ts # Content schema
+│   ├── app/                # Next.js app directory
+│   │   ├── api/            # API routes (chat, presence)
+│   │   ├── blog/           # Blog pages
+│   │   ├── gears/          # Gears/setup page
+│   │   ├── projects/       # Project pages
+│   │   ├── work-experience/# Work experience page
+│   │   └── resume/         # Resume page
+│   ├── components/         # React components
+│   │   ├── blog/           # Blog components
+│   │   ├── common/         # Shared components
+│   │   ├── landing/        # Landing page sections
+│   │   ├── projects/       # Project components
+│   │   └── technologies/   # Tech icons
+│   ├── config/             # Configuration files
+│   │   ├── Hero.tsx        # Hero section
+│   │   ├── About.tsx       # About section
+│   │   ├── Experience.tsx  # Work experience
+│   │   ├── Gears.tsx       # Gears/setup
+│   │   ├── Meta.tsx        # SEO metadata
+│   │   ├── Navbar.tsx      # Nav links
+│   │   ├── CTA.tsx         # Call-to-action
+│   │   ├── Footer.tsx      # Footer
+│   │   ├── Github.tsx      # GitHub activity
+│   │   └── Resume.ts       # Resume URL
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions
+│   └── types/              # TypeScript types
+└── content-collections.ts  # Content schema
 ```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## 📄 License
 

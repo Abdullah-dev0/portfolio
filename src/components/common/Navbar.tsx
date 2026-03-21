@@ -10,6 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { siteConfig } from "@/config/Meta";
 import { navbarConfig } from "@/config/Navbar";
 
 import Container from "./Container";
@@ -20,9 +21,21 @@ export default function Navbar() {
 
   return (
     <Container className="sticky top-0 z-20 rounded-md py-4 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-6">
-        <div className="flex items-baseline gap-4">
-          <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-between gap-4 px-6">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          <Link
+            href="/"
+            aria-label="Go to home page"
+            className={`rounded-full border px-3 py-1 text-sm font-medium tracking-tight transition-colors ${
+              pathname === "/"
+                ? "border-foreground/20 bg-foreground text-background"
+                : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
+            }`}
+          >
+            Home
+          </Link>
+          <div className="bg-border h-5 w-px" />
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             {navbarConfig.map((item) => {
               const isActive =
                 pathname === item.href ||
@@ -44,6 +57,9 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex items-center gap-4">
+          <span className="text-muted-foreground hidden text-sm sm:inline">
+            {siteConfig.name}
+          </span>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Link

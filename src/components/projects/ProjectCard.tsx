@@ -95,20 +95,22 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </h3>
           </Link>
           <div className="flex shrink-0 items-center gap-1.5">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="hover:bg-accent text-muted-foreground hover:text-primary flex size-8 items-center justify-center rounded-md transition-colors"
-                  href={project.link}
-                  target="_blank"
-                >
-                  <Globe className="size-4" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>View Website</p>
-              </TooltipContent>
-            </Tooltip>
+            {project.link && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    className="hover:bg-accent text-muted-foreground hover:text-primary flex size-8 items-center justify-center rounded-md transition-colors"
+                    href={project.link}
+                    target="_blank"
+                  >
+                    <Globe className="size-4" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View Website</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
             {project.github && (
               <Tooltip>
                 <TooltipTrigger asChild>

@@ -3,10 +3,10 @@ export interface Project {
   description: string;
   image?: string;
   video?: string;
-  link: string;
+  link?: string;
   technologies: string[];
   github?: string;
-  live: string;
+  live?: string;
   slug: string;
   isWorking: boolean;
 }

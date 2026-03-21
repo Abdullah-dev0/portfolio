@@ -1,5 +1,6 @@
 import React from "react";
 
+import { sortProjectsByLatest } from "@/lib/projects";
 import { type Project } from "@/types/project";
 
 import { ProjectCard } from "./ProjectCard";
@@ -22,7 +23,7 @@ export function ProjectList({ projects, className }: ProjectListProps) {
     <div
       className={`grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 ${className}`}
     >
-      {[...projects].reverse().map((project: Project) => (
+      {sortProjectsByLatest(projects).map((project: Project) => (
         <ProjectCard key={project.title} project={project} />
       ))}
     </div>
