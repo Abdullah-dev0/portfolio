@@ -23,10 +23,37 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    isCurrent: true,
+    isBlur: false,
+    company: "Axiom World",
+    position: "Full Stack Developer",
+    location: "Lahore, Punjab, Pakistan ( On-site )",
+    image: "/company/axiomworld.jpg",
+    description: [
+      "Integrated *OneClickBooks*, an AI-powered accounting assistant, with QuickBooks Online and Gmail through the *Model Context Protocol (MCP)*, connecting a *LangGraph* + *FastAPI* agent backend to a production *Next.js* frontend.",
+      "Architected a *Next.js* API proxy layer to securely bridge MCP tool calls between the FastAPI AI agent and the frontend, keeping credentials server-side and eliminating direct client exposure.",
+      "Built *QuickBooks OAuth 2.0* integration, a real-time financial dashboard, and role-based authentication across the full-stack Next.js application.",
+    ],
+    projects: [],
+    startDate: "March 2026",
+    endDate: "Present",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "FastAPI",
+      "LangGraph",
+      "MCP",
+      "QuickBooks",
+    ],
+    website: "https://axiomworld.net/",
+    linkedin: "https://www.linkedin.com/company/axiom-world/",
+  },
+  {
     isCurrent: false,
     isBlur: false,
     company: "Biz Of Dev",
-    position: "Full stack Developer",
+    position: "Full Stack Developer",
     location: "Islamabad, Pakistan ( Remote )",
     image: "/company/bizofdev.jpeg",
     description: [
@@ -56,8 +83,8 @@ export const experiences: Experience[] = [
   {
     isCurrent: false,
     company: "DevelopersHub Corporation",
-    position: "Full stack Developer Intern",
-    location: "pakistan ( Remote )",
+    position: "Full Stack Developer Intern",
+    location: "Pakistan ( Remote )",
     image: "/company/developershub.jpeg",
     description: [
       "Developed and deployed full-stack web applications using the MERN stack, ensuring performance, scalability, and maintainability.",

@@ -14,7 +14,9 @@ function generateSystemPrompt(): string {
   const experienceText = experiences
     .map(
       (exp) =>
-        `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate})`
+        `${exp.position} at ${exp.company} (${exp.startDate} - ${
+          exp.isCurrent ? "Present" : exp.endDate
+        })`
     )
     .join("\n- ");
 
