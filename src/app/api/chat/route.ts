@@ -54,6 +54,14 @@ function getClientIP(request: NextRequest): string {
   return "unknown";
 }
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return "Streaming failed";
+}
+
 export async function POST(request: NextRequest) {
   try {
     const clientIP = getClientIP(request);
@@ -113,7 +121,7 @@ export async function POST(request: NextRequest) {
       },
     ];
 
-    const model = "gemini-flash-lite-latest";
+    const model = "gemini-2.5-flash-lite";
 
     const response = ai.models.generateContentStream({
       model,
@@ -148,10 +156,11 @@ export async function POST(request: NextRequest) {
             )
           );
           controller.close();
-        } catch {
+        } catch (error) {
+          const message = getErrorMessage(error);
           controller.enqueue(
             new TextEncoder().encode(
-              `data: ${JSON.stringify({ error: "Streaming failed", done: true })}\n\n`
+              `data: ${JSON.stringify({ error: message, done: true })}\n\n`
             )
           );
           controller.close();
@@ -166,9 +175,9 @@ export async function POST(request: NextRequest) {
         Connection: "keep-alive",
       },
     });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: getErrorMessage(error) },
       { status: 500 }
     );
   }

@@ -29,6 +29,9 @@ interface Message {
   isError?: boolean;
 }
 
+const FALLBACK_ERROR_MESSAGE =
+  "I'm sorry, I'm having trouble responding right now. Please try again later.";
+
 const getInitialMessages = (): Message[] => [
   {
     id: 1,
@@ -188,14 +191,17 @@ const ChatBubble: React.FC = () => {
       }
 
       let accumulatedText = "";
+      let buffer = "";
+      let hasCompleted = false;
 
       while (true) {
         const { done, value } = await reader.read();
 
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
 
         for (const line of lines) {
           if (line.startsWith("data: ")) {
@@ -203,7 +209,21 @@ const ChatBubble: React.FC = () => {
               const data = JSON.parse(line.slice(6));
 
               if (data.error) {
-                throw new Error(data.error);
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === botMessageId
+                      ? {
+                          ...msg,
+                          text: FALLBACK_ERROR_MESSAGE,
+                          isStreaming: false,
+                          isError: true,
+                        }
+                      : msg
+                  )
+                );
+                hasCompleted = true;
+                await reader.cancel();
+                return;
               }
 
               if (data.text) {
@@ -228,7 +248,8 @@ const ChatBubble: React.FC = () => {
                       : msg
                   )
                 );
-                break;
+                hasCompleted = true;
+                return;
               }
             } catch {
               continue;
@@ -236,14 +257,29 @@ const ChatBubble: React.FC = () => {
           }
         }
       }
+
+      if (!hasCompleted) {
+        if (!accumulatedText.trim()) {
+          throw new Error("Chat response ended without content");
+        }
+
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMessageId
+              ? { ...msg, text: accumulatedText, isStreaming: false }
+              : msg
+          )
+        );
+      }
     } catch {
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === botMessageId
             ? {
                 ...msg,
-                text: "I'm sorry, I'm having trouble responding right now. Please try again later.",
+                text: FALLBACK_ERROR_MESSAGE,
                 isStreaming: false,
+                isError: true,
               }
             : msg
         )
