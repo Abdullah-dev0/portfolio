@@ -10,7 +10,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { siteConfig } from "@/config/Meta";
 import { navbarConfig } from "@/config/Navbar";
 
 import Container from "./Container";
