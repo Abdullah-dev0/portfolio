@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-hanken-grotesk mx-auto max-w-[800px] antialiased`}>
+      <body className={`font-hanken-grotesk mx-auto max-w-200 antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

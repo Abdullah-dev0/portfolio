@@ -57,9 +57,6 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-muted-foreground hidden text-sm sm:inline">
-            {siteConfig.name}
-          </span>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Link
