@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 import { withContentCollections } from "@content-collections/next";
 
 const nextConfig: NextConfig = {
+  // @google/genai (via @posthog/ai) does a dynamic require('ws') for the Live API.
+  // Next.js can't trace the dynamic require, so mark it external to keep it in the
+  // serverless bundle. Removing this causes "Cannot find module 'ws'" on Vercel.
+  serverExternalPackages: ["ws"],
   images: {
     remotePatterns: [
       {
