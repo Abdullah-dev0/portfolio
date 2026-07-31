@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
+    "@giscus/react": "^3.1.0",
     "@hookform/resolvers": "^5.2.2",
     "@posthog/ai": "^7.12.8",
     "@radix-ui/react-avatar": "^1.1.11",

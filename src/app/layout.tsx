@@ -18,21 +18,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-hanken-grotesk mx-auto max-w-200 antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster />
+      <body className="font-hanken-grotesk antialiased">
+        <div className="mx-auto max-w-200">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster />
 
-          <Navbar />
-          {children}
-          <OnekoCat />
-          <Footer />
-          <ChatBubble />
-        </ThemeProvider>
+            <Navbar />
+            {children}
+            <OnekoCat />
+            <Footer />
+            <ChatBubble />
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

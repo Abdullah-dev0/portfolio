@@ -3,13 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { FileText } from "lucide-react";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { navbarConfig } from "@/config/Navbar";
 
 import Container from "./Container";
@@ -56,24 +49,6 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <Link
-                href="/resume"
-                className={`transition-colors ${
-                  pathname === "/resume"
-                    ? "text-muted-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-                aria-label="Resume"
-              >
-                <FileText className="size-5" />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Resume</p>
-            </TooltipContent>
-          </Tooltip>
           <ThemeSwitch />
         </div>
       </div>

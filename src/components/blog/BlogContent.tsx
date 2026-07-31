@@ -5,22 +5,26 @@ import { Calendar } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { siteConfig } from "@/config/Meta";
 import { BlogPost } from "@/types/blog";
 
 import { BlogComponents } from "./BlogComponents";
+import ShareButton from "./ShareButton";
 
 interface BlogContentProps {
   post: BlogPost;
 }
 
 export function BlogContent({ post }: BlogContentProps) {
-  const { title, description, image, tags, date, content } = post;
+  const { slug, title, description, image, tags, date, content } = post;
 
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+
+  const shareUrl = `${siteConfig.url.replace(/\/+$/, "")}/blog/${slug}`;
 
   return (
     <article className="mx-auto max-w-4xl">
@@ -51,9 +55,12 @@ export function BlogContent({ post }: BlogContentProps) {
 
           <p className="text-muted-foreground text-xl">{description}</p>
 
-          <div className="text-muted-foreground flex items-center gap-2 text-sm">
-            <Calendar className="size-6" />
-            <time dateTime={date}>{formattedDate}</time>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+              <Calendar className="size-6" />
+              <time dateTime={date}>{formattedDate}</time>
+            </div>
+            <ShareButton url={shareUrl} title={title} />
           </div>
         </div>
 
