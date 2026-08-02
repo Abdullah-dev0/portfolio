@@ -1,3 +1,7 @@
 {
-  "origins": ["https://www.abdullahtech.me", "http://localhost:3000"]
+  "origins": [
+    "https://abdullahtech.me",
+    "https://www.abdullahtech.me",
+    "http://localhost:3000"
+  ]
 }
