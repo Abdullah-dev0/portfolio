@@ -352,17 +352,21 @@ bun run type:check   # Run TypeScript check
 
 ## 🔧 Environment Variables
 
-| Variable                      | Required | Description                             |
-| ----------------------------- | -------- | --------------------------------------- |
-| `NEXT_PUBLIC_URL`             | ✅       | Your site URL                           |
-| `GEMINI_API_KEY`              | ✅       | Google Gemini API key for AI chat       |
-| `KV_REST_API_URL`             | ✅       | Upstash Redis URL for rate limiting     |
-| `KV_REST_API_TOKEN`           | ✅       | Upstash Redis token                     |
-| `NEXT_PUBLIC_POSTHOG_KEY`     | ❌       | PostHog analytics key (optional)        |
-| `NEXT_PUBLIC_POSTHOG_HOST`    | ❌       | PostHog host URL (optional)             |
-| `LANYARD_USER_ID`             | ❌       | Discord user ID for presence (optional) |
-| `KV_REST_API_READ_ONLY_TOKEN` | ❌       | Upstash read-only token (optional)      |
-| `LANYARD_API_KEY`             | ❌       | Lanyard API key (optional)              |
+| Variable                         | Required | Description                               |
+| -------------------------------- | -------- | ----------------------------------------- |
+| `NEXT_PUBLIC_URL`                | ✅       | Your site URL                             |
+| `GEMINI_API_KEY`                 | ✅       | Google Gemini API key for AI chat         |
+| `KV_REST_API_URL`                | ✅       | Upstash Redis URL for rate limiting       |
+| `KV_REST_API_TOKEN`              | ✅       | Upstash Redis token                       |
+| `NEXT_PUBLIC_POSTHOG_KEY`        | ❌       | PostHog analytics key (optional)          |
+| `NEXT_PUBLIC_POSTHOG_HOST`       | ❌       | PostHog host URL (optional)               |
+| `LANYARD_USER_ID`                | ❌       | Discord user ID for presence (optional)   |
+| `KV_REST_API_READ_ONLY_TOKEN`    | ❌       | Upstash read-only token (optional)        |
+| `LANYARD_API_KEY`                | ❌       | Lanyard API key (optional)                |
+| `NEXT_PUBLIC_GISCUS_REPO`        | ❌       | giscus repo for blog comments (optional)  |
+| `NEXT_PUBLIC_GISCUS_REPO_ID`     | ❌       | giscus repository ID (optional)           |
+| `NEXT_PUBLIC_GISCUS_CATEGORY`    | ❌       | giscus Discussions category (optional)    |
+| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | ❌       | giscus Discussions category ID (optional) |
 
 ### Getting API Keys
 

@@ -6,11 +6,13 @@ import { ArrowLeft } from "lucide-react";
 
 import { BlogContent } from "@/components/blog/BlogContent";
 import { BlogList } from "@/components/blog/BlogList";
+import Comments from "@/components/blog/Comments";
 import BackToTop from "@/components/common/BackToTop";
 import Container from "@/components/common/Container";
 import FontSizeControls from "@/components/common/FontSizeControls";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { isGiscusConfigured } from "@/config/Giscus";
 import { siteConfig } from "@/config/Meta";
 import {
   getBlogPostBySlug,
@@ -94,6 +96,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Blog Content */}
           <BlogContent post={post} />
+
+          {/* Comments */}
+          {isGiscusConfigured && (
+            <div className="space-y-6">
+              <Separator />
+              <div className="space-y-6">
+                <h2 className="text-2xl font-semibold">Comments</h2>
+                <Comments />
+              </div>
+            </div>
+          )}
 
           {/* Related Posts */}
           {relatedPosts.length > 0 && (
