@@ -14,9 +14,10 @@ import { BlogPostPreview } from "@/types/blog";
 
 interface BlogCardProps {
   post: BlogPostPreview;
+  eager?: boolean;
 }
 
-export function BlogCard({ post }: BlogCardProps) {
+export function BlogCard({ post, eager = false }: BlogCardProps) {
   const { slug, title, description, image, tags, date } = post;
 
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
@@ -28,11 +29,19 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <Card className="group h-full w-full overflow-hidden p-0 shadow-none transition-all">
       <CardHeader className="p-0">
-        <div className="relative aspect-video overflow-hidden">
-          <Link href={`/blog/${slug}`}>
-            <Image src={image} alt={title} fill className="object-cover" />
-          </Link>
-        </div>
+        <Link
+          href={`/blog/${slug}`}
+          className="relative block aspect-video overflow-hidden"
+        >
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            loading={eager ? "eager" : "lazy"}
+            className="object-cover"
+          />
+        </Link>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">

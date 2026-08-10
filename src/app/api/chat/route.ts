@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import * as z from "zod";
-import { GoogleGenAI } from "@posthog/ai";
+import { GoogleGenAI } from "@posthog/ai/gemini";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { PostHog } from "posthog-node";

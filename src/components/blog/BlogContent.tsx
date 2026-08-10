@@ -35,6 +35,7 @@ export function BlogContent({ post }: BlogContentProps) {
             src={image}
             alt={title}
             fill
+            sizes="(min-width: 896px) 896px, calc(100vw - 2rem)"
             className="object-cover"
             priority
           />
