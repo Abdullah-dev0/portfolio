@@ -47,10 +47,11 @@ interface ShareProps {
 // Module scope: keeps this a stable component reference across renders.
 function SharePanel({ url, title }: ShareProps) {
   const [copied, setCopied] = useState(false);
+  const normalizedUrl = url.replace(/^(https?:\/\/)www\./i, "$1");
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(normalizedUrl);
       setCopied(true);
       toast.success(shareConfig.copiedMessage);
       setTimeout(() => setCopied(false), 2000);
@@ -64,10 +65,9 @@ function SharePanel({ url, title }: ShareProps) {
       <div className="flex items-center gap-2">
         <Input
           readOnly
-          value={url}
+          value={normalizedUrl}
           aria-label="Post link"
           className="bg-muted"
-          onFocus={(e) => e.currentTarget.select()}
         />
         <Button
           type="button"
@@ -93,7 +93,7 @@ function SharePanel({ url, title }: ShareProps) {
               className="flex-1 gap-2"
             >
               <a
-                href={channel.buildHref(url, title)}
+                href={channel.buildHref(normalizedUrl, title)}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Share on ${channel.label}`}
@@ -140,7 +140,14 @@ export default function ShareButton({ url, title }: ShareProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent
+        className="sm:max-w-md"
+        tabIndex={-1}
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          (event.currentTarget as HTMLElement | null)?.focus();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>{shareConfig.title}</DialogTitle>
           <DialogDescription>{shareConfig.description}</DialogDescription>
