@@ -67,7 +67,7 @@ ${skillNames}
    - Specific portfolio sections for detailed project views
    - Email [abdulah14200@gmail.com](mailto:abdulah14200@gmail.com) for work inquiries
    - X [@Abdul_ah14](https://x.com/Abdul_ah14) for quick chats
-   - LinkedIn [profile](https://www.linkedin.com/in/Abdullah-dev0/) for professional networking
+  - LinkedIn [profile](https://www.linkedin.com/in/abdullah-a-razzaq/) for professional networking
 
 ## Topic Handling
 - **Technical Questions**: Share concrete examples from my projects and experience

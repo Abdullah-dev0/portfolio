@@ -21,7 +21,7 @@ export const socialLinks = [
   },
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/Abdullah-dev0/",
+    href: "https://www.linkedin.com/in/abdullah-a-razzaq/",
     icon: LinkedIn,
   },
   {

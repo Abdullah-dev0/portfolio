@@ -20,7 +20,7 @@ export const siteConfig = {
     name: about.name,
     twitter: "@Abdul_ah14",
     github: "Abdullah-dev0",
-    linkedin: "Abdullah-dev0",
+    linkedin: "abdullah-a-razzaq",
     email: "abdulah14200@gmail.com",
   },
   keywords: [
