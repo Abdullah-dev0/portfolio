@@ -135,17 +135,11 @@ testing, committing, or opening pull requests for this project.
 
 ## Verification
 
-Run checks proportional to the change. Before handing off a normal code change,
-prefer the following:
-
-```bash
-bun run type:check
-bun run lint
-bun run format:check
-```
-
-- Run `bun run build` for dependency changes, configuration changes, shared
-  infrastructure changes, or changes that affect rendering across routes.
+- Do not run lint, build, or type-check commands unless the user explicitly asks
+  for them. This includes `bun run lint`, `bun run build`, and
+  `bun run type:check`.
+- By default, inspect the focused diff and check formatting only for files
+  changed by the current task.
 - For visual changes, inspect the affected UI at desktop and mobile widths and
   verify both light and dark themes when colors or icons are involved.
 - Check browser console errors when testing interactive or rendered UI.
@@ -156,6 +150,6 @@ bun run format:check
 ## Completion standard
 
 A task is complete when the requested behavior is implemented, duplicated logic
-has not been introduced, relevant checks pass, visual behavior is verified when
-needed, unrelated work remains untouched, and the commit or PR contains only the
-intended changes.
+has not been introduced, explicitly requested checks pass, visual behavior is
+verified when needed, unrelated work remains untouched, and the commit or PR
+contains only the intended changes.

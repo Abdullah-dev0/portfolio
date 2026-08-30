@@ -126,7 +126,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       {/* Technologies */}
       <div>
         <h4 className="text-md mt-4 mb-2 font-semibold">Technologies</h4>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-between gap-2">
           {experience.technologies.map((name, techIndex) => {
             const tech = getTechnologyByName(name);
             return (

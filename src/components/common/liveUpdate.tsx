@@ -7,7 +7,7 @@ import Image from "next/image";
 import { LanyardActivity } from "@/app/api/presence/route";
 import { getLastSessionInfo } from "@/lib/utils";
 
-const POLL_INTERVAL_MS = 7000; // 7 sec
+const POLL_INTERVAL_MS = 10000; // 10 sec
 
 export interface LanyardActivityProps {
   activity: LanyardActivity;
