@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
 
 import { getPublishedBlogPosts } from "@/lib/blog";
+import { formatDate } from "@/lib/utils";
 
 import Container from "../common/Container";
 import { Button } from "../ui/button";
@@ -17,14 +18,7 @@ export default function Blog() {
       <h2 className="text-2xl font-bold">Blog</h2>
       <div className="mt-7 space-y-8">
         {posts.slice(0, 3).map((post) => {
-          const formattedDate = new Date(post.date).toLocaleDateString(
-            "en-US",
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }
-          );
+          const formattedDate = formatDate(post.date);
 
           return (
             <article
