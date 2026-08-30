@@ -73,7 +73,11 @@ export default function GearsPage() {
                     <span className="text-secondary text-sm">{index + 1}</span>
                   </div>
                   <h3 className="text-secondary ml-4 flex items-center gap-1 text-sm">
-                    <Link target="_blank" href={extension.href}>
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={extension.href}
+                    >
                       {extension.name}
                     </Link>
                     <ArrowUpRight className="size-4" />
@@ -102,7 +106,11 @@ export default function GearsPage() {
                     </span>
                   </div>
                   <h3 className="text-secondary ml-4 flex items-center gap-1 text-sm">
-                    <Link target="_blank" href={app.href}>
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={app.href}
+                    >
                       {app.name}
                     </Link>
                     <ArrowUpRight className="size-4" />

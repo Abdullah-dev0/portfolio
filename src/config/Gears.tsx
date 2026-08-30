@@ -33,7 +33,11 @@ export const webExtensions = [
 export const software = [
   { name: "Notion", href: "https://www.notion.so/desktop" },
   { name: "Cap", href: "https://cap.so/home" },
-  { name: "Cursor", href: "https://cursor.com" },
+  { name: "Cursor", href: "https://cursor.com/" },
+  { name: "Codex", href: "https://openai.com/codex/" },
+  {
+    name: "Claude Code",
+    href: "https://docs.anthropic.com/en/docs/claude-code/getting-started",
+  },
   { name: "Requestly", href: "https://requestly.com/" },
-  { name: "Kiro", href: "https://kiro.dev" },
 ];
