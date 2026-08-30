@@ -20,7 +20,7 @@ export default function Projects() {
         {featuredProjects.map((project) => (
           <article
             key={project.slug}
-            className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-10"
           >
             <div className="min-w-0">
               <Link href={`/projects/${project.slug}`}>
@@ -28,7 +28,7 @@ export default function Projects() {
                   {project.title}
                 </h3>
               </Link>
-              <p className="text-secondary line-clamp-2">
+              <p className="text-secondary line-clamp-2 text-sm leading-relaxed sm:max-w-xl">
                 {project.description}
               </p>
               {project.timeline && (

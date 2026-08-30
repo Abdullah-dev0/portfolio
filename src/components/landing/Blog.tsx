@@ -23,7 +23,7 @@ export default function Blog() {
           return (
             <article
               key={post.slug}
-              className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-10"
             >
               <div className="min-w-0">
                 <Link href={`/blog/${post.slug}`}>
@@ -31,7 +31,7 @@ export default function Blog() {
                     {post.title}
                   </h3>
                 </Link>
-                <p className="text-secondary line-clamp-2">
+                <p className="text-secondary line-clamp-2 text-sm leading-relaxed sm:max-w-xl">
                   {post.description}
                 </p>
                 <time
