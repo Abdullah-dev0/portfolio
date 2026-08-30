@@ -7,6 +7,7 @@ import Bun from "@/components/technologies/Bun";
 import Clerk from "@/components/technologies/Clerk";
 import Docker from "@/components/technologies/Docker";
 import ExpressJs from "@/components/technologies/ExpressJs";
+import FastAPI from "@/components/technologies/FastAPI";
 import Figma from "@/components/technologies/Figma";
 import Gemini from "@/components/technologies/Gemini";
 import JavaScript from "@/components/technologies/JavaScript";
@@ -46,6 +47,7 @@ export const technologies: TechnologyEntry[] = [
   { id: "MongoDB", name: "MongoDB", href: "https://www.mongodb.com/" },
   { id: "NestJS", name: "NestJS", href: "https://nestjs.com/" },
   { id: "Express", name: "Express", href: "https://expressjs.com/" },
+  { id: "FastAPI", name: "FastAPI", href: "https://fastapi.tiangolo.com/" },
   { id: "Bun", name: "Bun", href: "https://bun.sh/" },
   { id: "NodeJs", name: "Node.js", href: "https://nodejs.org/" },
   { id: "Prisma", name: "Prisma", href: "https://www.prisma.io/" },
@@ -84,6 +86,7 @@ const iconByKey: Record<string, React.ReactNode> = {
   NestJS: <NestJs />,
   NestJs: <NestJs />,
   Express: <ExpressJs />,
+  FastAPI: <FastAPI />,
   Bun: <Bun />,
   "Node.js": <NodeJs />,
   NodeJs: <NodeJs />,
@@ -124,6 +127,7 @@ function normalizeTechnologyKey(name: string): string | null {
   if (lower === "javascript") return "JavaScript";
   if (lower === "bun") return "Bun";
   if (lower === "express") return "Express";
+  if (lower === "fastapi" || lower === "fast api") return "FastAPI";
   if (lower === "tailwind css" || lower === "tailwindcss")
     return "Tailwind CSS";
   if (lower === "docker") return "Docker";
