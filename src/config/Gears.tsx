@@ -39,5 +39,5 @@ export const software = [
     name: "Claude Code",
     href: "https://docs.anthropic.com/en/docs/claude-code/getting-started",
   },
-  { name: "Requestly", href: "https://requestly.com/" },
+  { name: "Bruno", href: "https://www.usebruno.com" },
 ];
