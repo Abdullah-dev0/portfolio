@@ -5,6 +5,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const DEFAULT_DATE_FORMAT: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+
+export function formatDate(
+  date: string | number | Date,
+  options: Intl.DateTimeFormatOptions = DEFAULT_DATE_FORMAT
+): string {
+  return new Date(date).toLocaleDateString("en-US", options);
+}
+
 export const getLastSessionInfo = (
   lastActivityStart: number | null,
   lastActivityEnd: number | null
@@ -31,7 +44,7 @@ export const getLastSessionInfo = (
   } else if (isYesterday) {
     dateStr = "yesterday";
   } else {
-    dateStr = sessionDate.toLocaleDateString("en-US", {
+    dateStr = formatDate(sessionDate, {
       month: "short",
       day: "numeric",
     });

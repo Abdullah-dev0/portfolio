@@ -3,7 +3,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { ArrowUpRight, Monitor, Puzzle } from "lucide-react";
+import { ArrowUpRight, Cpu, Monitor, Puzzle } from "lucide-react";
 
 import Container from "@/components/common/Container";
 import { Separator } from "@/components/ui/separator";
@@ -42,7 +42,12 @@ export default function GearsPage() {
 
         {/* Devices Section */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold">Devices</h2>
+          <div className="flex items-center gap-4">
+            <div className="bg-muted flex items-center justify-center rounded-md border border-black/10 p-2 text-[#736F70] dark:border-white/10">
+              <Cpu className="size-4" />
+            </div>
+            <h2 className="text-2xl font-semibold">Devices</h2>
+          </div>
           <div className="flex flex-col flex-wrap gap-4">
             {devices.map((device) => (
               <div key={device.name} className="flex items-center gap-4">
@@ -73,7 +78,11 @@ export default function GearsPage() {
                     <span className="text-secondary text-sm">{index + 1}</span>
                   </div>
                   <h3 className="text-secondary ml-4 flex items-center gap-1 text-sm">
-                    <Link target="_blank" href={extension.href}>
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={extension.href}
+                    >
                       {extension.name}
                     </Link>
                     <ArrowUpRight className="size-4" />
@@ -102,7 +111,11 @@ export default function GearsPage() {
                     </span>
                   </div>
                   <h3 className="text-secondary ml-4 flex items-center gap-1 text-sm">
-                    <Link target="_blank" href={app.href}>
+                    <Link
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={app.href}
+                    >
                       {app.name}
                     </Link>
                     <ArrowUpRight className="size-4" />

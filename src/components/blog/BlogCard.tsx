@@ -10,6 +10,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { formatDate } from "@/lib/utils";
 import { BlogPostPreview } from "@/types/blog";
 
 interface BlogCardProps {
@@ -20,11 +21,7 @@ interface BlogCardProps {
 export function BlogCard({ post, eager = false }: BlogCardProps) {
   const { slug, title, description, image, tags, date } = post;
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = formatDate(date);
 
   return (
     <Card className="group h-full w-full overflow-hidden p-0 shadow-none transition-all">
