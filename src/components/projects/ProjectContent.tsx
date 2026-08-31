@@ -52,6 +52,7 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
               src={image}
               alt={title}
               fill
+              sizes="(min-width: 896px) 896px, calc(100vw - 2rem)"
               className="h-full w-full"
               priority
             />

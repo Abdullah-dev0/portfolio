@@ -22,8 +22,9 @@ export default function Hero() {
             src={avatar}
             alt={name}
             width={120}
-            height={120}
-            className="rounded-2xl"
+            height={180}
+            loading="eager"
+            className="h-auto rounded-2xl"
           />
         </div>
 
