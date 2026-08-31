@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 
 import { Metadata } from "next";
-import { Robots } from "next/dist/lib/metadata/types/metadata-types";
 
 import Container from "@/components/common/Container";
 import { Separator } from "@/components/ui/separator";
@@ -11,23 +10,7 @@ import { getAllTags, getPublishedBlogPosts } from "@/lib/blog";
 
 import { BlogPageClient } from "./BlogPageClient";
 
-export const generateMetadata = (): Metadata => {
-  const metadata = getMetadata("/blog");
-  return {
-    ...metadata,
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      } as Robots["googleBot"],
-    },
-  };
-};
+export const generateMetadata = (): Metadata => getMetadata("/blog");
 
 function BlogPageLoading() {
   return (

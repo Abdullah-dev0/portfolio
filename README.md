@@ -186,7 +186,6 @@ Add your projects as MDX files in `content/projects/`. `image` and `video` are o
 title: "Project Name"
 description: "Project description"
 image: "/project/image.png"
-link: "https://project-url.com"
 technologies: ["Next.js", "TypeScript", "Tailwind CSS"]
 github: "https://github.com/username/repo"
 live: "https://live-url.com"
@@ -431,7 +430,7 @@ If you have any questions or need help, feel free to:
 
 - Open an [issue on GitHub](https://github.com/Abdullah-dev0/portfolio/issues)
 - Reach out on [Twitter/X](https://x.com/Abdul_ah14)
-- Contact via email: abdulah14200@gmail.com
+- Contact via email: abdullah@abdullahtech.me
 
 ## 🙏 Acknowledgments
 

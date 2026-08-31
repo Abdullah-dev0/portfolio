@@ -6,32 +6,31 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { BlogList } from "@/components/blog/BlogList";
 import Container from "@/components/common/Container";
+import { PageHeader } from "@/components/common/PageHeader";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { BlogPostPreview } from "@/types/blog";
+import type { BlogPostPreview } from "@/types/blog";
 
 interface BlogPageClientProps {
   initialPosts: BlogPostPreview[];
   initialTags: string[];
 }
 
-/**
- * Filter posts by tag (case-insensitive)
- */
-const filterPostsByTag = (
+function filterBlogPostsByTag(
   posts: BlogPostPreview[],
   tag: string
-): BlogPostPreview[] => {
+): BlogPostPreview[] {
+  const normalizedTag = tag.toLowerCase();
+
   return posts.filter((post) =>
-    post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase())
+    post.tags.some((postTag) => postTag.toLowerCase() === normalizedTag)
   );
-};
+}
 
 /**
  * Get count of posts with a specific tag
  */
 const getTagPostCount = (posts: BlogPostPreview[], tag: string): number => {
-  return filterPostsByTag(posts, tag).length;
+  return filterBlogPostsByTag(posts, tag).length;
 };
 
 export function BlogPageClient({
@@ -45,7 +44,7 @@ export function BlogPageClient({
   // Compute filtered posts as derived state
   const filteredPosts = useMemo(() => {
     return selectedTag
-      ? filterPostsByTag(initialPosts, selectedTag)
+      ? filterBlogPostsByTag(initialPosts, selectedTag)
       : initialPosts;
   }, [selectedTag, initialPosts]);
 
@@ -61,17 +60,10 @@ export function BlogPageClient({
   return (
     <Container className="py-16">
       <div className="space-y-8">
-        {/* Header */}
-        <div className="space-y-4 text-center">
-          <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-            Blogs
-          </h1>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Ideas, guides, and deep dives into the world of software engineering
-          </p>
-        </div>
-
-        <Separator />
+        <PageHeader
+          title="Blogs"
+          description="Ideas, guides, and deep dives into the world of software engineering"
+        />
 
         {/* Tags */}
         {initialTags.length > 0 && (

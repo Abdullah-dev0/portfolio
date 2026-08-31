@@ -1,3 +1,5 @@
+import { profileConfig } from "./Profile";
+
 export type ShareChannelId = "x" | "linkedin";
 
 export interface ShareChannel {
@@ -23,7 +25,7 @@ export const shareConfig: ShareConfig = {
   copyLabel: "Copy link",
   copiedMessage: "Link copied to clipboard",
   copyErrorMessage: "Failed to copy link",
-  xHandle: "Abdul_ah14",
+  xHandle: profileConfig.xHandle,
   channels: [
     {
       id: "x",

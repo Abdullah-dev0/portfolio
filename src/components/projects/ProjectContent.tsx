@@ -2,15 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { MDXContent } from "@content-collections/mdx/react";
-import { allProjects } from "content-collections";
+import type { allProjects } from "content-collections";
 
+import { mdxComponents } from "@/components/common/MdxComponents";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import Github from "../svgs/Github";
 import Website from "../svgs/Website";
-import { ProjectComponents } from "./ProjectComponents";
 
 type Project = (typeof allProjects)[number];
 
@@ -189,9 +189,9 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
                 Key Challenges
               </h3>
               <ul className="space-y-2">
-                {challenges.map((challenge, index) => (
+                {challenges.map((challenge) => (
                   <li
-                    key={index}
+                    key={challenge}
                     className="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-300"
                   >
                     <span className="mt-1 block size-1.5 rounded-full bg-amber-500 dark:bg-amber-400" />
@@ -208,9 +208,9 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
                 Key Learnings
               </h3>
               <ul className="space-y-2">
-                {learnings.map((learning, index) => (
+                {learnings.map((learning) => (
                   <li
-                    key={index}
+                    key={learning}
                     className="flex items-start gap-2 text-sm text-emerald-700 dark:text-emerald-300"
                   >
                     <span className="mt-1 block size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
@@ -225,7 +225,7 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
 
       {/* Content */}
       <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <MDXContent code={mdxCode} components={ProjectComponents} />
+        <MDXContent code={mdxCode} components={mdxComponents} />
       </div>
     </article>
   );

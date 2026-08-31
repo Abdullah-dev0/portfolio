@@ -119,6 +119,6 @@ Feel free to:
 
 - Open a discussion on GitHub
 - Reach out on [Twitter/X](https://x.com/Abdul_ah14)
-- Email: abdulah14200@gmail.com
+- Email: abdullah@abdullahtech.me
 
 Thank you for contributing! 🚀

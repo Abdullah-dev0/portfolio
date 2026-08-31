@@ -4,6 +4,8 @@ import Github from "@/components/svgs/Github";
 import LinkedIn from "@/components/svgs/LinkedIn";
 import X from "@/components/svgs/X";
 
+import { profileLinks } from "./Profile";
+
 export const heroConfig = {
   name: "Abdullah",
   title: "A Full Stack Engineer",
@@ -16,23 +18,23 @@ export const heroConfig = {
 export const socialLinks = [
   {
     name: "X",
-    href: "https://x.com/Abdul_ah14",
+    href: profileLinks.x,
     icon: X,
   },
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/abdullah-a-razzaq/",
+    href: profileLinks.linkedin,
     icon: LinkedIn,
   },
   {
     name: "Github",
-    href: "https://github.com/Abdullah-dev0",
+    href: profileLinks.github,
     icon: Github,
   },
   {
     name: "Email",
     label: "Abdullah",
-    href: "mailto:abdullah@abdullahtech.me",
+    href: profileLinks.email,
     icon: Mail,
   },
 ];

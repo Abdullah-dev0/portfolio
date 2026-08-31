@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-import Copied from "../svgs/Copied";
-import Copy from "../svgs/Copy";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import Copied from "@/components/svgs/Copied";
+import Copy from "@/components/svgs/Copy";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface CodeCopyButtonProps {
   code: string;
@@ -17,9 +21,9 @@ export function CodeCopyButton({ code }: CodeCopyButtonProps) {
     try {
       await navigator.clipboard.writeText(code);
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy text: ", error);
     }
   };
 

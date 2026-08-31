@@ -6,6 +6,7 @@ import { GitHubCalendar } from "react-github-calendar";
 import { useTheme } from "next-themes";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { profileConfig } from "@/config/Profile";
 
 import Container from "../common/Container";
 import Presence from "../common/liveUpdate";
@@ -29,7 +30,7 @@ export default function Github() {
       <div className="flex justify-center px-4 text-xs">
         {mounted ? (
           <GitHubCalendar
-            username="Abdullah-dev0"
+            username={profileConfig.githubUsername}
             colorScheme={theme === "dark" ? "dark" : "light"}
             blockSize={10}
             blockMargin={3}

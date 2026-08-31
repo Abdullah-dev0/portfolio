@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
+
 import { about } from "./About";
 import { heroConfig } from "./Hero";
+import { profileConfig } from "./Profile";
 
 export interface PageMeta {
   title: string;
@@ -18,10 +21,10 @@ export const siteConfig = {
   ogImage: "/meta/opengraph-image.png",
   author: {
     name: about.name,
-    twitter: "@Abdul_ah14",
-    github: "Abdullah-dev0",
-    linkedin: "abdullah-a-razzaq",
-    email: "abdulah14200@gmail.com",
+    twitter: `@${profileConfig.xHandle}`,
+    github: profileConfig.githubUsername,
+    linkedin: profileConfig.linkedinUsername,
+    email: profileConfig.email,
   },
   keywords: [
     "portfolio",
@@ -156,7 +159,7 @@ export function getPageMetadata(pathname: string): PageMeta {
 }
 
 // Helper function to generate complete metadata object for Next.js
-export function generateMetadata(pathname: string) {
+export function generateMetadata(pathname: string): Metadata {
   const pageMeta = getPageMetadata(pathname);
 
   return {
@@ -201,6 +204,38 @@ export function generateMetadata(pathname: string) {
     },
     alternates: {
       canonical: `${siteConfig.url}${pathname}`,
+    },
+  };
+}
+
+interface ContentMetadata {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+export function generateContentMetadata({
+  title,
+  description,
+  image,
+}: ContentMetadata): Metadata {
+  const images = image ? [image] : [];
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
     },
   };
 }

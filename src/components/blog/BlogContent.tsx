@@ -3,13 +3,13 @@ import Image from "next/image";
 
 import { Calendar } from "lucide-react";
 
+import { mdxComponents } from "@/components/common/MdxComponents";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/Meta";
 import { formatDate } from "@/lib/utils";
-import { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@/types/blog";
 
-import { BlogComponents } from "./BlogComponents";
 import ShareButton from "./ShareButton";
 
 interface BlogContentProps {
@@ -67,7 +67,7 @@ export function BlogContent({ post }: BlogContentProps) {
 
       {/* Content */}
       <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <MDXRemote source={content} components={BlogComponents} />
+        <MDXRemote source={content} components={mdxComponents} />
       </div>
     </article>
   );

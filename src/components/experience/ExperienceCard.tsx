@@ -24,6 +24,21 @@ const parseDescription = (text: string): string => {
 };
 
 export function ExperienceCard({ experience }: ExperienceCardProps) {
+  const companyLinks = [
+    {
+      href: experience.website,
+      label: "Visit Website",
+      icon: <Globe className="size-4" />,
+    },
+    { href: experience.x, label: "Follow on X", icon: <X /> },
+    {
+      href: experience.linkedin,
+      label: "Connect on LinkedIn",
+      icon: <LinkedIn />,
+    },
+    { href: experience.github, label: "View GitHub", icon: <Github /> },
+  ];
+
   return (
     <div className="flex flex-col gap-4">
       {/* Company Header */}
@@ -47,61 +62,23 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               >
                 {experience.company}
               </h3>
-              {experience.website && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={experience.website}
-                      target="_blank"
-                      className="text-muted-foreground hover:text-foreground size-4 transition-colors"
-                    >
-                      <Globe className="size-4" />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>Visit Website</TooltipContent>
-                </Tooltip>
-              )}
-              {experience.x && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={experience.x}
-                      target="_blank"
-                      className="text-muted-foreground hover:text-foreground size-4 transition-colors"
-                    >
-                      <X />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>Follow on X</TooltipContent>
-                </Tooltip>
-              )}
-              {experience.linkedin && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={experience.linkedin}
-                      target="_blank"
-                      className="text-muted-foreground hover:text-foreground size-4 transition-colors"
-                    >
-                      <LinkedIn />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>Connect on LinkedIn</TooltipContent>
-                </Tooltip>
-              )}
-              {experience.github && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={experience.github}
-                      target="_blank"
-                      className="text-muted-foreground hover:text-foreground size-4 transition-colors"
-                    >
-                      <Github />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>View GitHub</TooltipContent>
-                </Tooltip>
+              {companyLinks.map(({ href, label, icon }) =>
+                href ? (
+                  <Tooltip key={label}>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        className="text-muted-foreground hover:text-foreground size-4 transition-colors"
+                      >
+                        {icon}
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>{label}</TooltipContent>
+                  </Tooltip>
+                ) : null
               )}
               {experience.isCurrent && (
                 <div className="flex items-center gap-1 rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 text-xs text-emerald-700 dark:text-emerald-400">

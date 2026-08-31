@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { getTechnologyIcon } from "@/lib/technology-map";
+import { getTechnologyIcon } from "@/lib/technologyMap";
 import { type Project } from "@/types/project";
 
 import Github from "../svgs/Github";
@@ -95,13 +95,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </h3>
           </Link>
           <div className="flex shrink-0 items-center gap-1.5">
-            {project.link && (
+            {project.live && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
                     className="hover:bg-accent text-muted-foreground hover:text-primary flex size-8 items-center justify-center rounded-md transition-colors"
-                    href={project.link}
+                    href={project.live}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <Globe className="size-4" />
                   </Link>

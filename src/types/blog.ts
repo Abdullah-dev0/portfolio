@@ -1,21 +1,8 @@
-export interface BlogPost {
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  tags: string[];
-  date: string;
-  isPublished: boolean;
-  mdx: string;
-  content: string;
-}
+import type { allBlogs } from "content-collections";
 
-export interface BlogPostPreview {
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  tags: string[];
-  date: string;
-  isPublished: boolean;
-}
+export type BlogPost = (typeof allBlogs)[number];
+
+export type BlogPostPreview = Pick<
+  BlogPost,
+  "slug" | "title" | "description" | "image" | "tags" | "date" | "isPublished"
+>;

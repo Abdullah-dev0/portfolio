@@ -3,6 +3,7 @@ import { allProjects } from "content-collections";
 import { about } from "./About";
 import { experiences } from "./Experience";
 import { socialLinks } from "./Hero";
+import { profileConfig, profileLinks } from "./Profile";
 
 function generateSystemPrompt(): string {
   const skillNames = about.skills.join(", ");
@@ -65,9 +66,9 @@ ${skillNames}
 2. **Be Genuine**: Share insights about my work, challenges I've solved, and what excites me
 3. **Be Directional**: Guide visitors to:
    - Specific portfolio sections for detailed project views
-   - Email [abdulah14200@gmail.com](mailto:abdulah14200@gmail.com) for work inquiries
-   - X [@Abdul_ah14](https://x.com/Abdul_ah14) for quick chats
-  - LinkedIn [profile](https://www.linkedin.com/in/abdullah-a-razzaq/) for professional networking
+   - Email [${profileConfig.email}](${profileLinks.email}) for work inquiries
+   - X [@${profileConfig.xHandle}](${profileLinks.x}) for quick chats
+  - LinkedIn [profile](${profileLinks.linkedin}) for professional networking
 
 ## Topic Handling
 - **Technical Questions**: Share concrete examples from my projects and experience

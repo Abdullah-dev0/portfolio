@@ -11,7 +11,8 @@ import { ProjectContent } from "@/components/projects/ProjectContent";
 import { ProjectNavigation } from "@/components/projects/ProjectNavigation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { siteConfig } from "@/config/Meta";
+import { generateContentMetadata } from "@/config/Meta";
+import { getPublishedProjects, getRelatedProjects } from "@/lib/projects";
 
 interface ProjectCaseStudyPageProps {
   params: Promise<{
@@ -39,23 +40,11 @@ export async function generateMetadata({
     };
   }
 
-  return {
-    metadataBase: new URL(siteConfig.url),
+  return generateContentMetadata({
     title: `${project.title} - Project Case Study`,
     description: project.description,
-    openGraph: {
-      title: `${project.title} - Project Case Study`,
-      description: project.description,
-      images: project.image ? [project.image] : [],
-      type: "article",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${project.title} - Project Case Study`,
-      description: project.description,
-      images: project.image ? [project.image] : [],
-    },
-  };
+    image: project.image,
+  });
 }
 
 export default async function ProjectCaseStudyPage({
@@ -72,7 +61,7 @@ export default async function ProjectCaseStudyPage({
   const mdxCode = project.mdx;
 
   // Get navigation (previous/next)
-  const publishedProjects = allProjects.filter((p) => p.isPublished);
+  const publishedProjects = getPublishedProjects();
 
   const currentIndex = publishedProjects.findIndex((p) => p.slug === slug);
 
@@ -93,20 +82,7 @@ export default async function ProjectCaseStudyPage({
         : null,
   };
 
-  // Get related projects based on shared technologies
-  const currentTechs = project.technologies.map((t) => t.toLowerCase());
-  const relatedProjects = publishedProjects
-    .filter((p) => p.slug !== slug)
-    .map((p) => ({
-      project: p,
-      score: p.technologies.filter((t) =>
-        currentTechs.includes(t.toLowerCase())
-      ).length,
-    }))
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 2)
-    .map((item) => item.project);
+  const relatedProjects = getRelatedProjects(project);
 
   return (
     <Container className="py-16">

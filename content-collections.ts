@@ -11,7 +11,6 @@ const projects = defineCollection({
     description: z.string(),
     image: z.string().optional(),
     video: z.string().optional(),
-    link: z.string().optional(),
     technologies: z.array(z.string()),
     github: z.string().optional(),
     live: z.string().optional(),

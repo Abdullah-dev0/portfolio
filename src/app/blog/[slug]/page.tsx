@@ -13,7 +13,7 @@ import FontSizeControls from "@/components/common/FontSizeControls";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { isGiscusConfigured } from "@/config/Giscus";
-import { siteConfig } from "@/config/Meta";
+import { generateContentMetadata } from "@/config/Meta";
 import {
   getBlogPostBySlug,
   getBlogPostSlugs,
@@ -50,23 +50,7 @@ export async function generateMetadata({
 
   const { title, description, image } = post;
 
-  return {
-    metadataBase: new URL(siteConfig.url),
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      images: [image],
-      type: "article",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image],
-    },
-  };
+  return generateContentMetadata({ title, description, image });
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
