@@ -6,6 +6,7 @@ import { Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/Meta";
+import { formatDate } from "@/lib/utils";
 import { BlogPost } from "@/types/blog";
 
 import { BlogComponents } from "./BlogComponents";
@@ -18,11 +19,7 @@ interface BlogContentProps {
 export function BlogContent({ post }: BlogContentProps) {
   const { slug, title, description, image, tags, date, content } = post;
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = formatDate(date);
 
   const shareUrl = `${siteConfig.url.replace(/\/+$/, "")}/blog/${slug}`;
 

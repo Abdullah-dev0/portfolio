@@ -1,37 +1,44 @@
-import React from "react";
+import type { ReactNode } from "react";
+
+import {
+  siBetterauth,
+  siBun,
+  siClerk,
+  siDocker,
+  siExpress,
+  siFastapi,
+  siFigma,
+  siGooglegemini,
+  siJavascript,
+  siLangchain,
+  siMongodb,
+  siNestjs,
+  siNetlify,
+  siNextdotjs,
+  siNodedotjs,
+  siPostgresql,
+  siPrisma,
+  siReact,
+  siResend,
+  siShadcnui,
+  siStripe,
+  siSupabase,
+  siTailwindcss,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
 
 import AuthJs from "@/components/technologies/AuthJs";
 import AWS from "@/components/technologies/AWS";
-import BetterAuth from "@/components/technologies/BetterAuth";
-import Bun from "@/components/technologies/Bun";
-import Clerk from "@/components/technologies/Clerk";
-import Docker from "@/components/technologies/Docker";
-import ExpressJs from "@/components/technologies/ExpressJs";
-import Figma from "@/components/technologies/Figma";
-import Gemini from "@/components/technologies/Gemini";
-import JavaScript from "@/components/technologies/JavaScript";
-import LangChain from "@/components/technologies/LangChain";
-import MongoDB from "@/components/technologies/MongoDB";
-import NestJs from "@/components/technologies/NestJs";
-import Netlify from "@/components/technologies/Netlify";
-import NextJs from "@/components/technologies/NextJs";
-import NodeJs from "@/components/technologies/NodeJs";
+import BrandIcon from "@/components/technologies/BrandIcon";
 import Nodemailer from "@/components/technologies/Nodemailer";
-import PostgreSQL from "@/components/technologies/PostgreSQL";
-import Prisma from "@/components/technologies/Prisma";
-import ReactIcon from "@/components/technologies/ReactIcon";
-import Resend from "@/components/technologies/Resent";
-import Shadcn from "@/components/technologies/Shadcn";
-import Stripe from "@/components/technologies/Stripe";
-import Supabase from "@/components/technologies/Supabase";
-import TailwindCss from "@/components/technologies/TailwindCss";
-import TypeScript from "@/components/technologies/TypeScript";
-import Vercel from "@/components/technologies/Vercel";
 
 export interface TechnologyEntry {
   id: string;
   name: string;
   href: string;
+  icon: ReactNode;
+  aliases?: string[];
 }
 
 export const technologies: TechnologyEntry[] = [
@@ -39,100 +46,187 @@ export const technologies: TechnologyEntry[] = [
     id: "TypeScript",
     name: "TypeScript",
     href: "https://www.typescriptlang.org/",
+    icon: <BrandIcon icon={siTypescript} />,
   },
-  { id: "React", name: "React", href: "https://react.dev/" },
-  { id: "NextJs", name: "Next.js", href: "https://nextjs.org/" },
-  { id: "PostgreSQL", name: "PostgreSQL", href: "https://www.postgresql.org/" },
-  { id: "MongoDB", name: "MongoDB", href: "https://www.mongodb.com/" },
-  { id: "NestJS", name: "NestJS", href: "https://nestjs.com/" },
-  { id: "Express", name: "Express", href: "https://expressjs.com/" },
-  { id: "Bun", name: "Bun", href: "https://bun.sh/" },
-  { id: "NodeJs", name: "Node.js", href: "https://nodejs.org/" },
-  { id: "Prisma", name: "Prisma", href: "https://www.prisma.io/" },
+  {
+    id: "React",
+    name: "React",
+    href: "https://react.dev/",
+    icon: <BrandIcon icon={siReact} />,
+    aliases: ["ReactIcon"],
+  },
+  {
+    id: "NextJs",
+    name: "Next.js",
+    href: "https://nextjs.org/",
+    icon: <BrandIcon icon={siNextdotjs} />,
+  },
+  {
+    id: "PostgreSQL",
+    name: "PostgreSQL",
+    href: "https://www.postgresql.org/",
+    icon: <BrandIcon icon={siPostgresql} />,
+  },
+  {
+    id: "MongoDB",
+    name: "MongoDB",
+    href: "https://www.mongodb.com/",
+    icon: <BrandIcon icon={siMongodb} />,
+  },
+  {
+    id: "NestJS",
+    name: "NestJS",
+    href: "https://nestjs.com/",
+    icon: <BrandIcon icon={siNestjs} />,
+  },
+  {
+    id: "Express",
+    name: "Express",
+    href: "https://expressjs.com/",
+    icon: <BrandIcon icon={siExpress} />,
+  },
+  {
+    id: "FastAPI",
+    name: "FastAPI",
+    href: "https://fastapi.tiangolo.com/",
+    icon: <BrandIcon icon={siFastapi} />,
+  },
+  {
+    id: "Bun",
+    name: "Bun",
+    href: "https://bun.sh/",
+    icon: <BrandIcon icon={siBun} />,
+  },
+  {
+    id: "NodeJs",
+    name: "Node.js",
+    href: "https://nodejs.org/",
+    icon: <BrandIcon icon={siNodedotjs} />,
+    aliases: ["Node"],
+  },
+  {
+    id: "Prisma",
+    name: "Prisma",
+    href: "https://www.prisma.io/",
+    icon: <BrandIcon icon={siPrisma} />,
+  },
   {
     id: "JavaScript",
     name: "JavaScript",
     href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    icon: <BrandIcon icon={siJavascript} />,
   },
-  { id: "TailwindCss", name: "Tailwind CSS", href: "https://tailwindcss.com/" },
-  { id: "Clerk", name: "Clerk", href: "https://clerk.com/" },
-  { id: "Shadcn", name: "shadcn/ui", href: "https://ui.shadcn.com/" },
-  { id: "Vercel", name: "Vercel", href: "https://vercel.com/" },
-  { id: "Supabase", name: "Supabase", href: "https://supabase.com/" },
-  { id: "Stripe", name: "Stripe", href: "https://stripe.com/" },
-  { id: "AuthJs", name: "Auth.js", href: "https://authjs.dev/" },
-  { id: "LangChain", name: "LangChain", href: "https://langchain.com/" },
-  { id: "Gemini", name: "Gemini", href: "https://ai.google.dev/" },
-  { id: "BetterAuth", name: "BetterAuth", href: "https://better-auth.com/" },
-  { id: "Nodemailer", name: "Nodemailer", href: "https://nodemailer.com/" },
-  { id: "Resend", name: "Resend", href: "https://resend.com/" },
-  { id: "Netlify", name: "Netlify", href: "https://www.netlify.com/" },
-  { id: "AWS", name: "AWS", href: "https://aws.amazon.com/" },
-  { id: "Figma", name: "Figma", href: "https://figma.com/" },
-  { id: "Docker", name: "Docker", href: "https://www.docker.com/" },
+  {
+    id: "TailwindCss",
+    name: "Tailwind CSS",
+    href: "https://tailwindcss.com/",
+    icon: <BrandIcon icon={siTailwindcss} />,
+  },
+  {
+    id: "Clerk",
+    name: "Clerk",
+    href: "https://clerk.com/",
+    icon: <BrandIcon icon={siClerk} />,
+  },
+  {
+    id: "Shadcn",
+    name: "shadcn/ui",
+    href: "https://ui.shadcn.com/",
+    icon: <BrandIcon icon={siShadcnui} />,
+  },
+  {
+    id: "Vercel",
+    name: "Vercel",
+    href: "https://vercel.com/",
+    icon: <BrandIcon icon={siVercel} />,
+  },
+  {
+    id: "Supabase",
+    name: "Supabase",
+    href: "https://supabase.com/",
+    icon: <BrandIcon icon={siSupabase} />,
+  },
+  {
+    id: "Stripe",
+    name: "Stripe",
+    href: "https://stripe.com/",
+    icon: <BrandIcon icon={siStripe} />,
+  },
+  {
+    id: "AuthJs",
+    name: "Auth.js",
+    href: "https://authjs.dev/",
+    icon: <AuthJs />,
+  },
+  {
+    id: "LangChain",
+    name: "LangChain",
+    href: "https://langchain.com/",
+    icon: <BrandIcon icon={siLangchain} />,
+  },
+  {
+    id: "Gemini",
+    name: "Gemini",
+    href: "https://ai.google.dev/",
+    icon: <BrandIcon icon={siGooglegemini} />,
+  },
+  {
+    id: "BetterAuth",
+    name: "BetterAuth",
+    href: "https://better-auth.com/",
+    icon: <BrandIcon icon={siBetterauth} />,
+  },
+  {
+    id: "Nodemailer",
+    name: "Nodemailer",
+    href: "https://nodemailer.com/",
+    icon: <Nodemailer />,
+  },
+  {
+    id: "Resend",
+    name: "Resend",
+    href: "https://resend.com/",
+    icon: <BrandIcon icon={siResend} />,
+  },
+  {
+    id: "Netlify",
+    name: "Netlify",
+    href: "https://www.netlify.com/",
+    icon: <BrandIcon icon={siNetlify} />,
+  },
+  {
+    id: "AWS",
+    name: "AWS",
+    href: "https://aws.amazon.com/",
+    icon: <AWS />,
+  },
+  {
+    id: "Figma",
+    name: "Figma",
+    href: "https://figma.com/",
+    icon: <BrandIcon icon={siFigma} />,
+  },
+  {
+    id: "Docker",
+    name: "Docker",
+    href: "https://www.docker.com/",
+    icon: <BrandIcon icon={siDocker} />,
+  },
 ];
 
-/** Lookup by id (e.g. "TypeScript") or display name (e.g. "Next.js"). */
-const iconByKey: Record<string, React.ReactNode> = {
-  TypeScript: <TypeScript />,
-  React: <ReactIcon />,
-  ReactIcon: <ReactIcon />,
-  "Next.js": <NextJs />,
-  NextJs: <NextJs />,
-  PostgreSQL: <PostgreSQL />,
-  MongoDB: <MongoDB />,
-  NestJS: <NestJs />,
-  NestJs: <NestJs />,
-  Express: <ExpressJs />,
-  Bun: <Bun />,
-  "Node.js": <NodeJs />,
-  NodeJs: <NodeJs />,
-  Prisma: <Prisma />,
-  JavaScript: <JavaScript />,
-  "Tailwind CSS": <TailwindCss />,
-  TailwindCss: <TailwindCss />,
-  Clerk: <Clerk />,
-  "shadcn/ui": <Shadcn />,
-  Shadcn: <Shadcn />,
-  Vercel: <Vercel />,
-  Supabase: <Supabase />,
-  Stripe: <Stripe />,
-  AuthJs: <AuthJs />,
-  LangChain: <LangChain className="w-7" />,
-  Gemini: <Gemini />,
-  BetterAuth: <BetterAuth />,
-  Nodemailer: <Nodemailer />,
-  Resend: <Resend />,
-  Netlify: <Netlify />,
-  AWS: <AWS />,
-  Figma: <Figma />,
-  Docker: <Docker />,
-};
+const normalizeTechnologyKey = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
-/** Normalize common variants to a key that exists in iconByKey. */
-function normalizeTechnologyKey(name: string): string | null {
-  const lower = name.toLowerCase();
-  if (lower === "typescript" || name === "Typescript") return "TypeScript";
-  if (lower === "nextjs" || lower === "next.js") return "Next.js";
-  if (lower === "react") return "React";
-  if (lower === "nodejs" || lower === "node.js" || lower === "node")
-    return "Node.js";
-  if (lower === "mongodb") return "MongoDB";
-  if (lower === "postgresql") return "PostgreSQL";
-  if (lower === "nestjs") return "NestJS";
-  if (lower === "prisma") return "Prisma";
-  if (lower === "javascript") return "JavaScript";
-  if (lower === "bun") return "Bun";
-  if (lower === "express") return "Express";
-  if (lower === "tailwind css" || lower === "tailwindcss")
-    return "Tailwind CSS";
-  if (lower === "docker") return "Docker";
-  return name;
-}
+const technologyByKey = new Map(
+  technologies.flatMap((technology) =>
+    [technology.id, technology.name, ...(technology.aliases ?? [])].map(
+      (key) => [normalizeTechnologyKey(key), technology] as const
+    )
+  )
+);
 
-export function getTechnologyIcon(name: string): React.ReactNode {
-  const key = normalizeTechnologyKey(name) ?? name;
-  return iconByKey[key] ?? iconByKey[name] ?? null;
+export function getTechnologyIcon(name: string): ReactNode {
+  return getTechnologyByName(name)?.icon ?? null;
 }
 
 export const SKILLS = [
@@ -153,11 +247,11 @@ export const SKILLS = [
 ] as const;
 
 export function getTechnologiesByIds(ids: string[]): TechnologyEntry[] {
-  const byId = new Map(technologies.map((t) => [t.id, t]));
-  return ids.map((id) => byId.get(id)).filter(Boolean) as TechnologyEntry[];
+  return ids
+    .map(getTechnologyByName)
+    .filter((technology): technology is TechnologyEntry => Boolean(technology));
 }
 
 export function getTechnologyByName(name: string): TechnologyEntry | undefined {
-  const key = normalizeTechnologyKey(name) ?? name;
-  return technologies.find((t) => t.name === key || t.id === key);
+  return technologyByKey.get(normalizeTechnologyKey(name));
 }
