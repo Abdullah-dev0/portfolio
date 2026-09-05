@@ -9,5 +9,5 @@ export default function OnekoCat() {
     return null;
   }
 
-  return <Script src="./oneko/oneko.js" data-cat="./oneko/oneko.gif" />;
+  return <Script src="/oneko/oneko.js" data-cat="/oneko/oneko.gif" />;
 }

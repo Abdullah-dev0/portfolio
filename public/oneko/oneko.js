@@ -139,7 +139,7 @@
     hintEl.style.whiteSpace = "nowrap";
     hintEl.style.boxShadow = "0 3px 12px rgb(0 0 0 / 18%)";
 
-    let nekoFile = "./oneko.gif";
+    let nekoFile = "/oneko/oneko.gif";
     const curScript = document.currentScript;
     if (curScript && curScript.dataset.cat) {
       nekoFile = curScript.dataset.cat;
