@@ -8,6 +8,7 @@
   if (isReducedMotion) return;
 
   const nekoEl = document.createElement("div");
+  const hintEl = document.createElement("div");
 
   let nekoPosX = 32;
   let nekoPosY = 32;
@@ -19,6 +20,9 @@
   let idleTime = 0;
   let idleAnimation = null;
   let idleAnimationFrame = 0;
+  let hintHideTimeout;
+  let hasInteracted = false;
+  let hasShownHint = false;
 
   const nekoSpeed = 10;
   const spriteSets = {
@@ -84,17 +88,56 @@
     ],
   };
 
+  function updateHintPosition() {
+    const hintX = Math.min(
+      Math.max(nekoPosX, 90),
+      Math.max(90, window.innerWidth - 90)
+    );
+    hintEl.style.left = `${hintX}px`;
+    hintEl.style.top = `${Math.max(40, nekoPosY - 28)}px`;
+  }
+
+  function hideHint() {
+    window.clearTimeout(hintHideTimeout);
+    hintEl.style.display = "none";
+  }
+
+  function showHint(message, duration) {
+    window.clearTimeout(hintHideTimeout);
+    hintEl.textContent = message;
+    hintEl.style.display = "block";
+    updateHintPosition();
+    hintHideTimeout = window.setTimeout(hideHint, duration);
+  }
+
   function init() {
     nekoEl.id = "oneko";
     nekoEl.ariaHidden = true;
     nekoEl.style.width = "32px";
     nekoEl.style.height = "32px";
     nekoEl.style.position = "fixed";
-    nekoEl.style.pointerEvents = "none";
+    nekoEl.style.pointerEvents = "auto";
     nekoEl.style.imageRendering = "pixelated";
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
     nekoEl.style.zIndex = 2147483647;
+
+    hintEl.id = "oneko-hint";
+    hintEl.ariaHidden = true;
+    hintEl.style.display = "none";
+    hintEl.style.position = "fixed";
+    hintEl.style.transform = "translate(-50%, -100%)";
+    hintEl.style.pointerEvents = "none";
+    hintEl.style.zIndex = 2147483647;
+    hintEl.style.maxWidth = "calc(100vw - 24px)";
+    hintEl.style.padding = "4px 7px";
+    hintEl.style.border = "1px solid CanvasText";
+    hintEl.style.borderRadius = "5px";
+    hintEl.style.backgroundColor = "CanvasText";
+    hintEl.style.color = "Canvas";
+    hintEl.style.font = "11px/1.3 system-ui, sans-serif";
+    hintEl.style.whiteSpace = "nowrap";
+    hintEl.style.boxShadow = "0 3px 12px rgb(0 0 0 / 18%)";
 
     let nekoFile = "./oneko.gif";
     const curScript = document.currentScript;
@@ -104,6 +147,33 @@
     nekoEl.style.backgroundImage = `url(${nekoFile})`;
 
     document.body.appendChild(nekoEl);
+    document.body.appendChild(hintEl);
+
+    window.setTimeout(function () {
+      if (!hasInteracted && !hasShownHint) {
+        hasShownHint = true;
+        showHint("Press me to rest", 7000);
+      }
+    }, 5000);
+
+    nekoEl.addEventListener("pointerdown", function () {
+      hasInteracted = true;
+      hideHint();
+
+      if (idleAnimation === "sleeping") {
+        resetIdleAnimation();
+        idleTime = 0;
+        return;
+      }
+
+      idleAnimation = "sleeping";
+      idleAnimationFrame = 0;
+      idleTime = 0;
+      if (!hasShownHint) {
+        hasShownHint = true;
+        showHint("Press again to wake me", 3500);
+      }
+    });
 
     document.addEventListener("mousemove", function (event) {
       mousePosX = event.clientX;
@@ -197,6 +267,13 @@
 
   function frame() {
     frameCount += 1;
+    updateHintPosition();
+
+    if (idleAnimation === "sleeping") {
+      idle();
+      return;
+    }
+
     const diffX = nekoPosX - mousePosX;
     const diffY = nekoPosY - mousePosY;
     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
