@@ -1,6 +1,6 @@
 ---
 title: "better-ts-stack"
-description: "Interactive CLI that scaffolds production-ready backend APIs and full-stack TypeScript apps with batteries-included setup for database, auth, Docker, and git."
+description: "CLI that scaffolds Express, NestJS, Next.js, and TanStack Start projects with a database, authentication, and Docker already set up, through interactive prompts or flags."
 image: "/project/better-ts-stack.png"
 link: "https://better-ts-stack.abdullahtech.me/"
 technologies:
@@ -8,11 +8,13 @@ technologies:
     "TypeScript",
     "Node.js",
     "Express",
+    "NestJS",
     "Next.js",
     "React",
     "PostgreSQL",
     "MongoDB",
     "Prisma",
+    "BetterAuth",
     "Docker",
     "Bun",
   ]
@@ -24,14 +26,15 @@ status: "completed"
 featured: true
 challenges:
   [
-    "Designing an interactive prompt flow that stays simple for new users while still covering real production choices like databases, ORMs, auth, Docker, and git initialization.",
-    "Supporting both backend-only and full-stack generation paths without duplicating configuration logic or compromising the developer experience.",
-    "Scaffolding opinionated TypeScript defaults that remain extensible for different package managers and infrastructure preferences.",
+    "Serving four frameworks (Express, NestJS, Next.js, and TanStack Start) from one module system, so each database, auth, and Docker option is written once per framework instead of once per combination.",
+    "Making the same CLI work for people and for scripts: every prompt has a matching flag, missing options fall back to prompts, and --yes runs with no prompts at all.",
+    "Keeping 180 possible stack combinations working across npm, pnpm, and Bun as framework and ORM versions move.",
   ]
 learnings:
   [
-    "Strong scaffolding tools create the most value when they reduce setup friction without locking developers into a rigid architecture.",
-    "Interactive CLIs need crisp defaults, clear branching, and careful conditional prompts to feel fast instead of overwhelming.",
+    "A generator is only as good as its worst combination, so generating, building, and smoke-testing every stack in CI matters more than adding another option.",
+    "Prompts and flags are not competing designs. Prompts guide a first run, flags make the same tool usable in scripts and CI.",
+    "Small failure-path details, like checking the target directory first and cleaning up a failed build, decide whether a CLI feels trustworthy.",
   ]
 isPublished: true
 isWorking: true
@@ -39,42 +42,57 @@ isWorking: true
 
 # better-ts-stack
 
-`better-ts-stack` is an interactive CLI built to help developers spin up production-ready TypeScript apps in minutes instead of spending hours wiring the same setup over and over.
+`better-ts-stack` is a CLI that scaffolds TypeScript backend and full-stack projects. Answer a few prompts, or pass flags, to pick a framework, database, authentication, and Docker setup, and it writes a project that is ready to install and run.
+
+```bash
+npx better-ts-stack
+```
 
 ## What It Scaffolds
 
-The CLI currently supports two project paths:
+The CLI supports four frameworks across two project types:
 
-- **Backend API**: Express + TypeScript
-- **Full-stack App**: Next.js 16 + React 19 + TypeScript
+- **Backend API**: Express 5 or NestJS 12
+- **Full-stack App**: Next.js 16 (App Router) or TanStack Start, both with React 19 and Tailwind CSS v4
 
-Depending on the choices made during the prompt flow, the generated project can also include:
+Each framework can be combined with the same set of optional modules. Only the modules you select are added:
 
-- **Databases**: PostgreSQL or MongoDB
-- **ORM/ODM**: Prisma, Drizzle, or Mongoose
-- **Authentication**: JWT auth for Express and Better Auth for full-stack apps
-- **Developer Setup**: Docker, git initialization, and dependency installation
+- **Database**: PostgreSQL with Prisma or Drizzle, or MongoDB with Mongoose
+- **Authentication**: JWT auth with bcrypt and Zod request validation for Express and NestJS, Better Auth for Next.js and TanStack Start
+- **Docker**: a multi-stage, framework-aware `Dockerfile`, `docker-compose.yml`, and `.dockerignore`
+- **Setup**: npm, pnpm, or Bun, with optional git initialization and dependency installation
+
+Every generated project comes with strict TypeScript, ESLint and Prettier, environment variable files, hot reload, and ready-to-run scripts. Backend projects also include a `/health` endpoint.
+
+## Prompts or Flags
+
+The first versions were prompt-only. Version 2 gives every prompt a matching flag, so the same tool works interactively and in scripts or CI:
+
+```bash
+# No prompts at all
+npx better-ts-stack my-api --framework nestjs --database prisma --auth --yes
+
+# Create the project in the current directory
+npx better-ts-stack . --framework nextjs --database drizzle --pm pnpm
+```
+
+Options you leave out are still asked interactively, unless you pass `--yes`. `--dry-run` shows what would be created without writing files, and the project path can be a name, a nested path such as `apps/api`, or `.` for the current directory.
 
 ## Why I Built It
 
-I wanted a better way to bootstrap TypeScript projects with real-world defaults already in place:
+I kept wiring the same setup at the start of every TypeScript project: strict compiler options, linting, environment variables, a database client, auth, and a Dockerfile. I wanted a generator that produces that baseline in minutes while leaving the choice of framework and ORM to the developer.
 
-- Strict TypeScript configuration
-- ESLint and Prettier preconfigured
-- Environment variable setup
-- Ready-to-run project scripts
-- Health check endpoint for backend apps
-- Database wiring and schema setup when selected
+## How It Stays Reliable
 
-## Product Thinking
+A scaffolding tool is easy to break without noticing, because a change to one template can affect many stacks. The repository tests the full matrix:
 
-The CLI is intentionally interactive instead of relying on a large set of flags. That makes it easier to guide developers through meaningful tradeoffs such as:
+- All 180 combinations of framework, database, auth, package manager, and Docker are generated and checked
+- Generated projects are installed, built, type-checked, linted, and smoke-tested over HTTP, including sign-up, login, and protected routes against real PostgreSQL and MongoDB databases
+- Docker projects have their images built and run next to a real database container, with the same HTTP checks repeated
+- CI runs lint, type-check, and the template matrix on Linux and Windows for every push and pull request
 
-- Backend vs full-stack architecture
-- Relational vs document database
-- Prisma, Drizzle, or Mongoose based on the selected stack
-- Whether the project should include auth, Docker, and git setup from day one
+The CLI also fails cleanly. A non-empty target directory is reported right after the project name is entered, and a failed build removes the partial project so the command can be run again.
 
 ## Impact
 
-This project reflects the kind of tooling work I enjoy most: smoothing out developer onboarding, encoding best practices into reusable generators, and making production-ready setup approachable for both solo developers and teams.
+This project reflects the kind of tooling work I enjoy most: smoothing out developer onboarding, encoding best practices into reusable generators, and making production-ready setup approachable for both solo developers and teams. It is published on npm as `better-ts-stack`, with full documentation on the project site.
