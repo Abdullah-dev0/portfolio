@@ -5,6 +5,7 @@ import {
   siBun,
   siClerk,
   siDocker,
+  siDrizzle,
   siExpress,
   siFastapi,
   siFigma,
@@ -12,6 +13,7 @@ import {
   siJavascript,
   siLangchain,
   siMongodb,
+  siMongoose,
   siNestjs,
   siNetlify,
   siNextdotjs,
@@ -24,6 +26,7 @@ import {
   siStripe,
   siSupabase,
   siTailwindcss,
+  siTanstack,
   siTypescript,
   siVercel,
 } from "simple-icons";
@@ -109,6 +112,24 @@ export const technologies: TechnologyEntry[] = [
     name: "Prisma",
     href: "https://www.prisma.io/",
     icon: <BrandIcon icon={siPrisma} />,
+  },
+  {
+    id: "Drizzle",
+    name: "Drizzle",
+    href: "https://orm.drizzle.team/",
+    icon: <BrandIcon icon={siDrizzle} />,
+  },
+  {
+    id: "Mongoose",
+    name: "Mongoose",
+    href: "https://mongoosejs.com/",
+    icon: <BrandIcon icon={siMongoose} />,
+  },
+  {
+    id: "TanStackStart",
+    name: "TanStack Start",
+    href: "https://tanstack.com/start",
+    icon: <BrandIcon icon={siTanstack} />,
   },
   {
     id: "JavaScript",
