@@ -8,10 +8,9 @@ import { PostHog } from "posthog-node";
 
 import { systemPrompt } from "@/config/ChatPrompt";
 
-const phClient = new PostHog(
-  "phc_GwIecxVfPW9YSKUlK1Yz0JXscpY0Qvjnf9X1C6muHY4",
-  { host: "https://us.i.posthog.com" }
-);
+const phClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY ?? "", {
+  host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+});
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -121,7 +120,7 @@ export async function POST(request: NextRequest) {
       },
     ];
 
-    const model = "gemini-2.5-flash-lite";
+    const model = "gemini-3.5-flash-lite";
 
     const response = ai.models.generateContentStream({
       model,
