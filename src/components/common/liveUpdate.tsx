@@ -4,67 +4,110 @@ import { useEffect, useState } from "react";
 
 import Image from "next/image";
 
-import { LanyardActivity } from "@/app/api/presence/route";
-import { getLastSessionInfo } from "@/lib/utils";
+import * as z from "zod";
 
-const POLL_INTERVAL_MS = 10000; // 10 sec
+const LANYARD_USER_ID = process.env.NEXT_PUBLIC_LANYARD_USER_ID;
+const LANYARD_SOCKET_URL = "wss://api.lanyard.rest/socket";
+const RECONNECT_DELAY_MS = 5000;
 
-export interface LanyardActivityProps {
-  activity: LanyardActivity;
-  lastActivityStart: number;
-  lastActivityEnd: number;
+const activitySchema = z.object({
+  name: z.string(),
+  details: z.string().nullish(),
+  state: z.string().nullish(),
+  timestamps: z.object({ start: z.number().nullish() }).nullish(),
+  assets: z
+    .object({
+      large_image: z.string().nullish(),
+      large_text: z.string().nullish(),
+      small_image: z.string().nullish(),
+      small_text: z.string().nullish(),
+    })
+    .nullish(),
+});
+
+const presenceSchema = z.object({
+  discord_status: z.enum(["online", "idle", "dnd", "offline"]),
+  activities: z.array(activitySchema),
+});
+
+const messageSchema = z.discriminatedUnion("op", [
+  z.object({
+    op: z.literal(0),
+    t: z.enum(["INIT_STATE", "PRESENCE_UPDATE"]),
+    d: presenceSchema,
+  }),
+  z.object({
+    op: z.literal(1),
+    d: z.object({ heartbeat_interval: z.number() }),
+  }),
+]);
+
+type LanyardPresence = z.infer<typeof presenceSchema>;
+
+const DISCORD_STATUS_LABELS: Record<LanyardPresence["discord_status"], string> =
+  {
+    online: "Online on Discord",
+    idle: "Idle on Discord",
+    dnd: "Do not disturb",
+    offline: "Offline",
+  };
+
+// Discord serves external assets as "mp:external/..." paths
+function getAssetUrl(asset?: string | null) {
+  return asset?.startsWith("mp:external/")
+    ? asset.replace("mp:external/", "https://media.discordapp.net/external/")
+    : undefined;
 }
 
 export default function Presence() {
-  const [activity, setActivity] = useState<LanyardActivity | null>(null);
-  const [lastActivityStart, setLastActivityStart] = useState<number | null>(
-    null
-  );
-  const [lastActivityEnd, setLastActivityEnd] = useState<number | null>(null);
-  const [nowTime, setNowTime] = useState(Date.now());
-  const [loading, setLoading] = useState(true);
+  const [presence, setPresence] = useState<LanyardPresence | null>(null);
   const [error, setError] = useState(false);
+  const [nowTime, setNowTime] = useState(() => Date.now());
 
   useEffect(() => {
-    let active = true;
-    let hasLoadedOnce = false;
+    if (!LANYARD_USER_ID) return;
 
-    const load = async () => {
-      try {
-        const res = await fetch("/api/presence");
+    let socket: WebSocket;
+    let heartbeatId: number | undefined;
+    let reconnectId: number | undefined;
+    let disposed = false;
 
-        if (!res.ok) throw new Error(String(res.status));
+    const connect = () => {
+      socket = new WebSocket(LANYARD_SOCKET_URL);
 
-        const { activity, lastActivityStart, lastActivityEnd } =
-          await res.json();
+      socket.onmessage = (event) => {
+        const message = messageSchema.safeParse(JSON.parse(event.data));
+        if (!message.success) return;
 
-        if (active) {
-          setActivity(activity ?? null);
-          setLastActivityStart(lastActivityStart ?? null);
-          setLastActivityEnd(lastActivityEnd ?? null);
-          setError(false);
-          if (!hasLoadedOnce) {
-            setLoading(false);
-            hasLoadedOnce = true;
-          }
+        if (message.data.op === 1) {
+          socket.send(
+            JSON.stringify({ op: 2, d: { subscribe_to_id: LANYARD_USER_ID } })
+          );
+          heartbeatId = window.setInterval(
+            () => socket.send(JSON.stringify({ op: 3 })),
+            message.data.d.heartbeat_interval
+          );
+          return;
         }
-      } catch (err) {
-        console.error("[Presence] Failed to fetch activity", err);
-        if (active) {
-          setError(true);
-          if (!hasLoadedOnce) {
-            setLoading(false);
-            hasLoadedOnce = true;
-          }
-        }
-      }
+
+        setPresence(message.data.d);
+        setError(false);
+      };
+
+      socket.onclose = () => {
+        window.clearInterval(heartbeatId);
+        if (disposed) return;
+        setError(true);
+        reconnectId = window.setTimeout(connect, RECONNECT_DELAY_MS);
+      };
     };
 
-    load();
-    const intervalId = window.setInterval(load, POLL_INTERVAL_MS);
+    connect();
     return () => {
-      active = false;
-      window.clearInterval(intervalId);
+      disposed = true;
+      window.clearInterval(heartbeatId);
+      window.clearTimeout(reconnectId);
+      socket.close();
     };
   }, []);
 
@@ -76,15 +119,17 @@ export default function Presence() {
     return () => clearInterval(timerId);
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center gap-3">
-        <p className="text-muted-foreground">Loading presence...</p>
-      </div>
-    );
-  }
+  if (!LANYARD_USER_ID) return null;
 
-  if (error) {
+  if (!presence) {
+    if (!error) {
+      return (
+        <div className="flex items-center gap-3">
+          <p className="text-muted-foreground">Loading presence...</p>
+        </div>
+      );
+    }
+
     return (
       <div className="flex items-center gap-3">
         <div className="bg-destructive/10 flex h-16 w-16 items-center justify-center rounded-lg">
@@ -100,9 +145,9 @@ export default function Presence() {
     );
   }
 
-  if (!activity) {
-    const sessionInfo = getLastSessionInfo(lastActivityStart, lastActivityEnd);
+  const activity = presence.activities.find((a) => a.name === "Code");
 
+  if (!activity) {
     return (
       <div className="flex items-center gap-3">
         <div className="">
@@ -120,14 +165,10 @@ export default function Presence() {
           </svg>
         </div>
         <div>
-          <p className="text-sm font-medium">Offline</p>
-          {sessionInfo ? (
-            <p className="text-muted-foreground text-sm">
-              Coded {sessionInfo.durationStr} {sessionInfo.dateStr}
-            </p>
-          ) : (
-            <p className="text-muted-foreground text-sm">No recent activity</p>
-          )}
+          <p className="text-sm font-medium">Not coding right now</p>
+          <p className="text-muted-foreground text-sm">
+            {DISCORD_STATUS_LABELS[presence.discord_status]}
+          </p>
         </div>
       </div>
     );
@@ -142,15 +183,8 @@ export default function Presence() {
   const activityLabel =
     activity.assets?.small_text || activity.name || "Editor";
 
-  // Convert Discord CDN URLs to actual image URLs
-  const largeImage = activity.assets?.large_image?.replace(
-    "mp:external/",
-    "https://media.discordapp.net/external/"
-  );
-  const smallImage = activity.assets?.small_image?.replace(
-    "mp:external/",
-    "https://media.discordapp.net/external/"
-  );
+  const largeImage = getAssetUrl(activity.assets?.large_image);
+  const smallImage = getAssetUrl(activity.assets?.small_image);
 
   return (
     <div className="flex items-center gap-3">

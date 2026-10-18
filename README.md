@@ -93,7 +93,7 @@ A modern, customizable portfolio template built with **Next.js 15**, **React 19*
    # Optional
    NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key
    NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
-   LANYARD_USER_ID=your_discord_user_id
+   NEXT_PUBLIC_LANYARD_USER_ID=your_discord_user_id
    ```
 
 4. **Run the development server**
@@ -360,9 +360,8 @@ bun run type:check   # Run TypeScript check
 | `KV_REST_API_TOKEN`              | ✅       | Upstash Redis token                       |
 | `NEXT_PUBLIC_POSTHOG_KEY`        | ❌       | PostHog analytics key (optional)          |
 | `NEXT_PUBLIC_POSTHOG_HOST`       | ❌       | PostHog host URL (optional)               |
-| `LANYARD_USER_ID`                | ❌       | Discord user ID for presence (optional)   |
+| `NEXT_PUBLIC_LANYARD_USER_ID`    | ❌       | Discord user ID for presence (optional)   |
 | `KV_REST_API_READ_ONLY_TOKEN`    | ❌       | Upstash read-only token (optional)        |
-| `LANYARD_API_KEY`                | ❌       | Lanyard API key (optional)                |
 | `NEXT_PUBLIC_GISCUS_REPO`        | ❌       | giscus repo for blog comments (optional)  |
 | `NEXT_PUBLIC_GISCUS_REPO_ID`     | ❌       | giscus repository ID (optional)           |
 | `NEXT_PUBLIC_GISCUS_CATEGORY`    | ❌       | giscus Discussions category (optional)    |
@@ -388,7 +387,7 @@ portfolio/
 │   └── meta/               # OG images
 ├── src/
 │   ├── app/                # Next.js app directory
-│   │   ├── api/            # API routes (chat, presence)
+│   │   ├── api/            # API routes (chat, visitors)
 │   │   ├── blog/           # Blog pages
 │   │   ├── gears/          # Gears/setup page
 │   │   ├── projects/       # Project pages
