@@ -115,6 +115,22 @@ export const pageMetadata: Record<string, PageMeta> = {
     twitterCard: "summary",
   },
 
+  // Services page
+  "/services": {
+    title: "Services - Work With Me",
+    description:
+      "Hire a full-stack developer for web apps, MVPs, AI features, and integrations. See what I offer and how I work.",
+    keywords: [
+      "hire developer",
+      "freelance developer",
+      "full-stack services",
+      "nextjs developer",
+      "mvp development",
+      "ai integration",
+    ],
+    twitterCard: "summary_large_image",
+  },
+
   // Gears page
   "/gears": {
     title: "Gears - My Setup & Tools",

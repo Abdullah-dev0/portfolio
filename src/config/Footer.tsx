@@ -14,5 +14,6 @@ export const footerNavLinks: FooterNavItem[] = [
   { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
   { label: "Projects", href: "/projects" },
+  { label: "Services", href: "/services" },
   { label: "Gears", href: "/gears" },
 ];
