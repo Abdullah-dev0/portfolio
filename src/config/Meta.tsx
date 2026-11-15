@@ -12,8 +12,8 @@ export interface PageMeta {
 // Base site configuration
 export const siteConfig = {
   name: heroConfig.name,
-  title: "Portfolio",
-  description: "Portfolio Template by @Abdul_ah14",
+  title: `${heroConfig.name} - Full Stack Engineer`,
+  description: about.description,
   url: process.env.SITE_URL?.replace(/\/+$/, "") || "http://localhost:3000",
   ogImage: "/meta/opengraph-image.png",
   author: {
@@ -117,16 +117,18 @@ export const pageMetadata: Record<string, PageMeta> = {
 
   // Services page
   "/services": {
-    title: "Services - Work With Me",
-    description:
-      "Hire a full-stack developer for web apps, MVPs, AI features, and integrations. See what I offer and how I work.",
+    title: "Freelance Full-Stack Developer - Web Apps, MVPs & AI Features",
+    description: `Hire ${heroConfig.name}, a freelance full-stack developer, for Next.js web apps, MVPs, AI features, and API integrations. Fixed-scope projects or hourly contracts.`,
     keywords: [
-      "hire developer",
-      "freelance developer",
-      "full-stack services",
-      "nextjs developer",
+      "freelance full-stack developer",
+      "hire full-stack developer",
+      "freelance nextjs developer",
+      "freelance react developer",
+      "contract web developer",
       "mvp development",
+      "saas development",
       "ai integration",
+      "api integration",
     ],
     twitterCard: "summary_large_image",
   },

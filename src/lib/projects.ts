@@ -1,6 +1,6 @@
 import { type Project } from "@/types/project";
 
-function getTimelineYear(timeline?: string): number {
+export function getTimelineYear(timeline?: string): number {
   if (!timeline) return 0;
 
   const match = timeline.match(/\d{4}/);

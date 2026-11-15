@@ -32,7 +32,7 @@ export const socialLinks = [
   {
     name: "Email",
     label: "Abdullah",
-    href: "mailto:abdullah@abdullahtech.me",
+    href: "mailto:abdulah14200@gmail.com",
     icon: Mail,
   },
 ];
