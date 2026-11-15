@@ -157,6 +157,7 @@ export async function POST(request: NextRequest) {
           controller.close();
         } catch (error) {
           const message = getErrorMessage(error);
+          console.error("Error while streaming response:", message);
           controller.enqueue(
             new TextEncoder().encode(
               `data: ${JSON.stringify({ error: message, done: true })}\n\n`
@@ -175,6 +176,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
+    console.error("Error in /api/chat route:", error);
     return NextResponse.json(
       { error: getErrorMessage(error) },
       { status: 500 }

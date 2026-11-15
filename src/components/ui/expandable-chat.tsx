@@ -72,12 +72,13 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
       >
         {children}
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
-          className="absolute top-2 right-2 sm:hidden"
+          aria-label="Close chat"
+          className="absolute top-4 right-4 size-10 sm:hidden"
           onClick={toggleChat}
         >
-          <X className="h-4 w-4" />
+          <X className="size-5" />
         </Button>
       </div>
       <ExpandableChatToggle

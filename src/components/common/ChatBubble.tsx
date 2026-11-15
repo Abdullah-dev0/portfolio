@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 
 import { MessageCircle } from "lucide-react";
 import { Send } from "lucide-react";
+import remarkGfm from "remark-gfm";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -297,7 +298,7 @@ const ChatBubble: React.FC = () => {
       size="lg"
       icon={<MessageCircle className="h-6 w-6" />}
     >
-      <ExpandableChatHeader>
+      <ExpandableChatHeader className="pr-16 sm:pr-4">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center space-x-3">
             <Avatar className="h-8 w-8">
@@ -320,7 +321,7 @@ const ChatBubble: React.FC = () => {
               </div>
             </div>
           </div>
-          <span className="text-muted-foreground text-xs font-medium">
+          <span className="text-muted-foreground hidden text-xs font-medium sm:inline">
             5 message limit
           </span>
         </div>
@@ -333,7 +334,7 @@ const ChatBubble: React.FC = () => {
               <div
                 key={message.id}
                 className={cn(
-                  "flex w-max max-w-xs flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                  "flex w-max max-w-[min(30rem,80vw)] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
                   message.sender === "user"
                     ? "text-secondary bg-muted ml-auto"
                     : message.isError
@@ -352,12 +353,18 @@ const ChatBubble: React.FC = () => {
                       <AvatarFallback>AI</AvatarFallback>
                     </Avatar>
                   )}
-                  <div className="max-w-xs flex-1 md:max-w-sm">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <div className="prose prose-sm dark:prose-invert max-w-none flex-1">
+                      <div className="prose prose-sm dark:prose-invert prose-code:before:content-none prose-code:after:content-none [&_:not(pre)>code]:bg-background/70 [&_:not(pre)>code]:border-border max-w-none min-w-0 flex-1 [&_:not(pre)>code]:rounded [&_:not(pre)>code]:border [&_:not(pre)>code]:px-1 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:font-medium">
                         {message.text ? (
                           <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
                             components={{
+                              table: (props) => (
+                                <div className="overflow-x-auto">
+                                  <table {...props} className="m-0 text-xs" />
+                                </div>
+                              ),
                               a: (props) => (
                                 <a
                                   {...props}
