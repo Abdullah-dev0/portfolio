@@ -21,10 +21,10 @@ const ai = new GoogleGenAI({
 const redis = Redis.fromEnv();
 
 // 3. Configure Rate Limiter
-// Allow 5 requests every 60 seconds per IP (fixed window resets at minute boundaries)
+// Allow 5 requests per rolling 60 seconds per IP (no burst across minute boundaries)
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.fixedWindow(5, "60 s"),
+  limiter: Ratelimit.slidingWindow(5, "60 s"),
   analytics: true,
 });
 
