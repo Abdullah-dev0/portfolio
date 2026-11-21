@@ -34,21 +34,22 @@ const chatSchema = z.object({
     .array(
       z.object({
         role: z.enum(["user", "model"]),
-        parts: z.array(z.object({ text: z.string() })),
+        // 4000 leaves room for a full 512-token model reply sent back as history
+        parts: z.array(z.object({ text: z.string().max(4000) })).max(1),
       })
     )
+    .max(10)
     .optional()
     .default([]),
 });
 
 function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get("x-forwarded-for");
+  // Only headers Vercel sets itself; client-sent ones like cf-connecting-ip can be spoofed
   const realIP = request.headers.get("x-real-ip");
-  const cfConnectingIP = request.headers.get("cf-connecting-ip");
+  const forwarded = request.headers.get("x-forwarded-for");
 
-  if (cfConnectingIP) return cfConnectingIP;
-  if (forwarded) return forwarded.split(",")[0].trim();
   if (realIP) return realIP;
+  if (forwarded) return forwarded.split(",")[0].trim();
 
   return "unknown";
 }
@@ -124,6 +125,8 @@ export async function POST(request: NextRequest) {
 
     const response = ai.models.generateContentStream({
       model,
+      // Serverless functions freeze after responding, so don't wait for a batch flush
+      posthogCaptureImmediate: true,
       config: {
         maxOutputTokens: 512,
         temperature: 0.7,

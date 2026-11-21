@@ -12,7 +12,7 @@ import Presence from "../common/liveUpdate";
 import SectionHeading from "../common/SectionHeading";
 
 export default function Github() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -30,7 +30,7 @@ export default function Github() {
         {mounted ? (
           <GitHubCalendar
             username="Abdullah-dev0"
-            colorScheme={theme === "dark" ? "dark" : "light"}
+            colorScheme={resolvedTheme === "dark" ? "dark" : "light"}
             blockSize={10}
             blockMargin={3}
             fontSize={14}
