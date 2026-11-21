@@ -44,12 +44,15 @@ const chatSchema = z.object({
 });
 
 function getClientIP(request: NextRequest): string {
-  // Only headers Vercel sets itself; client-sent ones like cf-connecting-ip can be spoofed
-  const realIP = request.headers.get("x-real-ip");
+  // Site is proxied by Cloudflare, which sets cf-connecting-ip and blocks client-sent copies;
+  // x-real-ip/x-forwarded-for would be the Cloudflare edge IP here
+  const cfConnectingIP = request.headers.get("cf-connecting-ip");
   const forwarded = request.headers.get("x-forwarded-for");
+  const realIP = request.headers.get("x-real-ip");
 
-  if (realIP) return realIP;
+  if (cfConnectingIP) return cfConnectingIP;
   if (forwarded) return forwarded.split(",")[0].trim();
+  if (realIP) return realIP;
 
   return "unknown";
 }
