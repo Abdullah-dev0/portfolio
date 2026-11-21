@@ -4,9 +4,11 @@ import Link from "next/link";
 import { MDXContent } from "@content-collections/mdx/react";
 import { allProjects } from "content-collections";
 
+import SectionHeading from "@/components/common/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 import Github from "../svgs/Github";
 import Website from "../svgs/Website";
@@ -17,6 +19,49 @@ type Project = (typeof allProjects)[number];
 interface ProjectContentProps {
   project: Project;
   mdxCode: string;
+}
+
+interface InsightColumnProps {
+  title: string;
+  items: string[];
+  dotClassName: string;
+}
+
+function InsightColumn({ title, items, dotClassName }: InsightColumnProps) {
+  return (
+    <div className="bg-background">
+      <div className="border-border flex items-center justify-between border-b px-5 py-3">
+        <h3 className="text-muted-foreground flex items-center gap-2 text-xs font-medium tracking-widest uppercase">
+          <span
+            className={cn("size-1.5 shrink-0 rounded-full", dotClassName)}
+            aria-hidden="true"
+          />
+          {title}
+        </h3>
+        <span
+          className="text-muted-foreground/60 font-mono text-xs"
+          aria-hidden="true"
+        >
+          {String(items.length).padStart(2, "0")}
+        </span>
+      </div>
+      <ol className="divide-border divide-y">
+        {items.map((item, index) => (
+          <li key={item} className="flex gap-4 px-5 py-4">
+            <span
+              className="text-muted-foreground/60 pt-0.5 font-mono text-xs"
+              aria-hidden="true"
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <p className="text-secondary text-sm leading-relaxed text-pretty">
+              {item}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
 }
 
 export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
@@ -181,46 +226,34 @@ export function ProjectContent({ project, mdxCode }: ProjectContentProps) {
       </div>
 
       {/* Challenges and Learnings */}
-      {(challenges?.length || learnings?.length) && (
-        <div className="mb-8 grid gap-6 md:grid-cols-2">
-          {challenges && challenges.length > 0 && (
-            <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-4">
-              <h3 className="mb-3 text-lg font-semibold text-amber-700 dark:text-amber-400">
-                Key Challenges
-              </h3>
-              <ul className="space-y-2">
-                {challenges.map((challenge, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-300"
-                  >
-                    <span className="mt-1 block size-1.5 rounded-full bg-amber-500 dark:bg-amber-400" />
-                    {challenge}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {learnings && learnings.length > 0 && (
-            <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-4">
-              <h3 className="mb-3 text-lg font-semibold text-emerald-700 dark:text-emerald-400">
-                Key Learnings
-              </h3>
-              <ul className="space-y-2">
-                {learnings.map((learning, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-2 text-sm text-emerald-700 dark:text-emerald-300"
-                  >
-                    <span className="mt-1 block size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
-                    {learning}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+      {(challenges?.length ?? 0) + (learnings?.length ?? 0) > 0 && (
+        <section className="mb-12 space-y-6">
+          <SectionHeading
+            subHeading="Retrospective"
+            heading="Challenges & learnings"
+          />
+          <div
+            className={cn(
+              "border-border bg-border grid gap-px overflow-hidden rounded-md border",
+              challenges?.length && learnings?.length && "md:grid-cols-2"
+            )}
+          >
+            {challenges && challenges.length > 0 && (
+              <InsightColumn
+                title="Challenges"
+                items={challenges}
+                dotClassName="bg-amber-500"
+              />
+            )}
+            {learnings && learnings.length > 0 && (
+              <InsightColumn
+                title="Learnings"
+                items={learnings}
+                dotClassName="bg-emerald-500"
+              />
+            )}
+          </div>
+        </section>
       )}
 
       {/* Content */}

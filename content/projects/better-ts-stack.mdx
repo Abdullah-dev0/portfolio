@@ -1,7 +1,7 @@
 ---
 title: "better-ts-stack"
-description: "CLI that scaffolds Express, NestJS, Next.js, and TanStack Start projects with a database, authentication, and Docker already set up, through interactive prompts or flags."
-image: "/project/better-ts-stack.png"
+description: "CLI that scaffolds Express, NestJS, Next.js, and TanStack Start projects, or a Turborepo monorepo, with a database, Better Auth, AI chat, and Docker already set up, through interactive prompts or flags."
+image: "/project/better-ts-stack-v2.png"
 link: "https://better-ts-stack.abdullahtech.me/"
 technologies:
   [
@@ -18,6 +18,8 @@ technologies:
     "Drizzle",
     "Mongoose",
     "BetterAuth",
+    "Resend",
+    "shadcn/ui",
     "Docker",
     "Bun",
   ]
@@ -31,7 +33,7 @@ challenges:
   [
     "Serving four frameworks (Express, NestJS, Next.js, and TanStack Start) from one module system, so each database, auth, and Docker option is written once per framework instead of once per combination.",
     "Making the same CLI work for people and for scripts: every prompt has a matching flag, missing options fall back to prompts, and --yes runs with no prompts at all.",
-    "Keeping 180 possible stack combinations working across npm, pnpm, and Bun as framework and ORM versions move.",
+    "Keeping 276 possible stack combinations working across npm, pnpm, and Bun as framework, ORM, and auth versions move.",
   ]
 learnings:
   [
@@ -61,11 +63,14 @@ The CLI supports four frameworks across two project types:
 Each framework can be combined with the same set of optional modules. Only the modules you select are added:
 
 - **Database**: PostgreSQL with Prisma or Drizzle, or MongoDB with Mongoose
-- **Authentication**: JWT auth with bcrypt and Zod request validation for Express and NestJS, Better Auth for Next.js and TanStack Start
+- **Authentication**: Better Auth on every framework, with email verification, password reset, and GitHub and Google sign-in. Emails go through Resend when a key is set
+- **AI chat**: a streaming `POST /api/chat` route using the Vercel AI SDK or TanStack AI, plus a `/chat` page with a Stop button in Next.js and TanStack Start
+- **Monorepo**: a Turborepo with a web app and an optional Express or NestJS API, where the web app forwards `/api/*` requests so browsers talk to one origin
 - **Docker**: a multi-stage, framework-aware `Dockerfile`, `docker-compose.yml`, and `.dockerignore`
+- **Extras**: rate limiting, a GitHub Actions workflow, VS Code settings, and an `AGENTS.md` for AI coding agents
 - **Setup**: npm, pnpm, or Bun, with optional git initialization and dependency installation
 
-Every generated project comes with strict TypeScript, ESLint and Prettier, environment variable files, hot reload, and ready-to-run scripts. Backend projects also include a `/health` endpoint.
+Every generated project comes with strict TypeScript, ESLint and Prettier, a README, environment variable files, hot reload, and ready-to-run scripts. Backend projects also include a `/health` endpoint.
 
 ## Prompts or Flags
 
@@ -89,10 +94,10 @@ I kept wiring the same setup at the start of every TypeScript project: strict co
 
 A scaffolding tool is easy to break without noticing, because a change to one template can affect many stacks. The repository tests the full matrix:
 
-- All 180 combinations of framework, database, auth, package manager, and Docker are generated and checked
+- 276 combinations of framework, database, auth, package manager, and Docker are generated and checked
 - Generated projects are installed, built, type-checked, linted, and smoke-tested over HTTP, including sign-up, login, and protected routes against real PostgreSQL and MongoDB databases
 - Docker projects have their images built and run next to a real database container, with the same HTTP checks repeated
-- CI runs lint, type-check, and the template matrix on Linux and Windows for every push and pull request
+- CI runs lint, type-check, and the template matrix on Linux and Windows for pull requests, and a weekly run covers the full matrix
 
 The CLI also fails cleanly. A non-empty target directory is reported right after the project name is entered, and a failed build removes the partial project so the command can be run again.
 
