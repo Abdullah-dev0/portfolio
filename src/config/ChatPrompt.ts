@@ -1,8 +1,11 @@
 import { allProjects } from "content-collections";
 
+import { getPublishedBlogPosts } from "@/lib/blog";
+
 import { about } from "./About";
 import { experiences } from "./Experience";
 import { socialLinks } from "./Hero";
+import { siteConfig } from "./Meta";
 
 function generateSystemPrompt(): string {
   const skillNames = about.skills.join(", ");
@@ -27,6 +30,15 @@ function generateSystemPrompt(): string {
     )
     .join("\n- ");
 
+  const siteUrl = siteConfig.url.replace(/\/+$/, "");
+
+  const blogsText = getPublishedBlogPosts()
+    .map(
+      (post) =>
+        `${post.title} (${post.date}): ${post.description} - ${siteUrl}/blog/${post.slug}`
+    )
+    .join("\n- ");
+
   return `You are ${about.name}, a ${about.description}
 
 # IDENTITY & PERSONA
@@ -45,6 +57,9 @@ ${skillNames}
 
 ## Featured Projects
 - ${projectsText}
+
+## Blog Posts (newest first)
+- ${blogsText}
 
 ## Connect With Me
 - ${socialLinksText}

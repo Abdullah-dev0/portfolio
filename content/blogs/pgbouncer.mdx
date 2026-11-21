@@ -1,0 +1,189 @@
+---
+title: "How Postgres Handles 10,000 Concurrent Client Connections"
+description: "PgBouncer lets 10,000 clients share about 100 PostgreSQL connections. A walkthrough of transaction pooling, the event loop, the waiting queue, a working config, and the traps in transaction mode."
+image: "/blog/pgbouncer-connection-pooling.webp"
+tags: ["postgres", "database", "backend", "performance"]
+date: "2026-11-22"
+isPublished: true
+---
+
+Your app scales out to 50 instances. Each instance opens 20 database connections. That is 1,000 connections, and PostgreSQL ships with `max_connections` set to 100. The next deploy fails with "too many clients already", and raising the limit moves the wall without removing it.
+
+The fix is to let thousands of clients share a small number of database connections. PgBouncer does that job.
+
+## Why direct connections cost so much
+
+PostgreSQL uses a process-per-connection architecture. Each client connection gets its own backend process, and each process holds memory and other system resources for as long as the connection lives, idle or not.
+
+The cost grows with every connection you add. The operating system schedules more processes, the database tracks more state, and thousands of concurrent queries compete for CPU, memory, disk I/O, and locks. A database that handles 100 busy connections well can fall over at 5,000.
+
+## Connection sharing
+
+PgBouncer sits between your application and PostgreSQL.
+
+```text
+Application → PgBouncer → PostgreSQL
+```
+
+Your clients connect to PgBouncer. PgBouncer keeps a smaller pool of reusable connections to PostgreSQL. That gives you two kinds of connections:
+
+- **Client connections:** application to PgBouncer
+- **Server connections:** PgBouncer to PostgreSQL
+
+Depending on configuration and workload, 10,000 client connections can share 100 server connections. A transaction moves through the pool like this:
+
+1. A client starts a transaction.
+2. PgBouncer gives it a free PostgreSQL connection from the pool.
+3. PostgreSQL runs the transaction and returns the result.
+4. PgBouncer puts the connection back in the pool.
+5. The next client picks up the same connection.
+
+That pattern is called transaction pooling. All 10,000 clients stay connected to PgBouncer, and a small fraction of them hold a PostgreSQL connection at any moment.
+
+## The math behind 10,000 to 100
+
+The ratio works because clients spend most of their time idle. Say each client sends one 5 ms transaction every 2 seconds.
+
+- 10,000 clients send 5,000 transactions per second.
+- Each transaction holds a connection for 5 ms, so 5,000 × 0.005 s = 25 connections busy at any moment.
+
+A pool of 100 covers that average with room for bursts. Without pooling, the same traffic needs 10,000 backend processes, and 9,975 of them sit idle.
+
+## Pooling modes
+
+PgBouncer supports three modes. The mode decides when a server connection returns to the pool.
+
+- **Session:** the connection returns when the client disconnects. Use it for apps that depend on session state.
+- **Transaction:** the connection returns when the transaction ends. It fits most web backends and is the mode this post uses.
+- **Statement:** the connection returns after each statement. It fits autocommit-only workloads, because multi-statement transactions fail.
+
+Session mode saves connection setup time but shares nothing while a client stays connected. Statement mode shares the most and rejects multi-statement transactions. Transaction mode sits in the middle, and it is the mode that makes 10,000-to-100 ratios work.
+
+## The event loop
+
+PgBouncer uses an event-driven design built on libevent. It opens non-blocking sockets and runs one event loop, so no thread exists for each client. On Linux, libevent can use epoll to watch for ready sockets.
+
+1. A client opens a TCP connection to PgBouncer.
+2. PgBouncer registers the socket with its event system.
+3. The operating system signals the loop when data arrives.
+4. PgBouncer reads the data and moves on to the next ready socket.
+
+One process can hold thousands of idle client connections this way. An idle client costs a socket and a small buffer, a fraction of what a PostgreSQL backend costs.
+
+## Pools
+
+PgBouncer keeps a separate pool for each database and user pair:
+
+```text
+(orders_db, app_user)   → Pool A
+(orders_db, admin_user) → Pool B
+```
+
+Each pool tracks its active server connections, its idle server connections, and the clients waiting for one. Say Pool A allows 100 PostgreSQL connections. A client that needs the database gets an idle connection from Pool A if one exists.
+
+The pool size limit applies to each pool. Two users on the same database get two pools, and each can open up to its own limit. Add the limits together when you check them against `max_connections` on the PostgreSQL side.
+
+## A full pool
+
+Suppose 200 clients need Pool A at the same time. 100 of them get server connections. The other 100 wait.
+
+They wait in PgBouncer's memory. Each pool holds a `waiting_client_list`, and PgBouncer keeps the TCP connection of every waiting client open. Redis, Kafka, and other external queues play no part. A finished transaction frees its server connection for the next client in line, and the event loop keeps serving other sockets the whole time.
+
+A waiting client does not wait forever by default. The `query_wait_timeout` setting disconnects any client that sits in the queue past 120 seconds, so a stuck pool shows up as dropped connections instead of silent hangs. Setting it to 0 disables the limit and queues clients indefinitely.
+
+## The latency trade-off
+
+Waiting adds latency. Take a pool with 2 PostgreSQL connections and 3 clients that each submit a 100 ms transaction at the same moment.
+
+```text
+Client 1    0 ms → 100 ms
+Client 2    0 ms → 100 ms
+Client 3  100 ms → 200 ms
+```
+
+Client 3 waits 100 ms for a free connection, so its request takes twice as long as the others.
+
+## More connections do not mean faster queries
+
+Thousands of concurrent queries compete for limited CPU, memory, disk I/O, and locks. Past a certain point, extra concurrency adds contention and context switching, and queries slow down. PgBouncer caps the number of queries that run at once. For some workloads that improves stability and throughput, even though individual requests queue.
+
+PgBouncer defaults to 20 server connections per pool. For your own number, start from a small multiple of the database server's CPU cores. That is a rule of thumb, not a documented formula, so load-test from there and watch the waiting count instead of guessing a large number.
+
+When demand exceeds database capacity, the queue and the latency both keep growing. Pooling controls concurrency. The database bottleneck stays where it was.
+
+## Setting it up
+
+A minimal `pgbouncer.ini` for the example in this post:
+
+```ini
+[databases]
+orders_db = host=127.0.0.1 port=5432 dbname=orders_db
+
+[pgbouncer]
+listen_addr = 0.0.0.0
+listen_port = 6432
+auth_type = scram-sha-256
+auth_file = /etc/pgbouncer/userlist.txt
+pool_mode = transaction
+max_client_conn = 10000
+default_pool_size = 100
+reserve_pool_size = 10
+reserve_pool_timeout = 3
+```
+
+The settings that matter most:
+
+- `max_client_conn` caps client connections to PgBouncer. Set it to the 10,000 you expect.
+- `default_pool_size` caps server connections for each database and user pair. Set it to the 100 you want PostgreSQL to see.
+- `reserve_pool_size` adds extra server connections for bursts, and `reserve_pool_timeout` sets how many seconds a client waits before PgBouncer taps that reserve.
+
+The defaults sit far below this example: `pool_mode` is `session`, `max_client_conn` is 100, and `default_pool_size` is 20. Set all three explicitly.
+
+Then point your app at port 6432 instead of 5432. Nothing else in your code changes:
+
+```text
+postgres://app_user:secret@pgbouncer-host:6432/orders_db
+```
+
+## What breaks in transaction mode
+
+Two clients can run on the same server connection one after the other, so anything tied to the session leaks or disappears. You will hit these:
+
+- **Session settings.** A plain `SET` changes the session, and the next client inherits it. Use `SET LOCAL` inside a transaction instead.
+- **`LISTEN`.** The listening session may land on a different server connection than the one that receives the notification. `NOTIFY` works.
+- **Session-level advisory locks.** The lock stays with a server connection that another client now uses. Use transaction-level advisory locks.
+- **Temporary tables** created with `ON COMMIT PRESERVE ROWS` or `ON COMMIT DELETE ROWS`. Tables with `ON COMMIT DROP` work.
+- **Cursors** declared `WITH HOLD`.
+- **Prepared statements.** SQL-level `PREPARE` and `DEALLOCATE` fail for the same reason. Protocol-level prepared statements work when `max_prepared_statements` is non-zero. The config reference lists 200 as the default, while the feature table says to set a non-zero value, so set it explicitly.
+
+If your app depends on any of these, move that code path to a direct connection or switch that pool to session mode.
+
+## Watching it in production
+
+PgBouncer's admin console has three commands:
+
+- `SHOW POOLS;` lists active, idle, and waiting connection counts for each pool.
+- `SHOW CLIENTS;` lists connected clients.
+- `SHOW SERVERS;` lists the PostgreSQL server connections.
+
+In `SHOW POOLS;`, a few columns tell you most of the story:
+
+- `cl_active`: clients linked to a server connection, or idle with nothing queued
+- `cl_waiting`: clients waiting for a server connection
+- `sv_active`: server connections running a transaction
+- `sv_idle`: server connections ready for the next client
+- `maxwait`: seconds the oldest waiting client has been in the queue
+
+A `cl_waiting` count that keeps climbing, or a `maxwait` that grows past a second or two, points to a saturated pool. Alert on both. Raising the pool size helps when PostgreSQL has CPU and I/O to spare. A database that is already at its limit needs a faster query or more hardware.
+
+## Pooling in your app and in PgBouncer
+
+Most database drivers ship their own pool, and you can run both. Keep the app-side pool small, and let PgBouncer do the heavy sharing. Fifty instances with 5 connections each is 250 client connections to PgBouncer, which it handles without effort.
+
+Serverless platforms make the case stronger. Each function invocation can open its own connection, and the count follows traffic spikes instead of the size of your fleet. A pooler in front of PostgreSQL absorbs that spike. Without one, the spike lands on the database.
+
+## The complete flow
+
+```text
+10,000 clients → PgBouncer (event loop, pools, wait queue) → 100 PostgreSQL connections
+```
